@@ -8,6 +8,9 @@ import {
   Alert,
   View,
   Text,
+  Dimensions,
+  KeyboardAvoidingView,
+  Button,
 } from "react-native";
 // import type {
 //   SelectionChangeData,
@@ -20,18 +23,14 @@ import * as answerActions from "../../store/actions/answer";
 import CustomButton from "../../components/UI/CustomButton";
 import TextEditor from "../../components/pocketstack/TextEditor";
 
+const SCREEN_HEIGHT = Dimensions.get("window").height;
+const SCREEN_WIDTH = Dimensions.get("window").width;
+
 const CreateAnswerScreen = (props) => {
   const { qid } = props.route.params;
-  const _editor = createRef();
-  const [disabled, setDisabled] = useState(false);
   const [answer, setAnswer] = useState("");
 
   const dispatch = useDispatch();
-
-  const handleEnable = () => {
-    _editor.current?.enable(disabled);
-    setDisabled(!disabled);
-  };
 
   const onSubmitHandler = useCallback(async () => {
     if (answer === "") {
@@ -47,24 +46,51 @@ const CreateAnswerScreen = (props) => {
   }, [dispatch, answer]);
 
   return (
-    <SafeAreaView
-      style={styles.root}
-      onTouchStart={() => _editor.current?.blur()}
+    <KeyboardAvoidingView
+      behavior="position"
+      style={{ flex: 1, backgroundColor: "#f1f4f9" }}
+      keyboardVerticalOffset={20}
     >
-      <View style={{ marginHorizontal: 20, marginVertical: 10 }}>
+      <View
+        style={{
+          marginHorizontal: SCREEN_WIDTH / 20,
+          marginVertical: SCREEN_HEIGHT / 50,
+        }}
+      >
         <Text style={{ fontSize: 30, textAlign: "center" }}>
           Write your answers here!
         </Text>
       </View>
-      <Text style={{ marginHorizontal: 30, fontWeight: "bold" }}>Body</Text>
-      <View
+      <Text
+        style={[
+          styles.inputIdentifierText,
+          {
+            marginHorizontal: SCREEN_WIDTH / 10,
+            marginTop: 10,
+            fontWeight: "bold",
+          },
+        ]}
+      >
+        Body
+      </Text>
+      <TextEditor
+        onHtmlChange={({ html }) => setAnswer(html)}
+        style={[
+          {
+            height: 350,
+          },
+          styles.editorContainer,
+        ]}
+      />
+      <Button title="submit" onPress={onSubmitHandler} />
+      {/* <View
         style={{
           borderWidth: 1,
-          height: "60%",
-          marginHorizontal: 20,
+          height: "70%",
+          marginHorizontal: SCREEN_WIDTH / 20,
           borderRadius: 10,
           overflow: "hidden",
-          marginVertical: 20,
+          marginVertical: SCREEN_HEIGHT / 40,
         }}
       >
         <QuillEditor
@@ -81,41 +107,29 @@ const CreateAnswerScreen = (props) => {
           }}
           import3rdParties="local" // default value is 'local'
         />
-      </View>
-      {/* <View style={styles.buttons}>
-        <TouchableOpacity onPress={handleEnable} style={styles.btn}>
-          <Text>{disabled === true ? "Enable" : "Disable"}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={onSubmitHandler}
-          style={{ backgroundColor: "#ff4848", padding: 10 }}
-        >
-          <Text style={{ color: "white" }}>Submit</Text>
-        </TouchableOpacity>
+        <QuillToolbar
+          editor={_editor}
+          theme="light"
+          options={[
+            ["bold", "italic", "underline", "strike"],
+            [{ header: 1 }, { header: 2 }, { header: 3 }],
+            [
+              {
+                color: [
+                  "#000000",
+                  "#e60000",
+                  "#ff9900",
+                  "yellow",
+                  "#5eba7d",
+                  "#f2720c",
+                  "#379fef",
+                ],
+              },
+            ],
+          ]}
+        />
       </View> */}
-
-      <QuillToolbar
-        editor={_editor}
-        theme="light"
-        options={[
-          ["bold", "italic", "underline", "strike"],
-          [{ header: 1 }, { header: 2 }, { header: 3 }],
-          [
-            {
-              color: [
-                "#000000",
-                "#e60000",
-                "#ff9900",
-                "yellow",
-                "#5eba7d",
-                "#f2720c",
-                "#379fef",
-              ],
-            },
-          ],
-        ]}
-      />
-    </SafeAreaView>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -136,6 +150,7 @@ const styles = StyleSheet.create({
   editor: {
     flex: 1,
     padding: 0,
+    backgroundColor: "white",
   },
   buttons: {
     flexDirection: "row",
@@ -148,6 +163,19 @@ const styles = StyleSheet.create({
     backgroundColor: "#ddd",
     padding: 10,
     margin: 3,
+  },
+  editorContainer: {
+    borderWidth: 1,
+    borderRadius: 10,
+    borderColor: "#dfe9f1",
+    marginTop: SCREEN_HEIGHT / 40,
+    marginHorizontal: SCREEN_WIDTH / 20,
+    overflow: "hidden",
+    backgroundColor: "white",
+  },
+  inputIdentifierText: {
+    color: "#708999",
+    fontWeight: "bold",
   },
 });
 

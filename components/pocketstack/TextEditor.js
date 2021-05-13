@@ -1,30 +1,19 @@
-import React, { useState, createRef, useRef } from "react";
-import {
-  StyleSheet,
-  StatusBar,
-  SafeAreaView,
-  TouchableOpacity,
-  TextInput,
-  Alert,
-  View,
-  Text,
-} from "react-native";
+import React, { useRef } from "react";
+import { StyleSheet, View, Dimensions } from "react-native";
 import QuillEditor, { QuillToolbar } from "react-native-cn-quill";
 
-import CustomButton from "../UI/CustomButton";
+const SCREEN_HEIGHT = Dimensions.get("window").height;
+const SCREEN_WIDTH = Dimensions.get("window").width;
 
 const TextEditor = (props) => {
   const _editor = useRef();
-  // const [disabled, setDisabled] = useState(false);
 
   return (
-    <View>
-      <Text>hi</Text>
+    <View style={styles.editorContainer} {...props}>
       <QuillEditor
         style={[styles.input, styles.editor]}
+        {...props}
         ref={_editor}
-        onHtmlChange={({ html }) => setAnswer(html)}
-        initialHtml="sdsdsdsdsd"
         quill={{
           // not required just for to show how to pass this props
           placeholder: "write your answer or your code here!",
@@ -35,21 +24,16 @@ const TextEditor = (props) => {
         }}
         import3rdParties="local" // default value is 'local'
       />
-      <Text>jjh</Text>
-      <View style={styles.buttons}>
-        <CustomButton>
-          <Text>submit</Text>
-        </CustomButton>
-      </View>
-
-      {/* <QuillToolbar
-        styles={{ marginHorizontal: 20 }}
+      <QuillToolbar
         editor={_editor}
-        {...props}
+        styles={{
+          toolset: { backgroundColor: "white", borderWidth: 0 },
+        }}
         theme="light"
+        {...props}
         options={[
           ["bold", "italic", "underline", "strike"],
-          [{ header: 2 }, { header: 3 }],
+          [{ header: 1 }, { header: 2 }, { header: 3 }],
           [
             {
               color: [
@@ -64,40 +48,30 @@ const TextEditor = (props) => {
             },
           ],
         ]}
-      /> */}
+      />
     </View>
   );
 };
 
 var styles = StyleSheet.create({
-  root: {
-    flex: 1,
-    backgroundColor: "#eaeaea",
-  },
   input: {
-    marginHorizontal: 30,
-    marginVertical: 10,
-    backgroundColor: "grey",
-  },
-  textbox: {
-    height: 40,
-    paddingHorizontal: 20,
+    marginVertical: SCREEN_HEIGHT / 60,
   },
   editor: {
     flex: 1,
-    padding: 0,
-    backgroundColor: "grey",
+    padding: 5,
+    // height: SCREEN_HEIGHT > 500 ? 200 : 100,
   },
-  buttons: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  btn: {
-    alignItems: "center",
-    backgroundColor: "#ddd",
-    padding: 10,
-    margin: 3,
+  editorContainer: {
+    borderWidth: 1,
+    borderRadius: 10,
+    borderColor: "#dfe9f1",
+    marginVertical: SCREEN_HEIGHT / 40,
+    marginHorizontal: SCREEN_WIDTH / 20,
+    overflow: "hidden",
+    backgroundColor: "white",
+    height: SCREEN_HEIGHT > 500 ? 300 : 200,
+    marginHorizontal: SCREEN_WIDTH / 20,
   },
 });
 

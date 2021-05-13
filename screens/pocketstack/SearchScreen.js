@@ -7,13 +7,16 @@ import {
   FlatList,
   Button,
   ActivityIndicator,
+  Dimensions,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 
 import QuestionItem from "../../components/pocketstack/QuestionItem";
-import AnimationQuestionCard from "../../components/pocketstack/AnimationQuestionCard";
 import * as questionsActions from "../../store/actions/question";
+
+const SCREEN_HEIGHT = Dimensions.get("window").height;
+const SCREEN_WIDTH = Dimensions.get("window").width;
 
 const SearchScreen = (props) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -45,20 +48,11 @@ const SearchScreen = (props) => {
   let result = (
     <View
       style={{
-        paddingHorizontal: 20,
-        paddingBottom: 20,
+        paddingHorizontal: SCREEN_WIDTH / 20,
+        paddingBottom: SCREEN_HEIGHT / 70,
       }}
     >
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          backgroundColor: "white",
-          padding: 5,
-          borderWidth: 1,
-          borderRadius: 10,
-        }}
-      >
+      <View style={styles.searchContainer}>
         <TextInput
           value={searchText}
           onChangeText={(text) => {
@@ -68,7 +62,7 @@ const SearchScreen = (props) => {
           onBlur={() => setIsTouched(!touched)}
           placeholder="search by title or owner!"
           placeholderTextColor="#888"
-          style={{ width: "90%", height: 40 }}
+          style={{ width: "90%", height: SCREEN_HEIGHT / 17 }}
         />
         <Ionicons
           name="search-outline"
@@ -86,7 +80,7 @@ const SearchScreen = (props) => {
         owner={item.owner}
         title={item.title}
         tags={item.tags}
-        answer_count={item.answer_count}
+        answerCount={item.answer_count}
         score={item.score}
         date={item.creation_date}
         goToDetail={() => {
@@ -157,6 +151,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  searchContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "white",
+    padding: 5,
+    borderWidth: 1,
+    borderRadius: 10,
+  },
   center: {
     flex: 1,
     justifyContent: "center",
@@ -166,7 +168,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     color: "black",
-    paddingHorizontal: 30,
+    paddingHorizontal: SCREEN_WIDTH / 10,
     textAlign: "center",
   },
 });

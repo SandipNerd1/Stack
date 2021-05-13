@@ -31,7 +31,9 @@ import EditProfileScreen, {
 import CreateQuestionScreen, {
   screenOptions as createQuestionScreenOptions,
 } from "../screens/user/CreateQuestionScreen";
-import EditQuestionScreen from "../screens/user/EditQuestionScreen";
+import EditQuestionScreen, {
+  screenOptions as editQuestionScreenOptions,
+} from "../screens/user/EditQuestionScreen";
 // import QuestionDetailScreen, {
 //   screenOptions as detailScreenOptions,
 // } from "../screens/pocketstack/QuestionDetailScreen";
@@ -75,7 +77,11 @@ const HomeStackNavigator = () => {
         component={NewQuestionDetailScreen}
         options={detailScreenOptions}
       />
-      <HomeStack.Screen name="Edit Question" component={EditQuestionScreen} />
+      <HomeStack.Screen
+        name="Edit Question"
+        component={EditQuestionScreen}
+        options={editQuestionScreenOptions}
+      />
       <HomeStack.Screen name="Post answer" component={CreateAnswerScreen} />
     </HomeStack.Navigator>
   );

@@ -16,6 +16,7 @@ import { AntDesign, FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import QuestionItem from "../../components/pocketstack/QuestionItem";
 import * as questionsActions from "../../store/actions/question";
 import CustomButton from "../../components/UI/CustomButton";
+import FilterButton from "../../components/UI/FilterButton";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 const SCREEN_HEIGHT = Dimensions.get("window").height;
@@ -24,40 +25,54 @@ const HomeScreen = (props) => {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState();
-  const [modalIsVisible, setModalIsVisible] = useState(false);
+  const [isDateActive, setIsDateActive] = useState(false);
+  const [isScoreActive, setIsScoreActive] = useState(false);
+  const [isAnsweredActive, setIsAnsweredActive] = useState(false);
+
   const questions = useSelector((state) => state.questions.availableQuestions);
 
   const dispatch = useDispatch();
 
-  const renderFilterQuestions = useCallback(
-    async (filterText) => {
-      setError(null);
-      setIsRefreshing(true);
-      try {
-        await dispatch(questionsActions.filterQuestionList(filterText));
-      } catch (err) {
-        setError(err.message);
-      }
-      setIsRefreshing(false);
-    },
-    [dispatch, setIsRefreshing, setError]
-  );
+  // const renderFilterQuestions = useCallback(
+  //   async (filterText) => {
+  //     setError(null);
+  //     setIsRefreshing(true);
+  //     try {
+  //       await dispatch(questionsActions.filterQuestionList(filterText));
+  //     } catch (err) {
+  //       setError(err.message);
+  //     }
+  //     setIsRefreshing(false);
+  //   },
+  //   [dispatch, setIsRefreshing, setError]
+  // );
 
-  useEffect(() => {
-    renderFilterQuestions();
-  }, [dispatch, renderFilterQuestions]);
+  // useEffect(() => {
+  //   renderFilterQuestions();
+  // }, [dispatch, renderFilterQuestions]);
 
   const loadQuestions = useCallback(async () => {
     setError(null);
-    setIsLoading(true);
+    setIsRefreshing(true);
     try {
       await dispatch(questionsActions.fetchQuestions());
+      setIsScoreActive(false);
+      setIsAnsweredActive(false);
+      setIsDateActive(false);
     } catch (err) {
       setError(err.message);
     }
 
-    setIsLoading(false);
-  }, [dispatch, setIsLoading, setError]);
+    setIsRefreshing(false);
+  }, [
+    dispatch,
+    setIsLoading,
+    setError,
+    setIsRefreshing,
+    setIsAnsweredActive,
+    setIsDateActive,
+    setIsScoreActive,
+  ]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -71,6 +86,36 @@ const HomeScreen = (props) => {
 
     return willFocusSub;
   }, [loadQuestions]);
+
+  // toggle filter function
+
+  const setActiveFilterText = (activeText) => {
+    if (activeText === "creation_date") {
+      setIsDateActive(true);
+      setIsAnsweredActive(false);
+      setIsScoreActive(false);
+    } else if (activeText === "score") {
+      setIsScoreActive(true);
+      setIsDateActive(false);
+      setIsAnsweredActive(false);
+    } else if (activeText === "is_answered") {
+      setIsAnsweredActive(true);
+      setIsDateActive(false);
+      setIsScoreActive(false);
+    }
+  };
+
+  const filterQuestions = useCallback(
+    async (type) => {
+      try {
+        setActiveFilterText(type);
+        await dispatch(questionsActions.filterQuestionList(type));
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    [dispatch, setActiveFilterText]
+  );
 
   const renderQuestions = ({ item }) => {
     return (
@@ -114,7 +159,10 @@ const HomeScreen = (props) => {
   if (!isLoading && questions.length === 0) {
     result = (
       <View style={styles.center}>
-        <Text>No questions found. Maybe start adding some!</Text>
+        <Text>
+          No questions found. You can start asking questions by tapping the plus
+          icon on the top right corner
+        </Text>
       </View>
     );
   }
@@ -146,9 +194,21 @@ const HomeScreen = (props) => {
           </CustomButton>
         </View>
         <View style={styles.filterContainer}>
-          <Text>Date</Text>
-          <Text>Score</Text>
-          <Text>Answer count</Text>
+          <FilterButton
+            buttonText="Date"
+            active={isDateActive}
+            onFilterSubmit={filterQuestions.bind(this, "creation_date")}
+          />
+          <FilterButton
+            buttonText="Score"
+            active={isScoreActive}
+            onFilterSubmit={filterQuestions.bind(this, "score")}
+          />
+          <FilterButton
+            buttonText="Answered"
+            active={isAnsweredActive}
+            onFilterSubmit={filterQuestions.bind(this, "is_answered")}
+          />
         </View>
       </View>
       {result}
@@ -190,9 +250,9 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     marginTop: SCREEN_HEIGHT / 30,
-    marginBottom: SCREEN_HEIGHT / 40,
+    marginBottom: SCREEN_HEIGHT / 70,
     backgroundColor: "#f1f4f9",
-    paddingVertical: SCREEN_HEIGHT / 50,
+    paddingVertical: SCREEN_HEIGHT / 60,
     paddingHorizontal: SCREEN_WIDTH / 10,
     borderRadius: 20,
   },

@@ -8,10 +8,12 @@ import {
   TouchableOpacity,
   FlatList,
   TouchableNativeFeedback,
+  Dimensions,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { AntDesign, FontAwesome } from "@expo/vector-icons";
+import Html from "react-native-render-html";
 
 import * as questionsActions from "../../store/actions/question";
 import AnswerItem from "../../components/pocketstack/AnswerItem";
@@ -111,7 +113,15 @@ const NewQuestionDetailScreen = (props) => {
             <Text>{selectedQuestion.creation_date} </Text>
             <Text>by {selectedQuestion.owner}</Text>
           </Text>
-          <Text style={{ color: "#888" }}>{selectedQuestion.body}</Text>
+          <Html
+            source={{ html: selectedQuestion.body }}
+            tagsStyles={{
+              p: {
+                color: "#888",
+                paddingTop: 10,
+              },
+            }}
+          />
         </View>
 
         <View
@@ -132,6 +142,19 @@ const NewQuestionDetailScreen = (props) => {
               style={{ marginHorizontal: 20 }}
             />
           </View>
+        </View>
+        <View>
+          <TouchableOpacity
+            onPress={() =>
+              props.navigation.navigate("Edit Question", {
+                qid: questionId,
+                title: selectedQuestion.title,
+                body: selectedQuestion.body,
+              })
+            }
+          >
+            <Text>edit</Text>
+          </TouchableOpacity>
         </View>
         {/* <View
             style={{
@@ -239,7 +262,6 @@ const NewQuestionDetailScreen = (props) => {
         ListFooterComponent={renderFooter}
         ListEmptyComponent={renderEmptyAnswers}
         showsVerticalScrollIndicator={false}
-        style={{ backgroundColor: "#f0f8ff" }}
       />
       <TouchableOpacity
         activeOpacity={0.8}

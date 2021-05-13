@@ -44,7 +44,6 @@ export default function App() {
     <Provider store={store}>
       <NavigationContainer>
         <AppNavigator />
-        {/* <TestScreen /> */}
       </NavigationContainer>
     </Provider>
   );

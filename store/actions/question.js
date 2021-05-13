@@ -59,6 +59,7 @@ export const createQuestion = (title, body, tagList) => {
     console.log("waiting");
     console.log(title);
     console.log(body);
+    console.log("tag");
     console.log(tagList);
     try {
       const response = await axiosInstance.post("/questions/create/", {
@@ -66,6 +67,7 @@ export const createQuestion = (title, body, tagList) => {
         body: body,
         tags: tagList,
       });
+      console.log(response.status);
     } catch (err) {
       throw err;
     }

@@ -30,7 +30,9 @@ const QuestionItem = (props) => {
           </Text>
         </View>
 
-        <Text style={styles.secondaryText}>{props.title}</Text>
+        <Text style={styles.secondaryText} numberOfLines={2}>
+          {props.title}
+        </Text>
         <View
           style={[
             styles.row,
@@ -38,10 +40,12 @@ const QuestionItem = (props) => {
           ]}
         >
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            <View style={[styles.row, { justifyContent: "space-between" }]}>
-              <Text>{props.tags}</Text>
-              <Text>java</Text>
-              <Text>python</Text>
+            <View style={styles.row}>
+              {props.tags.map((tag) => (
+                <Text key={tag} style={styles.tagText}>
+                  #{tag}
+                </Text>
+              ))}
             </View>
           </ScrollView>
 
@@ -65,8 +69,8 @@ const QuestionItem = (props) => {
 
 const styles = StyleSheet.create({
   card: {
-    marginVertical: SCREEN_HEIGHT / 80,
-    paddingBottom: SCREEN_HEIGHT / 50,
+    marginVertical: SCREEN_HEIGHT / 90,
+    paddingBottom: SCREEN_HEIGHT / 70,
     paddingHorizontal: SCREEN_WIDTH / 15,
   },
   row: {
@@ -82,6 +86,10 @@ const styles = StyleSheet.create({
   },
   text: {
     paddingHorizontal: 6,
+  },
+  tagText: {
+    marginRight: 10,
+    color: "#3792cb",
   },
 });
 
