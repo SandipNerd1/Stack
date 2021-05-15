@@ -9,11 +9,14 @@ import AppLoading from "expo-app-loading";
 import ReduxThunk from "redux-thunk";
 
 import questionReducer from "./store/reducers/question";
-import AppNavigator from "./navigation/AppNavigator";
-import TestScreen from "./screens/pocketstack/TestScreen";
+import userReducer from "./store/reducers/signin";
+import RootStackNavigator from "./navigation/RootNavigator";
+// import AppNavigator from "./navigation/AppNavigator";
+// import TestScreen from "./screens/pocketstack/TestScreen";
 
 const rootReducer = combineReducers({
   questions: questionReducer,
+  userStatus: userReducer,
 });
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
@@ -25,6 +28,8 @@ const fetchFonts = () => {
     "nunito-extrabold": require("./assets/fonts/Nunito-ExtraBold.ttf"),
     "nunito-light": require("./assets/fonts/Nunito-Light.ttf"),
     "nunito-semibold": require("./assets/fonts/Nunito-SemiBold.ttf"),
+    'AvertaStd-Semibold': require('./assets/fonts/AvertaStd-Semibold.otf'),
+    'AvertaStd-Regular': require('./assets/fonts/AvertaStd-Regular.otf'),
   });
 };
 
@@ -43,7 +48,7 @@ export default function App() {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <AppNavigator />
+        <RootStackNavigator />
       </NavigationContainer>
     </Provider>
   );

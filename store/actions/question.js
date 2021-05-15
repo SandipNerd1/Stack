@@ -1,4 +1,4 @@
-import axios from "axios";
+import axiosInstance from '../../api/axiosApi';
 
 // export const CREATE_QUESTION = "CREATE_QUESTION";
 export const SET_QUESTIONS = "SET_QUESTIONS";
@@ -7,18 +7,19 @@ export const SET_FILTERED_QUESTIONS = "SET_FILTERED_QUESTIONS";
 export const SEARCH_QUESTIONS = "SEARCH_QUESTIONS";
 export const MARK_QUESTION = "MARK_QUESTION";
 export const UPVOTE_QUESTION = "UPVOTE_QUESTION";
+export const DOWNVOTE_QUESTION = "DOWNVOTE_QUESTION";
 
-const baseURL = "https://pocketstack.herokuapp.com/";
+// const baseURL = "https://pocketstack.herokuapp.com/";
 
-const axiosInstance = axios.create({
-  baseURL: baseURL,
-  timeout: 5000,
-  headers: {
-    Authorization: "Token 4461f2aab8667ea9eee1997604623a8df8949e1f",
-    "Content-Type": "application/json",
-    accept: "application/json",
-  },
-});
+// const axiosInstance = axios.create({
+//   baseURL: baseURL,
+//   timeout: 5000,
+//   headers: {
+//     Authorization: "Token 4461f2aab8667ea9eee1997604623a8df8949e1f",
+//     "Content-Type": "application/json",
+//     accept: "application/json",
+//   },
+// });
 
 export const fetchQuestions = () => {
   return async (dispatch) => {
@@ -134,17 +135,19 @@ export const upvoteQuestion = (qid) => {
       const response = await axiosInstance.put(`/questions/${qid}/upvote/`);
 
       dispatch({ type: UPVOTE_QUESTION, questionId: qid });
-    } catch (err) {
+    } catch (error) {
       throw error;
     }
   };
 };
 
 export const downvoteQuestion = (qid) => {
-  return async () => {
+  return async (dispatch) => {
     try {
       const response = await axiosInstance.put(`/questions/${qid}/downvote/`);
-    } catch (err) {
+
+      dispatch({ type: DOWNVOTE_QUESTION, questionId: qid });
+    } catch (error) {
       throw error;
     }
   };

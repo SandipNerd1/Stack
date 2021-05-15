@@ -5,6 +5,7 @@ import {
   SEARCH_QUESTIONS,
   MARK_QUESTION,
   UPVOTE_QUESTION,
+  DOWNVOTE_QUESTION,
 } from "../actions/question";
 
 const initialState = {
@@ -52,6 +53,42 @@ export default (state = initialState, action) => {
           ...state,
           markedQuestions: state.markedQuestions.concat(question),
         };
+      }
+    case UPVOTE_QUESTION:
+      if (state.availableQuestionDetails.user_downvoted) {
+        return {
+          ...state,
+          availableQuestionDetails: {
+            ...state.availableQuestionDetails,
+            user_downvoted: !state.availableQuestionDetails.user_downvoted,
+            user_upvoted: !state.availableQuestionDetails.user_upvoted,
+          }
+        }
+      }
+      return {
+        ...state,
+        availableQuestionDetails: {
+          ...state.availableQuestionDetails,
+          user_upvoted: !state.availableQuestionDetails.user_upvoted,
+        }
+      }
+    case DOWNVOTE_QUESTION:
+      if (state.availableQuestionDetails.user_upvoted) {
+        return {
+          ...state,
+          availableQuestionDetails: {
+            ...state.availableQuestionDetails,
+            user_downvoted: !state.availableQuestionDetails.user_downvoted,
+            user_upvoted: !state.availableQuestionDetails.user_upvoted,
+          }
+        }
+      }
+      return {
+        ...state,
+        availableQuestionDetails: {
+          ...state.availableQuestionDetails,
+          user_downvoted: !state.availableQuestionDetails.user_downvoted,
+        }
       }
   }
   return state;
