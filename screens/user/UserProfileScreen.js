@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   View,
   Text,
@@ -7,12 +7,23 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
+import { useDispatch, useSelector } from 'react-redux';
 import { AntDesign } from "@expo/vector-icons";
 
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import HeaderButton from "../../components/UI/HeaderButton";
+import { logout } from "../../store/actions/signin";
+import { getUserProfile } from '../../store/actions/user';
 
 const UserProfileScreen = (props) => {
+  const dispatch = useDispatch();
+  const userProfileData = useSelector(state => state.userStatus.profileData);
+  const socialProfileData = useSelector(state => state.userStatus.socialData);
+
+  useEffect(() => {
+    dispatch(getUserProfile());
+  }, [])
+
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.screen}>
@@ -20,8 +31,7 @@ const UserProfileScreen = (props) => {
           <View style={{ width: 150, height: 150 }}>
             <Image
               source={{
-                uri:
-                  "https://widgetwhats.com/app/uploads/2019/11/free-profile-photo-whatsapp-4.png",
+                uri: 'picture' in socialProfileData ? socialProfileData.picture.data.url : 'photoUrl' in socialProfileData ? socialProfileData.photoUrl : "https://widgetwhats.com/app/uploads/2019/11/free-profile-photo-whatsapp-4.png",
               }}
               style={{ width: "100%", height: "100%", borderRadius: 75 }}
             />
@@ -30,10 +40,10 @@ const UserProfileScreen = (props) => {
             <Text
               style={{ fontWeight: "bold", fontSize: 23, color: "#001b3a" }}
             >
-              Peter McKinnon
+              {userProfileData.first_name} {userProfileData.last_name}
             </Text>
             <Text style={{ textAlign: "center" }}>
-              Passionate journalist interested in social and financial themes
+              {userProfileData.about_me}
             </Text>
           </View>
         </View>
@@ -43,24 +53,37 @@ const UserProfileScreen = (props) => {
           </Text>
           <View style={styles.details}>
             <Text style={styles.detailHeader}>Username</Text>
-            <Text>Johnny_Blade</Text>
+            <Text>{userProfileData.username}</Text>
           </View>
           <View style={styles.details}>
-            <Text style={styles.detailHeader}>About me</Text>
-            <Text>Johnny_Blade</Text>
+            <Text style={styles.detailHeader}>First Name</Text>
+            <Text>{userProfileData.first_name}</Text>
+          </View>
+          <View style={styles.details}>
+            <Text style={styles.detailHeader}>Last Name</Text>
+            <Text>{userProfileData.last_name}</Text>
           </View>
           <View style={styles.details}>
             <Text style={styles.detailHeader}>Location</Text>
-            <Text>Saint California</Text>
+            <Text>{userProfileData.location}</Text>
           </View>
           <View style={styles.details}>
-            <Text style={styles.detailHeader}>Website_url</Text>
-            <Text>teraBaapMahan.com</Text>
+            <Text style={styles.detailHeader}>Website URL</Text>
+            <Text>{userProfileData.website_url}</Text>
           </View>
         </View>
         <View style={{ paddingHorizontal: 20 }}>
           <Text style={{ fontSize: 18, fontWeight: "bold" }}>Account</Text>
-          <TouchableOpacity style={styles.logoutButton}>
+          <TouchableOpacity
+            style={styles.logoutButton}
+            onPress={async () => {
+              try {
+                await dispatch(logout());
+              } catch (e) {
+                console.log(e);
+              }
+            }}
+          >
             <AntDesign name="logout" size={20} />
             <Text style={{ paddingHorizontal: 10 }}>Logout</Text>
           </TouchableOpacity>
@@ -70,15 +93,15 @@ const UserProfileScreen = (props) => {
   );
 };
 
-export const screenOptions = (navData) => {
+export const screenOptions = (props) => {
   return {
     headerTitleAlign: "center",
     headerRight: () => (
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
         <Item
           title="Edit"
-          buttonStyle={{ fontSize: 15, color: "#ff4848" }}
-          onPress={() => navData.navigation.navigate("Edit")}
+          buttonStyle={{ fontSize: 15 }}
+          onPress={() => props.navigation.navigate("Edit")}
         />
       </HeaderButtons>
     ),
