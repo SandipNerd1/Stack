@@ -51,8 +51,8 @@ export default function App() {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        {/* <RootStackNavigator /> */}
-        <RichTextEditor />
+        <RootStackNavigator />
+        {/* <RichTextEditor /> */}
       </NavigationContainer>
     </Provider>
   );

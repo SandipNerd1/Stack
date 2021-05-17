@@ -31,10 +31,6 @@ const NewQuestionDetailScreen = (props) => {
   const selectedQuestion = useSelector(
     (state) => state.questions.availableQuestionDetails
   );
-  const [isUpvoted, setIsUpvoted] = useState();
-  const [isDownVoted, setIsDownVoted] = useState(
-    selectedQuestion.user_downvoted
-  );
 
   //function to fetch question detail from the server
 
@@ -63,33 +59,27 @@ const NewQuestionDetailScreen = (props) => {
     return willFocusSub;
   }, [loadQuestionDetail]);
 
-  useEffect(() => {
-    setIsUpvoted(selectedQuestion.user_upvoted);
-  }, [setIsUpvoted]);
-
   //event handler function for upvoting a question
 
   const upvoteHandler = useCallback(async () => {
     setError(null);
-    setIsUpvoted(!isUpvoted);
     try {
       await dispatch(questionsActions.upvoteQuestion(questionId));
     } catch (err) {
-      console.log(error);
+      console.log(err);
     }
-  }, [dispatch, setError, setIsUpvoted]);
+  }, [dispatch, setError]);
 
   // //event handler function for downvoting a question
 
-  // const downvoteHandler = useCallback(async () => {
-  //   setError(null);
-  //   setIsDownVoted(!isDownVoted);
-  //   try {
-  //     await dispatch(questionsActions.downvoteQuestion(questionId));
-  //   } catch (err) {
-  //     console.log(error);
-  //   }
-  // }, [dispatch, setError, setIsUpvoted]);
+  const downvoteHandler = useCallback(async () => {
+    setError(null);
+    try {
+      await dispatch(questionsActions.downvoteQuestion(questionId));
+    } catch (err) {
+      console.log(err);
+    }
+  }, [dispatch, setError]);
 
   const renderAnswer = ({ item }) => {
     return (
@@ -164,9 +154,16 @@ const NewQuestionDetailScreen = (props) => {
           }}
         >
           <View style={{ flexDirection: "row" }}>
-            <FontAwesome name="thumbs-o-up" size={20} />
             <FontAwesome
+              color={selectedQuestion.user_upvoted ? "green" : "red"}
+              name="thumbs-o-up"
+              onPress={upvoteHandler}
+              size={20}
+            />
+            <FontAwesome
+              color={selectedQuestion.user_downvoted ? "green" : "red"}
               name="thumbs-o-down"
+              onPress={downvoteHandler}
               size={20}
               style={{ marginHorizontal: SCREEN_WIDTH / 20 }}
             />
@@ -266,7 +263,7 @@ export const screenOptions = (navData) => {
       backgroundColor: "white",
       elevation: 3,
     },
-    headerTitleAlign:'center'
+    headerTitleAlign: 'center'
   };
 };
 

@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import {
+  ActivityIndicator,
+  Alert,
   View,
   Text,
   TextInput,
@@ -56,7 +58,16 @@ const signUpValidationSchema = yup.object().shape({
 
 const AuthenticateScreen = (props) => {
   const [showSignIn, setShowSignIn] = useState(false);
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+
+  if (loading) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" color="#43516c" />
+      </View>
+    )
+  }
 
   return (
     <View style={styles.screen}>
@@ -164,14 +175,18 @@ const AuthenticateScreen = (props) => {
                 email: '',
                 password: '',
               }}
-              onSubmit={({ email, password }) => {
-                console.log(email);
-                console.log(password);
-                dispatch(login({
-                  'email': email,
-                  'password': password,
-                }));
-                console.log("sign in done motherfucker");
+              onSubmit={async ({ email, password }) => {
+                setLoading(true);
+                try {
+                  await dispatch(login({
+                    'email': email,
+                    'password': password,
+                  }));
+                } catch (error) {
+                  Alert.alert("Login Failed", error.response.data.non_field_errors[0]);
+                }
+                setShowSignIn(false);
+                setLoading(false);
               }}
             >
               {({ handleSubmit, isValid }) => (
@@ -217,8 +232,15 @@ const AuthenticateScreen = (props) => {
               <View style={styles.otherSignInContainer}>
                 <SocialIcon
                   type="google"
-                  onPress={() => {
-                    dispatch(googleSignUp());
+                  onPress={async () => {
+                    setLoading(true);
+                    try {
+                      await dispatch(googleSignUp());
+                    } catch (error) {
+                      console.log(error);
+                    }
+                    // setShowSignIn(false);
+                    setLoading(false);
                   }}
                   light
                 />
