@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import {
   RichEditor,
   RichToolbar,
@@ -43,8 +43,8 @@ const RichTextEditor = (props) => {
         // disabled={disabled}
         selectedIconTint={"#2095F2"}
         disabledIconTint={"#bfbfbf"}
-        // onPressAddImage={that.onPressAddImage}
-        // onInsertLink={that.onInsertLink}
+      // onPressAddImage={that.onPressAddImage}
+      // onInsertLink={that.onInsertLink}
       />
     </View>
   );

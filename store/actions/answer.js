@@ -1,16 +1,16 @@
-import axios from "axios";
+import axiosInstance from '../../api/axiosApi';
 
-const baseURL = "https://pocketstack.herokuapp.com/";
+// const baseURL = "https://pocketstack.herokuapp.com/";
 
-const axiosInstance = axios.create({
-  baseURL: baseURL,
-  timeout: 5000,
-  headers: {
-    Authorization: "Token b12f8801a27589eff33f385798d7dfbf8421ff18",
-    "Content-Type": "application/json",
-    accept: "application/json",
-  },
-});
+// const axiosInstance = axios.create({
+//   baseURL: baseURL,
+//   timeout: 5000,
+//   headers: {
+//     Authorization: "Token b12f8801a27589eff33f385798d7dfbf8421ff18",
+//     "Content-Type": "application/json",
+//     accept: "application/json",
+//   },
+// });
 
 export const createAnswer = (qid, body) => {
   return async () => {
