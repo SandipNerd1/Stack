@@ -1,17 +1,12 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, createRef, useEffect } from "react";
 import {
   StyleSheet,
   Alert,
-  View,
   Text,
   Dimensions,
   KeyboardAvoidingView,
   LogBox,
 } from "react-native";
-// import type {
-//   SelectionChangeData,
-//   TextChangeData,
-// } from 'react-native-cn-quill';
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { useDispatch } from "react-redux";
 
@@ -27,48 +22,41 @@ LogBox.ignoreLogs([
 ]);
 
 const CreateAnswerScreen = (props) => {
-  const { qid } = props.route.params;
-  const [answer, setAnswer] = useState("");
+  const { aid, body } = props.route.params;
+  const [answer, setAnswer] = useState(body);
   const [enablePushContent, setEnablePushContent] = useState(false);
 
   const dispatch = useDispatch();
 
-  const onSubmitHandler = useCallback(async () => {
-    if (answer === "") {
-      Alert.alert("Wrong input!", "Please check the errors in the form.", [
-        { text: "Okay" },
-      ]);
-      console.log(answer);
-      return;
-    }
-    console.log(answer);
-    dispatch(answerActions.createAnswer(qid, answer));
-    props.navigation.goBack();
-  }, [dispatch, answer, qid]);
+  const onSubmitHandler = useCallback(
+    async (answer) => {
+      if (answer === "") {
+        Alert.alert("Wrong input!", "Please check the errors in the form.", [
+          { text: "Okay" },
+        ]);
+        console.log(answer);
+        return;
+      }
+      dispatch(answerActions.editAnswer(aid, answer));
+      props.navigation.goBack();
+    },
+    [dispatch, answer, aid]
+  );
 
   useEffect(() => {
-    props.navigation.setParams({ submit: onSubmitHandler });
+    props.navigation.setParams({ submit: onSubmitHandler, newAnswer: answer });
   }, [onSubmitHandler]);
 
   return (
     <KeyboardAvoidingView
-      // behavior="position"
+      behavior="position"
       style={{
         flex: 1,
         backgroundColor: "#f1f4f9",
+        paddingTop: SCREEN_HEIGHT / 10,
       }}
-      // enabled={enablePushContent}
+      enabled={enablePushContent}
     >
-      {/* <View
-        style={{
-          marginHorizontal: SCREEN_WIDTH / 20,
-          marginVertical: SCREEN_HEIGHT / 50,
-        }}
-      >
-        <Text style={{ fontSize: 30, textAlign: "center" }}>
-          Write your answers here!
-        </Text>
-      </View> */}
       <Text
         style={[
           styles.inputIdentifierText,
@@ -82,6 +70,7 @@ const CreateAnswerScreen = (props) => {
         Body
       </Text>
       <TextEditor
+        initialHtml={answer}
         onHtmlChange={({ html }) => setAnswer(html)}
         style={[
           {
@@ -96,8 +85,11 @@ const CreateAnswerScreen = (props) => {
 };
 
 export const screenOptions = (navData) => {
-  const { submit } = navData.route.params ? navData.route.params : null;
+  const { submit, newAnswer } = navData.route.params
+    ? navData.route.params
+    : null;
   return {
+    headerTitle: "Edit Answer",
     headerTitleAlign: "center",
     headerRight: () => (
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
@@ -106,7 +98,9 @@ export const screenOptions = (navData) => {
           buttonStyle={{ fontSize: 25 }}
           // iconName="md-checkmark-sharp"
           iconName="send"
-          onPress={submit}
+          onPress={() => {
+            submit(newAnswer);
+          }}
         />
       </HeaderButtons>
     ),

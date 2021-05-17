@@ -20,6 +20,7 @@ import {
   ActivityIndicator,
   TouchableWithoutFeedback,
   Keyboard,
+  LogBox,
 } from "react-native";
 import { useDispatch } from "react-redux";
 import QuillEditor, { QuillToolbar } from "react-native-cn-quill";
@@ -33,6 +34,10 @@ import HeaderButton from "../../components/UI/HeaderButton";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
+
+LogBox.ignoreLogs([
+  "Non-serializable values were found in the navigation state",
+]);
 
 const CreateQuestionScreen = (props) => {
   const _editor = useRef();
@@ -79,30 +84,12 @@ const CreateQuestionScreen = (props) => {
     props.navigation.setParams({ submit: onSubmitHandler });
   }, [onSubmitHandler]);
 
-  // const onSubmitHandler = useCallback(() => {
-  //   if (!formState.formIsValid) {
-  //     Alert.alert("Wrong input!", "Please check the errors in the form.", [
-  //       { text: "Okay" },
-  //     ]);
-  //     return;
-  //   }
-
-  //   dispatch(
-  //     questionsActions.createQuestion(
-  //       formState.inputValues.title,
-  //       formState.inputValues.body,
-  //       formState.inputValues.tagList
-  //     )
-  //   );
-  //   props.navigation.goBack();
-  // }, [dispatch, formState]);
-
   return (
     <KeyboardAvoidingView
-      behavior="position"
+      // behavior="position"
       keyboardVerticalOffset={50}
       style={{ flex: 1, backgroundColor: "#f1f4f9" }}
-      enabled={enablePushContent}
+      // enabled={enablePushContent}
     >
       <Modal
         transparent={true}
@@ -182,14 +169,9 @@ const CreateQuestionScreen = (props) => {
           <TextEditor
             initialHtml={questionBody}
             onHtmlChange={({ html }) => {
-              console.log("html");
               setQuestionBody(html);
             }}
-            onFocus={() => setEnablePushContent(true)}
-            onBlur={() => {
-              setScrollEnabled(true);
-              Keyboard.dismiss;
-            }}
+            // onFocus={() => setEnablePushContent(true)}
           />
         </View>
       </View>
@@ -205,8 +187,8 @@ export const screenOptions = (navData) => {
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
         <Item
           title="post"
-          buttonStyle={{ fontSize: 35 }}
-          iconName="md-checkmark-sharp"
+          buttonStyle={{ fontSize: 25 }}
+          iconName="send"
           onPress={submitFn}
         />
       </HeaderButtons>

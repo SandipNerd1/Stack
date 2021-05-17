@@ -1,25 +1,44 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import Html from "react-native-render-html";
 
-import { FontAwesome } from "@expo/vector-icons";
+import { FontAwesome, AntDesign, Feather } from "@expo/vector-icons";
 
 const AnswerItem = (props) => {
   return (
     <View style={styles.card}>
       <View style={[styles.row, styles.space]}>
-        <Text style={styles.owner}>{props.owner}</Text>
         <View style={styles.row}>
-          <FontAwesome name="star" color="black" />
-          <Text style={{ paddingHorizontal: 10 }}>{props.score}</Text>
+          <Text style={styles.owner}>{props.owner}</Text>
+          <Text style={styles.date}>{props.date}</Text>
+          {props.owner === "sandip" && (
+            <TouchableOpacity onPress={props.goToDetail}>
+              <AntDesign name="edit" size={20} color="#001b3a" />
+            </TouchableOpacity>
+          )}
         </View>
+
+        {/* <View style={styles.row}>
+          <FontAwesome name="star" color="#001b3a" />
+          <Text style={{ paddingHorizontal: 10, color: "#001b3a" }}>
+            {props.score}
+          </Text>
+        </View> */}
       </View>
-      <Text style={styles.date}>{props.date}</Text>
+      {/* <View style={styles.row}>
+        <Text style={styles.date}>{props.date}</Text>
+        {props.owner === "sandip" && (
+          <TouchableOpacity onPress={props.goToDetail}>
+            <AntDesign name="edit" size={20} color="#001b3a" />
+          </TouchableOpacity>
+        )}
+      </View> */}
+
       <Html
         source={{ html: props.body }}
         tagsStyles={{
           p: {
-            color: "#888",
+            color: "#708999",
             paddingTop: 10,
           },
         }}
@@ -33,6 +52,7 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     paddingHorizontal: 20,
     borderRadius: 10,
+    backgroundColor: "#f1f4f9",
   },
   row: {
     flexDirection: "row",
@@ -45,10 +65,12 @@ const styles = StyleSheet.create({
   owner: {
     fontWeight: "bold",
     fontSize: 17,
+    color: "#001b3a",
   },
   date: {
-    fontSize: 12,
+    fontSize: 13,
     color: "#888",
+    marginHorizontal: 8,
   },
 });
 

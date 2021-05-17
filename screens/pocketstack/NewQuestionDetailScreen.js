@@ -19,6 +19,9 @@ import * as questionsActions from "../../store/actions/question";
 import AnswerItem from "../../components/pocketstack/AnswerItem";
 import HeaderButton from "../../components/UI/HeaderButton";
 
+const SCREEN_HEIGHT = Dimensions.get("window").height;
+const SCREEN_WIDTH = Dimensions.get("window").width;
+
 const NewQuestionDetailScreen = (props) => {
   const { questionId, title } = props.route.params;
   const [isLoading, setIsLoading] = useState(false);
@@ -27,6 +30,10 @@ const NewQuestionDetailScreen = (props) => {
 
   const selectedQuestion = useSelector(
     (state) => state.questions.availableQuestionDetails
+  );
+  const [isUpvoted, setIsUpvoted] = useState();
+  const [isDownVoted, setIsDownVoted] = useState(
+    selectedQuestion.user_downvoted
   );
 
   //function to fetch question detail from the server
@@ -56,35 +63,48 @@ const NewQuestionDetailScreen = (props) => {
     return willFocusSub;
   }, [loadQuestionDetail]);
 
+  useEffect(() => {
+    setIsUpvoted(selectedQuestion.user_upvoted);
+  }, [setIsUpvoted]);
+
   //event handler function for upvoting a question
 
   const upvoteHandler = useCallback(async () => {
     setError(null);
+    setIsUpvoted(!isUpvoted);
     try {
       await dispatch(questionsActions.upvoteQuestion(questionId));
     } catch (err) {
-      console.log(err);
+      console.log(error);
     }
-  }, [dispatch, setError]);
+  }, [dispatch, setError, setIsUpvoted]);
 
   // //event handler function for downvoting a question
 
-  const downvoteHandler = useCallback(async () => {
-    setError(null);
-    try {
-      await dispatch(questionsActions.downvoteQuestion(questionId));
-    } catch (err) {
-      console.log(err);
-    }
-  }, [dispatch, setError]);
+  // const downvoteHandler = useCallback(async () => {
+  //   setError(null);
+  //   setIsDownVoted(!isDownVoted);
+  //   try {
+  //     await dispatch(questionsActions.downvoteQuestion(questionId));
+  //   } catch (err) {
+  //     console.log(error);
+  //   }
+  // }, [dispatch, setError, setIsUpvoted]);
 
   const renderAnswer = ({ item }) => {
     return (
       <AnswerItem
+        id={item.id}
         body={item.body}
         owner={item.owner}
         score={item.score}
         date={item.creation_date}
+        goToDetail={() => {
+          props.navigation.navigate("edit_Answer", {
+            aid: item.id,
+            body: item.body,
+          });
+        }}
       />
     );
   };
@@ -95,20 +115,40 @@ const NewQuestionDetailScreen = (props) => {
         style={{
           borderRadius: 10,
           paddingVertical: 20,
+          backgroundColor: "white",
         }}
       >
-        <View style={{ paddingHorizontal: 20 }}>
-          <Text style={{ fontSize: 17 }}>{selectedQuestion.title}</Text>
-          <Text>
-            <Text>{selectedQuestion.creation_date} </Text>
-            <Text>by {selectedQuestion.owner}</Text>
+        <View style={{ paddingHorizontal: SCREEN_WIDTH / 20 }}>
+          <Text style={{ fontSize: 17, fontWeight: "bold", color: "#001b3a" }}>
+            {selectedQuestion.title}
           </Text>
+          <View style={styles.row}>
+            <Text>
+              <Text style={{ fontSize: 13 }}>
+                {selectedQuestion.creation_date}{" "}
+              </Text>
+              <Text style={{ fontSize: 13 }}>by {selectedQuestion.owner}</Text>
+            </Text>
+            <TouchableOpacity
+              onPress={() =>
+                props.navigation.navigate("Edit Question", {
+                  qid: questionId,
+                  title: selectedQuestion.title,
+                  body: selectedQuestion.body,
+                })
+              }
+              style={{ marginHorizontal: SCREEN_WIDTH / 40 }}
+            >
+              <AntDesign name="edit" size={20} color="#001b3a" />
+            </TouchableOpacity>
+          </View>
+
           <Html
             source={{ html: selectedQuestion.body }}
             tagsStyles={{
               p: {
-                color: "#888",
-                paddingTop: 10,
+                color: "#708999",
+                paddingTop: SCREEN_HEIGHT / 50,
               },
             }}
           />
@@ -119,28 +159,20 @@ const NewQuestionDetailScreen = (props) => {
             flexDirection: "row",
             justifyContent: "space-between",
             alignItems: "center",
-            marginVertical: 10,
-            paddingVertical: 10,
-            paddingHorizontal: 20,
+            marginVertical: SCREEN_HEIGHT / 40,
+            paddingHorizontal: SCREEN_WIDTH / 20,
           }}
         >
           <View style={{ flexDirection: "row" }}>
+            <FontAwesome name="thumbs-o-up" size={20} />
             <FontAwesome
-              color={selectedQuestion.user_upvoted ? "green" : "red"}
-              name="thumbs-o-up"
-              onPress={upvoteHandler}
-              size={20}
-            />
-            <FontAwesome
-              color={selectedQuestion.user_downvoted ? "green" : "red"}
               name="thumbs-o-down"
-              onPress={downvoteHandler}
               size={20}
-              style={{ marginHorizontal: 20 }}
+              style={{ marginHorizontal: SCREEN_WIDTH / 20 }}
             />
           </View>
         </View>
-        <View>
+        {/* <View>
           <TouchableOpacity
             onPress={() =>
               props.navigation.navigate("Edit Question", {
@@ -152,35 +184,7 @@ const NewQuestionDetailScreen = (props) => {
           >
             <Text>edit</Text>
           </TouchableOpacity>
-        </View>
-        {/* <View
-            style={{
-              marginHorizontal: 30,
-              paddingVertical: 10,
-              borderRadius: 10,
-              backgroundColor: "#ff4848",
-            }}
-          >
-            <TouchableOpacity
-              onPress={() =>
-                props.navigation.navigate("Edit Question", {
-                  qid: questionId,
-                  title: selectedQuestion.title,
-                  body: selectedQuestion.body,
-                })
-              }
-            >
-              <Text
-                style={{
-                  fontWeight: "bold",
-                  color: "white",
-                  textAlign: "center",
-                }}
-              >
-                Edit
-              </Text>
-            </TouchableOpacity>
-          </View> */}
+        </View> */}
       </View>
     );
   };
@@ -228,29 +232,6 @@ const NewQuestionDetailScreen = (props) => {
         backgroundColor: "white",
       }}
     >
-      {/* <View style={{ padding: 20 }}>
-        <Text style={styles.title}>{selectedQuestion.title}</Text>
-        <Text style={styles.body}>{selectedQuestion.body}</Text>
-        <View style={{ ...styles.row, ...{ justifyContent: "space-between" } }}>
-          <Text style={styles.tag}>#{selectedQuestion.tags}</Text>
-          <View style={styles.row}>
-            <View style={styles.judge}>
-              <AntDesign
-                name={isUpvoted ? "like1" : "like2"}
-                size={17}
-                onPress={upvoteHandler}
-              />
-            </View>
-            <View style={styles.judge}>
-              <AntDesign
-                name={isDownVoted ? "dislike1" : "dislike2"}
-                size={17}
-                onPress={downvoteHandler}
-              />
-            </View>
-          </View>
-        </View>
-      </View> */}
       <FlatList
         data={selectedQuestion.answers}
         keyExtractor={(item) => item.id.toString()}
@@ -259,6 +240,7 @@ const NewQuestionDetailScreen = (props) => {
         ListFooterComponent={renderFooter}
         ListEmptyComponent={renderEmptyAnswers}
         showsVerticalScrollIndicator={false}
+        style={{ backgroundColor: "#f1f4f9" }}
       />
       <TouchableOpacity
         activeOpacity={0.8}
@@ -284,7 +266,7 @@ export const screenOptions = (navData) => {
       backgroundColor: "white",
       elevation: 3,
     },
-    headerTintColor: "black",
+    headerTitleAlign:'center'
   };
 };
 
@@ -317,13 +299,14 @@ const styles = StyleSheet.create({
   fab: {
     flex: 1,
     position: "absolute",
-    marginHorizontal: 30,
+    marginHorizontal: SCREEN_WIDTH / 20,
     padding: 10,
-    width: "80%",
+    width: "30%",
     // height: 45,
     alignItems: "center",
     justifyContent: "center",
-    bottom: 20,
+    bottom: SCREEN_HEIGHT / 40,
+    right: 0,
     backgroundColor: "#ff4848",
     borderRadius: 10,
     elevation: 8,

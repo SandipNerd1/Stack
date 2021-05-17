@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState, useRef } from "react";
+import React, { useCallback, useEffect, useState, useReducer } from "react";
 import {
   View,
   Text,
@@ -9,8 +9,12 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   SafeAreaView,
+  LogBox,
+  Alert,
+  Modal,
+  ActivityIndicator,
 } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 
 import * as questionsActions from "../../store/actions/question";
@@ -20,27 +24,82 @@ import HeaderButton from "../../components/UI/HeaderButton";
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
+const FORM_INPUT_UPDATE = "FORM_INPUT_UPDATE";
+
+LogBox.ignoreLogs([
+  "Non-serializable values were found in the navigation state",
+]);
+
+const formReducer = (state, action) => {
+  if (action.type === FORM_INPUT_UPDATE) {
+    const updatedValues = {
+      ...state.inputValues,
+      [action.input]: action.value,
+    };
+    console.log(updatedValues);
+    return {
+      inputValues: updatedValues,
+    };
+  }
+};
+
 const EditQuestionScreen = (props) => {
   const { qid, title, body } = props.route.params;
-  const [scrollEnabled, setScrollEnabled] = useState(true);
   const [enablePushContent, setEnablePushContent] = useState(false);
-
-  const [questionTitle, setQuestionTitle] = useState(title);
-  const [questionBody, setQuestionBody] = useState(body);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    props.navigation.setParams({ submit: postEditedQuestion });
-  }, [postEditedQuestion]);
+  const [formState, dispatchFormState] = useReducer(formReducer, {
+    inputValues: {
+      title: title,
+      body: body,
+    },
+  });
 
-  const postEditedQuestion = useCallback(async () => {
-    console.log(questionTitle);
-    console.log(questionBody);
-    await dispatch(
-      questionsActions.editQuestion(qid, questionTitle, questionBody)
-    );
-  }, [dispatch, qid, questionTitle, questionBody]);
+  const inputChangeHandler = useCallback(
+    (inputIdentifier, inputValue) => {
+      console.log(inputIdentifier);
+      console.log(inputValue);
+      dispatchFormState({
+        type: FORM_INPUT_UPDATE,
+        value: inputValue,
+        input: inputIdentifier,
+      });
+    },
+    [dispatchFormState]
+  );
+
+  useEffect(() => {
+    props.navigation.setParams({
+      submit: postEditedQuestion,
+      qid: qid,
+      title: formState.inputValues.title,
+      body: formState.inputValues.body,
+    });
+  }, [dispatch, postEditedQuestion, formState, qid]);
+
+  const postEditedQuestion = useCallback(
+    async (qid, title, body) => {
+      try {
+        setModalVisible(true);
+        await dispatch(questionsActions.editQuestion(qid, title, body));
+        setModalVisible(false);
+        Alert.alert("Edit Successful", "Question was successfully edited!", [
+          { text: "Okay" },
+          {
+            text: "goBack",
+            onPress: () => {
+              props.navigation.goBack();
+            },
+          },
+        ]);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    [dispatch, qid, formState]
+  );
 
   // useEffect(() => {
   //   postEditedQuestion();
@@ -52,15 +111,30 @@ const EditQuestionScreen = (props) => {
       style={{ flex: 1, backgroundColor: "#f1f4f9" }}
       enabled={enablePushContent}
     >
+      <Modal
+        transparent={true}
+        visible={modalVisible}
+        statusBarTranslucent={true}
+      >
+        <View
+          style={{
+            height: "100%",
+            backgroundColor: "rgba(0,0,0,0.5)",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <ActivityIndicator size="large" color="white" />
+        </View>
+      </Modal>
       <View style={{ margin: SCREEN_WIDTH / 20 }}>
         <Text style={[styles.inputIdentifierText, { marginVertical: 10 }]}>
           Title
         </Text>
         <TextInput
-          value={questionTitle}
-          onChangeText={(text) => {
-            console.log(text);
-            setQuestionTitle(text);
+          defaultValue={formState.inputValues.title}
+          onChangeText={(value) => {
+            inputChangeHandler("title", value);
           }}
           style={styles.input}
           onFocus={() => setEnablePushContent(false)}
@@ -75,77 +149,34 @@ const EditQuestionScreen = (props) => {
         Body
       </Text>
       <TextEditor
-        initialHtml={questionBody}
+        initialHtml={formState.inputValues.body}
         onHtmlChange={({ html }) => {
-          console.log("html");
-          setQuestionBody(html);
+          inputChangeHandler("body", html);
         }}
         onChangeText={({ oldContents }) => {
           console.log(oldContents);
         }}
         onFocus={() => setEnablePushContent(true)}
       />
-      {/* <View style={styles.editorContainer}> */}
-      {/* <View
-        style={{
-          borderWidth: 1,
-          height: "70%",
-          marginHorizontal: SCREEN_WIDTH / 20,
-          borderRadius: 10,
-          overflow: "hidden",
-          marginVertical: SCREEN_HEIGHT / 40,
-        }}
-      >
-        <QuillEditor
-          style={styles.editor}
-          ref={_editor}
-          initialHtml={questionBody}
-        />
-        <QuillToolbar
-          editor={_editor}
-          theme="light"
-          options={[
-            ["bold", "italic", "underline", "strike"],
-            [{ header: 1 }, { header: 2 }, { header: 3 }],
-            [
-              {
-                color: [
-                  "#000000",
-                  "#e60000",
-                  "#ff9900",
-                  "yellow",
-                  "#5eba7d",
-                  "#f2720c",
-                  "#379fef",
-                ],
-              },
-            ],
-          ]}
-        />
-      </View> */}
-
-      {/* <Text>Body</Text>
-      <TextInput
-        value={questionBody}
-        onChangeText={(text) => {
-          setQuestionBody(text);
-        }}
-      /> */}
-      {/* <Button title="post" onPress={postEditedQuestion} /> */}
     </KeyboardAvoidingView>
   );
 };
 export const screenOptions = (navData) => {
-  const submitFn = navData.route.params ? navData.route.params.submit : null;
+  const { submit, qid, title, body } = navData.route.params
+    ? navData.route.params
+    : null;
   return {
     headerTitleAlign: "center",
     headerRight: () => (
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
         <Item
           title="post"
-          buttonStyle={{ fontSize: 35 }}
-          iconName="md-checkmark-sharp"
-          onPress={submitFn}
+          buttonStyle={{ fontSize: 25 }}
+          // iconName="md-checkmark-sharp"
+          iconName="send"
+          onPress={() => {
+            submit(qid, title, body);
+          }}
         />
       </HeaderButtons>
     ),

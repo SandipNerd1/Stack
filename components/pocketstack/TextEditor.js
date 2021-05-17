@@ -18,7 +18,7 @@ const TextEditor = (props) => {
           // not required just for to show how to pass this props
           placeholder: "write your answer or your code here!",
           modules: {
-            toolbar: false, // this is default value
+            toolbar: true, // this is default value
           },
           theme: "bubble", // this is default value
         }}
@@ -29,6 +29,7 @@ const TextEditor = (props) => {
         styles={{
           toolset: { backgroundColor: "white", borderWidth: 0 },
         }}
+        container="avoiding-view"
         theme="light"
         {...props}
         options={[

@@ -22,7 +22,7 @@ const QuestionItem = (props) => {
           <Text
             style={{
               fontSize: 13,
-              color: "#888",
+              color: "#708999",
               paddingHorizontal: SCREEN_WIDTH / 50,
             }}
           >
@@ -51,14 +51,12 @@ const QuestionItem = (props) => {
 
           <View style={styles.row}>
             <View style={styles.row}>
-              <MaterialIcons name="question-answer" />
+              <MaterialIcons name="question-answer" color="#001b3a" />
               <Text style={styles.text}>{props.answerCount}</Text>
             </View>
             <View style={[styles.row, { paddingLeft: SCREEN_WIDTH / 20 }]}>
-              <FontAwesome name="star" color="black" />
-              <Text style={styles.text}>
-                {props.score === -1 ? "0" : props.score}
-              </Text>
+              <FontAwesome name="star" color="#001b3a" />
+              <Text style={styles.text}>{props.score}</Text>
             </View>
           </View>
         </View>
@@ -71,18 +69,20 @@ const styles = StyleSheet.create({
   card: {
     marginVertical: SCREEN_HEIGHT / 90,
     paddingBottom: SCREEN_HEIGHT / 70,
-    paddingHorizontal: SCREEN_WIDTH / 15,
+    paddingHorizontal: SCREEN_WIDTH / 20,
   },
   row: {
     flexDirection: "row",
     alignItems: "center",
   },
   secondaryText: {
-    color: "#708999",
+    // color: "#708999",
+    color: "#001b3a",
     fontSize: 17,
   },
   ownerText: {
     fontWeight: "bold",
+    color: "#001b3a",
   },
   text: {
     paddingHorizontal: 6,

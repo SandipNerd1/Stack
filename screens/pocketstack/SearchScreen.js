@@ -67,7 +67,7 @@ const SearchScreen = (props) => {
         <Ionicons
           name="search-outline"
           size={25}
-          color="black"
+          color="#ff4848"
           onPress={renderSearchRequest}
         />
       </View>
@@ -83,7 +83,7 @@ const SearchScreen = (props) => {
         answerCount={item.answer_count}
         score={item.score}
         date={item.creation_date}
-        goToDetail={() => {
+        viewDetail={() => {
           props.navigation.navigate("Detail", {
             questionId: item.id,
           });
@@ -94,9 +94,16 @@ const SearchScreen = (props) => {
 
   if (error) {
     return (
-      <View style={styles.center}>
-        <Text>An error occured</Text>
-        <Button title="Try again" onPress={renderSearchRequest} color="blue" />
+      <View style={{ flex: 1, backgroundColor: "white" }}>
+        {result}
+        <View style={styles.center}>
+          <Text>An error occured</Text>
+          <Button
+            title="Try again"
+            onPress={renderSearchRequest}
+            color="blue"
+          />
+        </View>
       </View>
     );
   }
@@ -143,6 +150,14 @@ const SearchScreen = (props) => {
       )}
     </View>
   );
+};
+
+export const screenOptions = () => {
+  return {
+    headerTitleStyle: {
+      fontSize: 30,
+    },
+  };
 };
 
 const styles = StyleSheet.create({

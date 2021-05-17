@@ -7,22 +7,22 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
 import { AntDesign } from "@expo/vector-icons";
 
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import HeaderButton from "../../components/UI/HeaderButton";
 import { logout } from "../../store/actions/signin";
-import { getUserProfile } from '../../store/actions/user';
+import { getUserProfile } from "../../store/actions/user";
 
 const UserProfileScreen = (props) => {
   const dispatch = useDispatch();
-  const userProfileData = useSelector(state => state.userStatus.profileData);
-  const socialProfileData = useSelector(state => state.userStatus.socialData);
+  const userProfileData = useSelector((state) => state.userStatus.profileData);
+  const socialProfileData = useSelector((state) => state.userStatus.socialData);
 
   useEffect(() => {
     dispatch(getUserProfile());
-  }, [])
+  }, []);
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
@@ -31,7 +31,12 @@ const UserProfileScreen = (props) => {
           <View style={{ width: 150, height: 150 }}>
             <Image
               source={{
-                uri: 'picture' in socialProfileData ? socialProfileData.picture.data.url : 'photoUrl' in socialProfileData ? socialProfileData.photoUrl : "https://widgetwhats.com/app/uploads/2019/11/free-profile-photo-whatsapp-4.png",
+                uri:
+                  "picture" in socialProfileData
+                    ? socialProfileData.picture.data.url
+                    : "photoUrl" in socialProfileData
+                    ? socialProfileData.photoUrl
+                    : "https://widgetwhats.com/app/uploads/2019/11/free-profile-photo-whatsapp-4.png",
               }}
               style={{ width: "100%", height: "100%", borderRadius: 75 }}
             />
@@ -100,7 +105,8 @@ export const screenOptions = (props) => {
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
         <Item
           title="Edit"
-          buttonStyle={{ fontSize: 15 }}
+          iconName="md-pencil"
+          buttonStyle={{ fontSize: 30 }}
           onPress={() => props.navigation.navigate("Edit")}
         />
       </HeaderButtons>

@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   inActive: {
-    color: "black",
+    color: "#708999",
   },
 });
 

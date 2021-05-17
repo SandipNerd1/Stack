@@ -7,15 +7,15 @@ import {
   TextInput,
   Image,
 } from "react-native";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import HeaderButton from "../../components/UI/HeaderButton";
-import { updateUserProfile } from '../../store/actions/user';
+import { updateUserProfile } from "../../store/actions/user";
 
 const EditProfileScreen = ({ navigation }) => {
   const dispatch = useDispatch();
-  const userProfileData = useSelector(state => state.userStatus.profileData);
-  const socialProfileData = useSelector(state => state.userStatus.socialData);
+  const userProfileData = useSelector((state) => state.userStatus.profileData);
+  const socialProfileData = useSelector((state) => state.userStatus.socialData);
 
   const [username, setUsername] = useState(userProfileData.username);
   const [firstName, setFirstName] = useState(userProfileData.first_name);
@@ -43,26 +43,40 @@ const EditProfileScreen = ({ navigation }) => {
         <HeaderButtons HeaderButtonComponent={HeaderButton}>
           <Item
             title="Save"
-            buttonStyle={{ fontSize: 15 }}
+            iconName="md-save"
+            buttonStyle={{ fontSize: 30 }}
             onPress={async () => {
               try {
-                await dispatch(updateUserProfile({
-                  'username': username,
-                  'first_name': firstName,
-                  'last_name': lastName,
-                  'email': email,
-                  'about_me': aboutMe,
-                  'location': location,
-                  'website_url': websiteUrl
-                }))
-                navigation.navigate("Profile")
-              } catch (e) { console.log(e); }
+                await dispatch(
+                  updateUserProfile({
+                    username: username,
+                    first_name: firstName,
+                    last_name: lastName,
+                    email: email,
+                    about_me: aboutMe,
+                    location: location,
+                    website_url: websiteUrl,
+                  })
+                );
+                navigation.navigate("Profile");
+              } catch (e) {
+                console.log(e);
+              }
             }}
           />
         </HeaderButtons>
       ),
     });
-  }, [navigation, username, firstName, lastName, email, aboutMe, location, websiteUrl]);
+  }, [
+    navigation,
+    username,
+    firstName,
+    lastName,
+    email,
+    aboutMe,
+    location,
+    websiteUrl,
+  ]);
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
@@ -71,7 +85,12 @@ const EditProfileScreen = ({ navigation }) => {
           <View style={{ width: 150, height: 150 }}>
             <Image
               source={{
-                uri: 'picture' in socialProfileData ? socialProfileData.picture.data.url : 'photoUrl' in socialProfileData ? socialProfileData.photoUrl : "https://widgetwhats.com/app/uploads/2019/11/free-profile-photo-whatsapp-4.png",
+                uri:
+                  "picture" in socialProfileData
+                    ? socialProfileData.picture.data.url
+                    : "photoUrl" in socialProfileData
+                    ? socialProfileData.photoUrl
+                    : "https://widgetwhats.com/app/uploads/2019/11/free-profile-photo-whatsapp-4.png",
               }}
               style={{ width: "100%", height: "100%", borderRadius: 75 }}
             />
@@ -82,9 +101,7 @@ const EditProfileScreen = ({ navigation }) => {
             >
               {firstName} {lastName}
             </Text>
-            <Text style={{ textAlign: "center" }}>
-              {aboutMe}
-            </Text>
+            <Text style={{ textAlign: "center" }}>{aboutMe}</Text>
           </View>
         </View>
         <View style={{ padding: 20 }}>
@@ -96,7 +113,7 @@ const EditProfileScreen = ({ navigation }) => {
             <TextInput
               style={styles.input}
               value={username}
-              onChangeText={userName => setUsername(userName)}
+              onChangeText={(userName) => setUsername(userName)}
             />
           </View>
           <View
@@ -110,7 +127,7 @@ const EditProfileScreen = ({ navigation }) => {
               <TextInput
                 style={styles.input}
                 value={firstName}
-                onChangeText={firstname => setFirstName(firstname)}
+                onChangeText={(firstname) => setFirstName(firstname)}
               />
             </View>
             <View style={[styles.details, { width: 130 }]}>
@@ -118,7 +135,7 @@ const EditProfileScreen = ({ navigation }) => {
               <TextInput
                 style={styles.input}
                 value={lastName}
-                onChangeText={lastname => setLastName(lastname)}
+                onChangeText={(lastname) => setLastName(lastname)}
               />
             </View>
           </View>
@@ -128,7 +145,7 @@ const EditProfileScreen = ({ navigation }) => {
             <TextInput
               style={styles.input}
               value={aboutMe}
-              onChangeText={about => setAboutMe(about)}
+              onChangeText={(about) => setAboutMe(about)}
             />
           </View>
           <View style={styles.details}>
@@ -136,7 +153,7 @@ const EditProfileScreen = ({ navigation }) => {
             <TextInput
               style={styles.input}
               value={location}
-              onChangeText={loc => setLocation(loc)}
+              onChangeText={(loc) => setLocation(loc)}
             />
           </View>
           <View style={styles.details}>
@@ -144,7 +161,7 @@ const EditProfileScreen = ({ navigation }) => {
             <TextInput
               style={styles.input}
               value={websiteUrl}
-              onChangeText={website => setWebsiteUrl(website)}
+              onChangeText={(website) => setWebsiteUrl(website)}
             />
           </View>
         </View>

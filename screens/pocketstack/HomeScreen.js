@@ -74,18 +74,18 @@ const HomeScreen = (props) => {
     setIsScoreActive,
   ]);
 
+  // useEffect(() => {
+  //   const willFocusSub = props.navigation.addListener("focus", loadQuestions);
+
+  //   return willFocusSub;
+  // }, [loadQuestions]);
+
   useEffect(() => {
     setIsLoading(true);
     loadQuestions().then(() => {
       setIsLoading(false);
     });
   }, [dispatch, loadQuestions, setIsLoading]);
-
-  useEffect(() => {
-    const willFocusSub = props.navigation.addListener("focus", loadQuestions);
-
-    return willFocusSub;
-  }, [loadQuestions]);
 
   // toggle filter function
 
@@ -108,8 +108,10 @@ const HomeScreen = (props) => {
   const filterQuestions = useCallback(
     async (type) => {
       try {
+        setIsLoading(true);
         setActiveFilterText(type);
         await dispatch(questionsActions.filterQuestionList(type));
+        setIsLoading(false);
       } catch (err) {
         console.log(err);
       }
@@ -244,6 +246,7 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 30,
     fontWeight: "bold",
+    color: "#001b3a",
   },
   filterContainer: {
     flexDirection: "row",

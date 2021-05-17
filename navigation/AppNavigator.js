@@ -1,63 +1,68 @@
-import React, { useCallback, useState, useEffect } from "react";
+import React, { useLayoutEffect } from "react";
+import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import {
-  createStackNavigator,
-  CardStyleInterpolators,
-} from "@react-navigation/stack";
-import { createSharedElementStackNavigator } from "react-navigation-shared-element";
+import { createStackNavigator } from "@react-navigation/stack";
 import { Ionicons, AntDesign } from "@expo/vector-icons";
+import { enableScreens } from "react-native-screens";
 
-// import HomeScreen, {
-//   screenOptions as homeScreenOptions,
-// } from "../screens/pocketstack/HomeScreen";
-
-// import NewHomeScreen, {
-//   screenOptions as homeScreenOptions,
-// } from "../screens/pocketstack/NewHomeScreen";
 import NewQuestionDetailScreen, {
   screenOptions as detailScreenOptions,
 } from "../screens/pocketstack/NewQuestionDetailScreen";
 
-import SearchScreen from "../screens/pocketstack/SearchScreen";
-import MarkedQuestionScreen, {
-  screenOptions as markQuestionScreenOptions,
-} from "../screens/pocketstack/MarkedQuestionScreen";
+import SearchScreen, {
+  screenOptions as searchScreenOptions,
+} from "../screens/pocketstack/SearchScreen";
 import UserProfileScreen, {
   screenOptions as userProfileScreenOptions,
 } from "../screens/user/UserProfileScreen";
-import EditProfileScreen from "../screens/user/EditProfileScreen";
+import EditProfileScreen, {
+  screenOptions as editProfileScreenOptions,
+} from "../screens/user/EditProfileScreen";
 import CreateQuestionScreen, {
   screenOptions as createQuestionScreenOptions,
 } from "../screens/user/CreateQuestionScreen";
 import EditQuestionScreen, {
   screenOptions as editQuestionScreenOptions,
 } from "../screens/user/EditQuestionScreen";
-// import QuestionDetailScreen, {
-//   screenOptions as detailScreenOptions,
-// } from "../screens/pocketstack/QuestionDetailScreen";
-import CreateAnswerScreen from "../screens/user/CreateAnswerScreen";
-import SampleHomeScreen, {
-  screenOptions as sampleHomeScreenScreenOptions,
-} from "../screens/pocketstack/SampleHomeScreen";
+
+import CreateAnswerScreen, {
+  screenOptions as createAnswerScreenOptions,
+} from "../screens/user/CreateAnswerScreen";
+import EditAnswerScreen, {
+  screenOptions as editAnswerScreenOptions,
+} from "../screens/user/EditAnswerScreen";
 import HomeScreen, {
   screenOptions as homeScreenOptions,
 } from "../screens/pocketstack/HomeScreen";
 
+enableScreens();
+
 const HomeStack = createStackNavigator();
 
-const HomeStackNavigator = () => {
+const HomeStackNavigator = ({ navigation, route }) => {
+  // useLayoutEffect(() => {
+  //   const tabHiddenRoutes = [
+  //     "Post question",
+  //     "Edit Question",
+  //     "Post answer",
+  //     "edit_Answer",
+  //   ];
+  //   if (tabHiddenRoutes.includes(getFocusedRouteNameFromRoute(route))) {
+  //     navigation.setOptions({ tabBarVisible: false });
+  //   } else {
+  //     navigation.setOptions({ tabBarVisible: true });
+  //   }
+  // }, [navigation, route]);
   return (
     <HomeStack.Navigator
       screenOptions={{
-        headerTintColor: "black",
+        headerTintColor: "#001b3a",
         headerStyle: {
           backgroundColor: "white",
           elevation: 0,
         },
         headerTitleAlign: "center",
-        gestureEnabled: false,
-        // gestureDirection: "horizontal",
-        // cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        // gestureEnabled: false,
       }}
     >
       <HomeStack.Screen
@@ -80,13 +85,35 @@ const HomeStackNavigator = () => {
         component={EditQuestionScreen}
         options={editQuestionScreenOptions}
       />
-      <HomeStack.Screen name="Post answer" component={CreateAnswerScreen} />
+      <HomeStack.Screen
+        name="Post answer"
+        component={CreateAnswerScreen}
+        options={createAnswerScreenOptions}
+      />
+      <HomeStack.Screen
+        name="edit_Answer"
+        component={EditAnswerScreen}
+        options={editAnswerScreenOptions}
+      />
     </HomeStack.Navigator>
   );
 };
 const SearchStack = createStackNavigator();
 
-const SearchStackNavigator = () => {
+const SearchStackNavigator = ({ navigation, route }) => {
+  useLayoutEffect(() => {
+    const tabHiddenRoutes = [
+      "Post question",
+      "Edit Question",
+      "Post answer",
+      "edit_Answer",
+    ];
+    if (tabHiddenRoutes.includes(getFocusedRouteNameFromRoute(route))) {
+      navigation.setOptions({ tabBarVisible: false });
+    } else {
+      navigation.setOptions({ tabBarVisible: true });
+    }
+  }, [navigation, route]);
   return (
     <SearchStack.Navigator
       screenOptions={{
@@ -94,47 +121,35 @@ const SearchStackNavigator = () => {
           backgroundColor: "white",
           elevation: 0,
         },
-        headerTintColor: "black",
-        headerTitleStyle: {
-          fontSize: 30,
-        },
-        // gestureEnabled: true,
-        // gestureDirection: "horizontal",
-        // cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        headerTintColor: "#001b3a",
       }}
     >
-      <SearchStack.Screen name="Search" component={SearchScreen} />
+      <SearchStack.Screen
+        name="Search"
+        component={SearchScreen}
+        options={searchScreenOptions}
+      />
       <SearchStack.Screen
         name="Detail"
         component={NewQuestionDetailScreen}
         options={detailScreenOptions}
       />
-    </SearchStack.Navigator>
-  );
-};
-
-const FavoriteStack = createStackNavigator();
-
-const FavoriteStackNavigator = () => {
-  return (
-    <FavoriteStack.Navigator
-      screenOptions={{
-        headerStyle: {
-          backgroundColor: "#ff4848",
-        },
-        headerTintColor: "white",
-        // gestureEnabled: true,
-        // gestureDirection: "horizontal",
-        // cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-      }}
-    >
-      <FavoriteStack.Screen name="Favorite" component={MarkedQuestionScreen} />
-      <FavoriteStack.Screen
-        name="Detail"
-        component={NewQuestionDetailScreen}
-        options={detailScreenOptions}
+      <SearchStack.Screen
+        name="Edit Question"
+        component={EditQuestionScreen}
+        options={editQuestionScreenOptions}
       />
-    </FavoriteStack.Navigator>
+      <SearchStack.Screen
+        name="Post answer"
+        component={CreateAnswerScreen}
+        options={createAnswerScreenOptions}
+      />
+      <SearchStack.Screen
+        name="edit_Answer"
+        component={EditAnswerScreen}
+        options={editAnswerScreenOptions}
+      />
+    </SearchStack.Navigator>
   );
 };
 
@@ -147,14 +162,11 @@ const ProfileStackNavigator = () => {
         headerStyle: {
           backgroundColor: "white",
         },
-        headerTintColor: "black",
+        headerTintColor: "#001b3a",
         headerTitleStyle: {
           fontSize: 25,
         },
         headerTitleAlign: "center",
-        // gestureEnabled: true,
-        // gestureDirection: "horizontal",
-        // cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
       }}
     >
       <ProfileStack.Screen
@@ -165,6 +177,7 @@ const ProfileStackNavigator = () => {
       <ProfileStack.Screen
         name="Edit"
         component={EditProfileScreen}
+        options={editProfileScreenOptions}
       />
     </ProfileStack.Navigator>
   );
@@ -177,7 +190,7 @@ const BottomTabNavigator = () => {
     <BottomTab.Navigator
       initialRouteName="Home"
       tabBarOptions={{
-        inactiveTintColor: "#a9a9a9",
+        inactiveTintColor: "#888",
         activeTintColor: "#ff4848",
         keyboardHidesTabBar: true,
         showLabel: false,
@@ -205,24 +218,6 @@ const BottomTabNavigator = () => {
           ),
         }}
       />
-      {/* <BottomTab.Screen
-        name="Post Question"
-        component={CreateQuestionScreen}
-        options={{
-          tabBarIcon: (props) => (
-            <AntDesign name="pluscircle" size={25} color={props.color} />
-          ),
-        }}
-      />
-      <BottomTab.Screen
-        name="favorite"
-        component={FavoriteStackNavigator}
-        options={{
-          tabBarIcon: (props) => (
-            <Ionicons name="star" size={25} color={props.color} />
-          ),
-        }}
-      /> */}
       <BottomTab.Screen
         name="profile"
         component={ProfileStackNavigator}
