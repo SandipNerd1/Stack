@@ -31,6 +31,7 @@ import * as questionsActions from "../../store/actions/question";
 import CustomButton from "../../components/UI/CustomButton";
 import TextEditor from "../../components/pocketstack/TextEditor";
 import HeaderButton from "../../components/UI/HeaderButton";
+import RichTextEditor from "../../components/pocketstack/RichTextEditor";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
@@ -157,24 +158,20 @@ const CreateQuestionScreen = (props) => {
             )}
           />
         </View>
-        <View>
-          <Text
-            style={[
-              styles.inputIdentifierText,
-              { marginHorizontal: SCREEN_WIDTH / 20 },
-            ]}
-          >
-            Body
-          </Text>
-          <TextEditor
-            initialHtml={questionBody}
-            onHtmlChange={({ html }) => {
-              setQuestionBody(html);
-            }}
-            // onFocus={() => setEnablePushContent(true)}
-          />
-        </View>
       </View>
+      <Text
+        style={[
+          styles.inputIdentifierText,
+          { marginHorizontal: SCREEN_WIDTH / 20 },
+        ]}
+      >
+        Body
+      </Text>
+      <RichTextEditor
+        onChange={(html) => {
+          setAnswer(html);
+        }}
+      />
     </KeyboardAvoidingView>
   );
 };
@@ -199,24 +196,23 @@ export const screenOptions = (navData) => {
 const styles = StyleSheet.create({
   formContainer: {
     // marginHorizontal: SCREEN_WIDTH / 20,
-    marginVertical: SCREEN_HEIGHT / 40,
+    marginTop: SCREEN_HEIGHT / 40,
   },
   input: {
-    borderWidth: 1,
-    marginVertical: SCREEN_HEIGHT / 40,
+    marginVertical: SCREEN_HEIGHT / 80,
     padding: 5,
-    borderColor: "#dfe9f1",
     borderRadius: 10,
     backgroundColor: "white",
+    color: "#708999",
   },
   inputBody: {
     marginVertical: SCREEN_HEIGHT / 60,
   },
   tagInputStyle: {
     backgroundColor: "white",
-    borderWidth: 1,
     borderRadius: 10,
-    borderColor: "#dfe9f1",
+    color: "#708999",
+    // borderColor: "#dfe9f1",
   },
   tag: {
     marginHorizontal: 5,

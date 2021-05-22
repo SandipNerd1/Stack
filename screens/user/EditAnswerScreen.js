@@ -13,6 +13,7 @@ import { useDispatch } from "react-redux";
 import * as answerActions from "../../store/actions/answer";
 import HeaderButton from "../../components/UI/HeaderButton";
 import TextEditor from "../../components/pocketstack/TextEditor";
+import RichTextEditor from "../../components/pocketstack/RichTextEditor";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
@@ -49,13 +50,10 @@ const CreateAnswerScreen = (props) => {
 
   return (
     <KeyboardAvoidingView
-      behavior="position"
       style={{
         flex: 1,
         backgroundColor: "#f1f4f9",
-        paddingTop: SCREEN_HEIGHT / 10,
       }}
-      enabled={enablePushContent}
     >
       <Text
         style={[
@@ -69,16 +67,9 @@ const CreateAnswerScreen = (props) => {
       >
         Body
       </Text>
-      <TextEditor
-        initialHtml={answer}
-        onHtmlChange={({ html }) => setAnswer(html)}
-        style={[
-          {
-            height: 400,
-          },
-          styles.editorContainer,
-        ]}
-        onFocus={() => setEnablePushContent(true)}
+      <RichTextEditor
+        initialContentHTML={answer}
+        onChange={(html) => setAnswer(html)}
       />
     </KeyboardAvoidingView>
   );

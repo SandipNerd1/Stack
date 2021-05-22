@@ -263,7 +263,7 @@ export const screenOptions = (navData) => {
       backgroundColor: "white",
       elevation: 3,
     },
-    headerTitleAlign: 'center'
+    headerTitleAlign: "center",
   };
 };
 

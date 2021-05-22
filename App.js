@@ -14,6 +14,8 @@ import RootStackNavigator from "./navigation/RootNavigator";
 // import AppNavigator from "./navigation/AppNavigator";
 // import TestScreen from "./screens/pocketstack/TestScreen";
 import RichTextEditor from "./components/pocketstack/RichTextEditor";
+import NewSignUpScreen from "./screens/user/NewSignUpScreen";
+import NewSignInScreen from "./screens/user/NewSignInScreen";
 
 enableScreens();
 
@@ -51,8 +53,8 @@ export default function App() {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <RootStackNavigator />
-        {/* <RichTextEditor /> */}
+        {/* <RootStackNavigator /> */}
+        <NewSignUpScreen />
       </NavigationContainer>
     </Provider>
   );

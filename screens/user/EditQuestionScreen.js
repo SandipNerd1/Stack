@@ -19,6 +19,7 @@ import { HeaderButtons, Item } from "react-navigation-header-buttons";
 
 import * as questionsActions from "../../store/actions/question";
 import TextEditor from "../../components/pocketstack/TextEditor";
+import RichTextEditor from "../../components/pocketstack/RichTextEditor";
 import HeaderButton from "../../components/UI/HeaderButton";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
@@ -106,11 +107,7 @@ const EditQuestionScreen = (props) => {
   // }, [dispatch, postEditedQuestion]);
 
   return (
-    <KeyboardAvoidingView
-      behavior="position"
-      style={{ flex: 1, backgroundColor: "#f1f4f9" }}
-      enabled={enablePushContent}
-    >
+    <KeyboardAvoidingView style={{ flex: 1, backgroundColor: "#f1f4f9" }}>
       <Modal
         transparent={true}
         visible={modalVisible}
@@ -137,7 +134,6 @@ const EditQuestionScreen = (props) => {
             inputChangeHandler("title", value);
           }}
           style={styles.input}
-          onFocus={() => setEnablePushContent(false)}
         />
       </View>
       <Text
@@ -148,15 +144,11 @@ const EditQuestionScreen = (props) => {
       >
         Body
       </Text>
-      <TextEditor
-        initialHtml={formState.inputValues.body}
-        onHtmlChange={({ html }) => {
+      <RichTextEditor
+        initialContentHTML={formState.inputValues.body}
+        onChange={(html) => {
           inputChangeHandler("body", html);
         }}
-        onChangeText={({ oldContents }) => {
-          console.log(oldContents);
-        }}
-        onFocus={() => setEnablePushContent(true)}
       />
     </KeyboardAvoidingView>
   );
@@ -191,11 +183,12 @@ const styles = StyleSheet.create({
   input: {
     paddingVertical: 5,
     paddingHorizontal: 10,
-    borderWidth: 1,
+    // borderWidth: 1,
     borderRadius: 10,
     borderColor: "#dfe9f1",
     backgroundColor: "white",
-    borderColor: "#dfe9f1",
+    // borderColor: "#dfe9f1",
+    color: "#708999",
   },
   inputBody: {
     marginVertical: SCREEN_HEIGHT / 60,

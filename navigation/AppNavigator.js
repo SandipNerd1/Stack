@@ -172,10 +172,7 @@ const ProfileStackNavigator = () => {
         component={UserProfileScreen}
         options={userProfileScreenOptions}
       />
-      <ProfileStack.Screen
-        name="Edit"
-        component={EditProfileScreen}
-      />
+      <ProfileStack.Screen name="Edit" component={EditProfileScreen} />
     </ProfileStack.Navigator>
   );
 };
@@ -193,6 +190,7 @@ const BottomTabNavigator = () => {
         showLabel: false,
         style: {
           height: 60,
+          borderTopWidth: 0,
         },
       }}
       backBehavior="initialRoute"

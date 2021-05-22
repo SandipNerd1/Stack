@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect, useRef } from "react";
 import {
   StyleSheet,
   Alert,
@@ -18,6 +18,7 @@ import { useDispatch } from "react-redux";
 import * as answerActions from "../../store/actions/answer";
 import HeaderButton from "../../components/UI/HeaderButton";
 import TextEditor from "../../components/pocketstack/TextEditor";
+import RichTextEditor from "../../components/pocketstack/RichTextEditor";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
@@ -34,6 +35,7 @@ const CreateAnswerScreen = (props) => {
   const dispatch = useDispatch();
 
   const onSubmitHandler = useCallback(async () => {
+    console.log(answer);
     if (answer === "") {
       Alert.alert("Wrong input!", "Please check the errors in the form.", [
         { text: "Okay" },
@@ -44,7 +46,7 @@ const CreateAnswerScreen = (props) => {
     console.log(answer);
     dispatch(answerActions.createAnswer(qid, answer));
     props.navigation.goBack();
-  }, [dispatch, answer, qid]);
+  }, [dispatch, qid, answer]);
 
   useEffect(() => {
     props.navigation.setParams({ submit: onSubmitHandler });
@@ -59,16 +61,6 @@ const CreateAnswerScreen = (props) => {
       }}
       // enabled={enablePushContent}
     >
-      {/* <View
-        style={{
-          marginHorizontal: SCREEN_WIDTH / 20,
-          marginVertical: SCREEN_HEIGHT / 50,
-        }}
-      >
-        <Text style={{ fontSize: 30, textAlign: "center" }}>
-          Write your answers here!
-        </Text>
-      </View> */}
       <Text
         style={[
           styles.inputIdentifierText,
@@ -81,7 +73,7 @@ const CreateAnswerScreen = (props) => {
       >
         Body
       </Text>
-      <TextEditor
+      {/* <TextEditor
         onHtmlChange={({ html }) => setAnswer(html)}
         style={[
           {
@@ -90,6 +82,11 @@ const CreateAnswerScreen = (props) => {
           styles.editorContainer,
         ]}
         onFocus={() => setEnablePushContent(true)}
+      /> */}
+      <RichTextEditor
+        onChange={(html) => {
+          setAnswer(html);
+        }}
       />
     </KeyboardAvoidingView>
   );
@@ -156,6 +153,20 @@ const styles = StyleSheet.create({
   inputIdentifierText: {
     color: "#708999",
     fontWeight: "bold",
+  },
+  rich: {
+    // borderRadius: 20,
+    flex: 1,
+  },
+  richBar: {
+    borderColor: "#708999",
+    borderTopWidth: StyleSheet.hairlineWidth,
+    // borderRadius: 10,
+    backgroundColor: "white",
+    color: "#708999",
+  },
+  flatStyle: {
+    paddingHorizontal: 12,
   },
 });
 

@@ -41,6 +41,9 @@ const AnswerItem = (props) => {
             color: "#708999",
             paddingTop: 10,
           },
+          div: {
+            color: "#708999",
+          },
         }}
       />
     </View>
