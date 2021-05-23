@@ -7,26 +7,16 @@ import {
   ActivityIndicator,
   TouchableOpacity,
   FlatList,
-  TouchableNativeFeedback,
   Dimensions,
   ScrollView,
   LogBox,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
-import { HeaderButtons, Item } from "react-navigation-header-buttons";
-import {
-  AntDesign,
-  FontAwesome,
-  Ionicons,
-  MaterialCommunityIcons,
-  Feather,
-  MaterialIcons,
-} from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Html from "react-native-render-html";
 
 import * as questionsActions from "../../store/actions/question";
 import AnswerItem from "../../components/pocketstack/AnswerItem";
-import HeaderButton from "../../components/UI/HeaderButton";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
@@ -114,45 +104,20 @@ const NewQuestionDetailScreen = (props) => {
 
   const renderHeader = () => {
     return (
-      <View
-        style={{
-          // paddingVertical: 20,
-          backgroundColor: "white",
-          borderBottomWidth: SCREEN_WIDTH / 20,
-          borderBottomColor: "#f1f4f9",
-        }}
-      >
-        <View
-          style={{
-            paddingHorizontal: SCREEN_WIDTH / 20,
-            paddingTop: 20,
-            backgroundColor: "white",
-          }}
-        >
-          <Text style={{ fontSize: 17, color: "#001b3a" }}>
-            {selectedQuestion.title}
-          </Text>
+      <View style={styles.headerContainer}>
+        <View style={styles.questionDetailContainer}>
+          <Text style={styles.title}>{selectedQuestion.title}</Text>
           <View style={styles.row}>
             <Text>
-              <Text style={{ fontSize: 13, color: "#708999" }}>
-                {selectedQuestion.creation_date}{" "}
-              </Text>
-              <Text
-                style={{
-                  fontSize: 13,
-                  color: "#001b3a",
-                  fontWeight: "bold",
-                }}
-              >
-                by {selectedQuestion.owner}
-              </Text>
+              <Text style={styles.date}>{selectedQuestion.creation_date} </Text>
+              <Text style={styles.owner}>by {selectedQuestion.owner}</Text>
             </Text>
           </View>
           {selectedQuestion.tags && (
             <ScrollView>
               <View style={{ flexDirection: "row" }}>
                 {selectedQuestion.tags.map((tag) => (
-                  <Text key={tag} style={{ marginRight: 10, color: "#3792cb" }}>
+                  <Text key={tag} style={styles.tag}>
                     #{tag}
                   </Text>
                 ))}
@@ -170,16 +135,7 @@ const NewQuestionDetailScreen = (props) => {
           />
         </View>
 
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            backgroundColor: null,
-            paddingVertical: SCREEN_HEIGHT / 40,
-            paddingHorizontal: SCREEN_WIDTH / 20,
-          }}
-        >
+        <View style={styles.questionStatus}>
           <View
             style={{
               flexDirection: "row",
@@ -187,14 +143,7 @@ const NewQuestionDetailScreen = (props) => {
               backgroundColor: "white",
             }}
           >
-            <TouchableOpacity
-              onPress={upvoteHandler}
-              style={{
-                flexDirection: "row",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
+            <TouchableOpacity onPress={upvoteHandler} style={styles.iconStyle}>
               <MaterialCommunityIcons
                 color={selectedQuestion.user_upvoted ? "#07bc0d" : "#708999"}
                 name="arrow-up-bold-circle"
@@ -211,12 +160,12 @@ const NewQuestionDetailScreen = (props) => {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={downvoteHandler}
-              style={{
-                flexDirection: "row",
-                justifyContent: "center",
-                alignItems: "center",
-                paddingHorizontal: SCREEN_WIDTH / 20,
-              }}
+              style={[
+                styles.iconStyle,
+                {
+                  paddingHorizontal: SCREEN_WIDTH / 20,
+                },
+              ]}
             >
               <MaterialCommunityIcons
                 color={selectedQuestion.user_downvoted ? "#ff4848" : "#708999"}
@@ -244,11 +193,7 @@ const NewQuestionDetailScreen = (props) => {
                   body: selectedQuestion.body,
                 })
               }
-              style={{
-                flexDirection: "row",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
+              style={styles.iconStyle}
             >
               <MaterialCommunityIcons
                 name="pencil-outline"
@@ -352,25 +297,18 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
-  title: {
-    fontSize: 17,
-    color: "black",
+  title: { fontSize: 17, color: "#001b3a" },
+  date: { fontSize: 13, color: "#708999" },
+  owner: {
+    fontSize: 13,
+    color: "#001b3a",
+    fontWeight: "bold",
   },
-  body: {
-    fontFamily: "nunito-regular",
-  },
-  tag: {
-    fontFamily: "nunito-regular",
-    fontSize: 15,
-    color: "#3895d3",
-  },
+  tag: { marginRight: 10, color: "#3792cb" },
   center: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-  },
-  judge: {
-    paddingHorizontal: 10,
   },
   fab: {
     flex: 1,
@@ -390,6 +328,30 @@ const styles = StyleSheet.create({
   fabIcon: {
     fontSize: 40,
     color: "white",
+  },
+  headerContainer: {
+    // paddingVertical: 20,
+    backgroundColor: "white",
+    borderBottomWidth: SCREEN_WIDTH / 20,
+    borderBottomColor: "#f1f4f9",
+  },
+  questionDetailContainer: {
+    paddingHorizontal: SCREEN_WIDTH / 20,
+    paddingTop: 20,
+    backgroundColor: "white",
+  },
+  questionStatus: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: null,
+    paddingVertical: SCREEN_HEIGHT / 40,
+    paddingHorizontal: SCREEN_WIDTH / 20,
+  },
+  iconStyle: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 

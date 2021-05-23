@@ -6,12 +6,10 @@ import {
   StyleSheet,
   ActivityIndicator,
   Button,
-  TouchableNativeFeedback,
-  TouchableOpacity,
   Dimensions,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
-import { AntDesign, FontAwesome, MaterialIcons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 
 import QuestionItem from "../../components/pocketstack/QuestionItem";
 import * as questionsActions from "../../store/actions/question";
@@ -32,24 +30,6 @@ const HomeScreen = (props) => {
   const questions = useSelector((state) => state.questions.availableQuestions);
 
   const dispatch = useDispatch();
-
-  // const renderFilterQuestions = useCallback(
-  //   async (filterText) => {
-  //     setError(null);
-  //     setIsRefreshing(true);
-  //     try {
-  //       await dispatch(questionsActions.filterQuestionList(filterText));
-  //     } catch (err) {
-  //       setError(err.message);
-  //     }
-  //     setIsRefreshing(false);
-  //   },
-  //   [dispatch, setIsRefreshing, setError]
-  // );
-
-  // useEffect(() => {
-  //   renderFilterQuestions();
-  // }, [dispatch, renderFilterQuestions]);
 
   const loadQuestions = useCallback(async () => {
     setError(null);
