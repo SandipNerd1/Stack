@@ -179,6 +179,7 @@ const HomeScreen = (props) => {
           data={questions}
           renderItem={renderQuestions}
           showsVerticalScrollIndicator={false}
+          ListFooterComponent={() => <View style={{ height: 200 }} />}
         />
       </View>
     );

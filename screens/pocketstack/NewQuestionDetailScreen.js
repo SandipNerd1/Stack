@@ -9,10 +9,19 @@ import {
   FlatList,
   TouchableNativeFeedback,
   Dimensions,
+  ScrollView,
+  LogBox,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
-import { AntDesign, FontAwesome } from "@expo/vector-icons";
+import {
+  AntDesign,
+  FontAwesome,
+  Ionicons,
+  MaterialCommunityIcons,
+  Feather,
+  MaterialIcons,
+} from "@expo/vector-icons";
 import Html from "react-native-render-html";
 
 import * as questionsActions from "../../store/actions/question";
@@ -21,6 +30,10 @@ import HeaderButton from "../../components/UI/HeaderButton";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
+
+LogBox.ignoreLogs([
+  "react-native-render-html, Please provide the source.html or source.uri prop.",
+]);
 
 const NewQuestionDetailScreen = (props) => {
   const { questionId, title } = props.route.params;
@@ -103,36 +116,49 @@ const NewQuestionDetailScreen = (props) => {
     return (
       <View
         style={{
-          borderRadius: 10,
-          paddingVertical: 20,
+          // paddingVertical: 20,
           backgroundColor: "white",
+          borderBottomWidth: SCREEN_WIDTH / 20,
+          borderBottomColor: "#f1f4f9",
         }}
       >
-        <View style={{ paddingHorizontal: SCREEN_WIDTH / 20 }}>
-          <Text style={{ fontSize: 17, fontWeight: "bold", color: "#001b3a" }}>
+        <View
+          style={{
+            paddingHorizontal: SCREEN_WIDTH / 20,
+            paddingTop: 20,
+            backgroundColor: "white",
+          }}
+        >
+          <Text style={{ fontSize: 17, color: "#001b3a" }}>
             {selectedQuestion.title}
           </Text>
           <View style={styles.row}>
             <Text>
-              <Text style={{ fontSize: 13 }}>
+              <Text style={{ fontSize: 13, color: "#708999" }}>
                 {selectedQuestion.creation_date}{" "}
               </Text>
-              <Text style={{ fontSize: 13 }}>by {selectedQuestion.owner}</Text>
+              <Text
+                style={{
+                  fontSize: 13,
+                  color: "#001b3a",
+                  fontWeight: "bold",
+                }}
+              >
+                by {selectedQuestion.owner}
+              </Text>
             </Text>
-            <TouchableOpacity
-              onPress={() =>
-                props.navigation.navigate("Edit Question", {
-                  qid: questionId,
-                  title: selectedQuestion.title,
-                  body: selectedQuestion.body,
-                })
-              }
-              style={{ marginHorizontal: SCREEN_WIDTH / 40 }}
-            >
-              <AntDesign name="edit" size={20} color="#001b3a" />
-            </TouchableOpacity>
           </View>
-
+          {selectedQuestion.tags && (
+            <ScrollView>
+              <View style={{ flexDirection: "row" }}>
+                {selectedQuestion.tags.map((tag) => (
+                  <Text key={tag} style={{ marginRight: 10, color: "#3792cb" }}>
+                    #{tag}
+                  </Text>
+                ))}
+              </View>
+            </ScrollView>
+          )}
           <Html
             source={{ html: selectedQuestion.body }}
             tagsStyles={{
@@ -149,39 +175,92 @@ const NewQuestionDetailScreen = (props) => {
             flexDirection: "row",
             justifyContent: "space-between",
             alignItems: "center",
-            marginVertical: SCREEN_HEIGHT / 40,
+            backgroundColor: null,
+            paddingVertical: SCREEN_HEIGHT / 40,
             paddingHorizontal: SCREEN_WIDTH / 20,
           }}
         >
-          <View style={{ flexDirection: "row" }}>
-            <FontAwesome
-              color={selectedQuestion.user_upvoted ? "green" : "red"}
-              name="thumbs-o-up"
-              onPress={upvoteHandler}
-              size={20}
-            />
-            <FontAwesome
-              color={selectedQuestion.user_downvoted ? "green" : "red"}
-              name="thumbs-o-down"
-              onPress={downvoteHandler}
-              size={20}
-              style={{ marginHorizontal: SCREEN_WIDTH / 20 }}
-            />
-          </View>
-        </View>
-        {/* <View>
-          <TouchableOpacity
-            onPress={() =>
-              props.navigation.navigate("Edit Question", {
-                qid: questionId,
-                title: selectedQuestion.title,
-                body: selectedQuestion.body,
-              })
-            }
+          <View
+            style={{
+              flexDirection: "row",
+              // marginHorizontal: SCREEN_WIDTH / 40,
+              backgroundColor: "white",
+            }}
           >
-            <Text>edit</Text>
-          </TouchableOpacity>
-        </View> */}
+            <TouchableOpacity
+              onPress={upvoteHandler}
+              style={{
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <MaterialCommunityIcons
+                color={selectedQuestion.user_upvoted ? "#07bc0d" : "#708999"}
+                name="arrow-up-bold-circle"
+                size={20}
+              />
+              <Text
+                style={{
+                  color: selectedQuestion.user_upvoted ? "#07bc0d" : "#708999",
+                  paddingHorizontal: 5,
+                }}
+              >
+                upvote
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={downvoteHandler}
+              style={{
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+                paddingHorizontal: SCREEN_WIDTH / 20,
+              }}
+            >
+              <MaterialCommunityIcons
+                color={selectedQuestion.user_downvoted ? "#ff4848" : "#708999"}
+                name="arrow-down-bold-circle"
+                size={20}
+              />
+              <Text
+                style={{
+                  color: selectedQuestion.user_downvoted
+                    ? "#ff4848"
+                    : "#708999",
+                  paddingHorizontal: 5,
+                }}
+              >
+                downvote
+              </Text>
+            </TouchableOpacity>
+          </View>
+          {selectedQuestion.owner === "sandip" && (
+            <TouchableOpacity
+              onPress={() =>
+                props.navigation.navigate("Edit Question", {
+                  qid: questionId,
+                  title: selectedQuestion.title,
+                  body: selectedQuestion.body,
+                })
+              }
+              style={{
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <MaterialCommunityIcons
+                name="pencil-outline"
+                size={20}
+                color="#708999"
+              />
+              <Text style={{ color: "#708999", paddingHorizontal: 5 }}>
+                Edit
+              </Text>
+            </TouchableOpacity>
+          )}
+        </View>
       </View>
     );
   };
@@ -197,7 +276,7 @@ const NewQuestionDetailScreen = (props) => {
   };
 
   const renderFooter = () => {
-    return <View style={{ height: 100 }} />;
+    return <View style={{ height: 100, backgroundColor: "white" }} />;
   };
 
   // Conditional Rendering
@@ -226,7 +305,7 @@ const NewQuestionDetailScreen = (props) => {
     <View
       style={{
         flex: 1,
-        backgroundColor: "white",
+        backgroundColor: "*",
       }}
     >
       <FlatList
@@ -237,7 +316,7 @@ const NewQuestionDetailScreen = (props) => {
         ListFooterComponent={renderFooter}
         ListEmptyComponent={renderEmptyAnswers}
         showsVerticalScrollIndicator={false}
-        style={{ backgroundColor: "#f1f4f9" }}
+        style={{ backgroundColor: "white", height: "100%" }}
       />
       <TouchableOpacity
         activeOpacity={0.8}
@@ -261,7 +340,8 @@ export const screenOptions = (navData) => {
     headerTitle: "View Questions",
     headerStyle: {
       backgroundColor: "white",
-      elevation: 3,
+      elevation: 0,
+      borderBottomWidth: 1,
     },
     headerTitleAlign: "center",
   };
@@ -273,7 +353,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   title: {
-    fontFamily: "nunito-bold",
     fontSize: 17,
     color: "black",
   },

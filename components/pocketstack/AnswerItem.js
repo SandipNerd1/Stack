@@ -1,8 +1,22 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Dimensions,
+} from "react-native";
 import Html from "react-native-render-html";
 
-import { FontAwesome, AntDesign, Feather } from "@expo/vector-icons";
+import {
+  FontAwesome,
+  AntDesign,
+  Feather,
+  MaterialCommunityIcons,
+} from "@expo/vector-icons";
+
+const SCREEN_HEIGHT = Dimensions.get("window").height;
+const SCREEN_WIDTH = Dimensions.get("window").width;
 
 const AnswerItem = (props) => {
   return (
@@ -13,7 +27,12 @@ const AnswerItem = (props) => {
           <Text style={styles.date}>{props.date}</Text>
           {props.owner === "sandip" && (
             <TouchableOpacity onPress={props.goToDetail}>
-              <AntDesign name="edit" size={20} color="#001b3a" />
+              <MaterialCommunityIcons
+                name="pencil-outline"
+                size={20}
+                // color="#001b3a"
+                color="#708999"
+              />
             </TouchableOpacity>
           )}
         </View>
@@ -52,14 +71,16 @@ const AnswerItem = (props) => {
 
 const styles = StyleSheet.create({
   card: {
-    paddingVertical: 20,
-    paddingHorizontal: 20,
+    paddingVertical: SCREEN_HEIGHT / 40,
+    paddingHorizontal: SCREEN_WIDTH / 20,
     borderRadius: 10,
-    backgroundColor: "#f1f4f9",
+    // backgroundColor: "#f1f4f9",
+    backgroundColor: "white",
   },
   row: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "center",
     paddingVertical: 5,
   },
   space: {
@@ -67,13 +88,13 @@ const styles = StyleSheet.create({
   },
   owner: {
     fontWeight: "bold",
-    fontSize: 17,
+    fontSize: 15,
     color: "#001b3a",
   },
   date: {
     fontSize: 13,
-    color: "#888",
-    marginHorizontal: 8,
+    color: "#708999",
+    marginHorizontal: SCREEN_WIDTH / 40,
   },
 });
 

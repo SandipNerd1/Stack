@@ -53,8 +53,8 @@ export default function App() {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        {/* <RootStackNavigator /> */}
-        <NewSignUpScreen />
+        <RootStackNavigator />
+        {/* <NewSignUpScreen /> */}
       </NavigationContainer>
     </Provider>
   );
