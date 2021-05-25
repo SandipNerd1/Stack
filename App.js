@@ -13,9 +13,9 @@ import userReducer from "./store/reducers/signin";
 import RootStackNavigator from "./navigation/RootNavigator";
 // import AppNavigator from "./navigation/AppNavigator";
 // import TestScreen from "./screens/pocketstack/TestScreen";
-import RichTextEditor from "./components/pocketstack/RichTextEditor";
-import NewSignUpScreen from "./screens/user/NewSignUpScreen";
-import NewSignInScreen from "./screens/user/NewSignInScreen";
+// import RichTextEditor from "./components/pocketstack/RichTextEditor";
+// import NewSignUpScreen from "./screens/user/NewSignUpScreen";
+// import NewSignInScreen from "./screens/user/NewSignInScreen";
 
 enableScreens();
 
@@ -55,6 +55,7 @@ export default function App() {
       <NavigationContainer>
         <RootStackNavigator />
         {/* <NewSignUpScreen /> */}
+        {/* <NewSignInScreen /> */}
       </NavigationContainer>
     </Provider>
   );

@@ -13,7 +13,7 @@ export const getUserProfile = () => async (dispatch) => {
     }
 
     const resData = await response.data;
-    console.log(resData);
+    // console.log(resData);
 
     dispatch({ type: GET_USER_PROFILE_STATE, profileData: resData });
   } catch (error) {

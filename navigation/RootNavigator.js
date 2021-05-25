@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as SecureStore from 'expo-secure-store';
 
 import { autoLogin } from '../store/actions/signin';
 import { autoSocialLogin } from '../store/actions/signup';
+
 import AuthenticateScreen from '../screens/user/Authenticate';
 import BottomTabNavigator from './AppNavigator';
+import NewSignInScreen from '../screens/user/NewSignInScreen';
+import NewSignUpScreen from '../screens/user/NewSignUpScreen';
+import StartupScreen from '../screens/StartupScreen';
 
 
 const RootStack = createStackNavigator();
@@ -16,11 +19,12 @@ const RootStack = createStackNavigator();
 export default function RootStackNavigator() {
     const isAuthenticated = useSelector(state => state.userStatus.isLoggedIn);
     const dispatch = useDispatch();
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
+    console.log("initial loading", loading);
 
     useEffect(() => {
         async function checkToken() {
-            setLoading(true);
+            console.log("inside useeffect", loading);
             try {
                 const session = await SecureStore.getItemAsync('userData');
                 const sessionData = JSON.parse(session);
@@ -44,11 +48,7 @@ export default function RootStackNavigator() {
     }, [])
 
     if (loading) {
-        return (
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                <ActivityIndicator size="large" color="#43516c" />
-            </View>
-        )
+        return <StartupScreen />
     }
 
     return (
@@ -63,10 +63,20 @@ export default function RootStackNavigator() {
                     component={BottomTabNavigator}
                 />
             ) : (
-                <RootStack.Screen
-                    name="Authenticate"
-                    component={AuthenticateScreen}
-                />
+                <>
+                    <RootStack.Screen
+                        name="Sign In"
+                        component={NewSignInScreen}
+                    />
+                    <RootStack.Screen
+                        name="Sign Up"
+                        component={NewSignUpScreen}
+                    />
+                    <RootStack.Screen
+                        name="Startup"
+                        component={StartupScreen}
+                    />
+                </>
             )}
         </RootStack.Navigator>
     );

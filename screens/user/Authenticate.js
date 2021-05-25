@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Alert,
@@ -60,6 +60,12 @@ const AuthenticateScreen = (props) => {
   const [showSignIn, setShowSignIn] = useState(false);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    return () => {
+      setLoading(false);
+    }
+  }, [])
 
   if (loading) {
     return (
@@ -237,10 +243,12 @@ const AuthenticateScreen = (props) => {
                     try {
                       await dispatch(googleSignUp());
                     } catch (error) {
-                      console.log(error);
+                      Alert.alert("Google Login Failed");
                     }
-                    // setShowSignIn(false);
-                    setLoading(false);
+                    setShowSignIn(false);
+                    setTimeout(() => {
+                      setLoading(false);
+                    }, 8000);
                   }}
                   light
                 />
@@ -248,8 +256,15 @@ const AuthenticateScreen = (props) => {
               <View style={styles.otherSignInContainer}>
                 <SocialIcon
                   type="facebook"
-                  onPress={() => {
-                    dispatch(facebookSignUp());
+                  onPress={async () => {
+                    setLoading(true);
+                    try {
+                      await dispatch(facebookSignUp());
+                    } catch (error) {
+                      Alert.alert("Facebook Login Failed");
+                    }
+                    setShowSignIn(false);
+                    setLoading(false);
                   }}
                   light
                 />

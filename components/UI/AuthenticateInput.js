@@ -7,10 +7,19 @@ const SCREEN_WIDTH = Dimensions.get("window").width;
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 
 const AuthenticateInput = (props) => {
+  const {
+    field: { name, onBlur, onChange, value },
+    form: { errors, touched, setFieldTouched },
+    ...inputProps
+  } = props;
+
+  const hasError = errors[name] && touched[name];
+
+
   return (
     <View style={styles.form}>
       <Text style={styles.label}>{props.title}</Text>
-      <View style={styles.inputContainer}>
+      <View style={[styles.inputContainer, hasError && styles.errorInput]}>
         <MaterialIcons
           name={props.iconName}
           style={{ width: "10%", textAlign: "center" }}
@@ -19,10 +28,17 @@ const AuthenticateInput = (props) => {
         />
         <TextInput
           style={styles.input}
-          {...props}
+          value={value}
+          onChangeText={(text) => onChange(name)(text)}
+          onBlur={() => {
+            setFieldTouched(name)
+            onBlur(name)
+          }}
+          {...inputProps}
           placeholderTextColor="#ccc"
         />
       </View>
+      {hasError && <Text style={styles.errorText}>{errors[name]}</Text>}
     </View>
   );
 };
@@ -41,6 +57,15 @@ const styles = StyleSheet.create({
     width: "90%",
     paddingVertical: 7,
     paddingHorizontal: 3,
+  },
+  errorInput: {
+    borderColor: 'red',
+  },
+  errorText: {
+    marginVertical: 5,
+    marginHorizontal: 5,
+    fontSize: 10,
+    color: 'red',
   },
   label: {
     marginVertical: 3,
