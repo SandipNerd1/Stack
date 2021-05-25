@@ -19,7 +19,7 @@ const AuthenticateInput = (props) => {
   return (
     <View style={styles.form}>
       <Text style={styles.label}>{props.title}</Text>
-      <View style={styles.inputContainer}>
+      <View style={[styles.inputContainer, hasError && styles.errorInput]}>
         <MaterialIcons
           name={props.iconName}
           style={{ width: "10%", textAlign: "center" }}
@@ -27,7 +27,7 @@ const AuthenticateInput = (props) => {
           color="#888"
         />
         <TextInput
-          style={[styles.input, hasError && styles.errorInput]}
+          style={styles.input}
           value={value}
           onChangeText={(text) => onChange(name)(text)}
           onBlur={() => {
