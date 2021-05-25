@@ -21,9 +21,7 @@ import AnswerItem from "../../components/pocketstack/AnswerItem";
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
-LogBox.ignoreLogs([
-  "react-native-render-html, Please provide the source.html or source.uri prop.",
-]);
+LogBox.ignoreAllLogs();
 
 const NewQuestionDetailScreen = (props) => {
   const { questionId, title } = props.route.params;

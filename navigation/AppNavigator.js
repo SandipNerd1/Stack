@@ -168,11 +168,14 @@ const ProfileStackNavigator = () => {
       }}
     >
       <ProfileStack.Screen
-        name="Profile"
+        name="Your Profile"
         component={UserProfileScreen}
         options={userProfileScreenOptions}
       />
-      <ProfileStack.Screen name="Edit" component={EditProfileScreen} />
+      <ProfileStack.Screen
+        name="Edit information"
+        component={EditProfileScreen}
+      />
     </ProfileStack.Navigator>
   );
 };

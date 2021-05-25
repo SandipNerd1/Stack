@@ -6,14 +6,19 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
+  TouchableNativeFeedback,
+  Dimensions,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { AntDesign } from "@expo/vector-icons";
+import { AntDesign, Ionicons } from "@expo/vector-icons";
 
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import HeaderButton from "../../components/UI/HeaderButton";
 import { logout } from "../../store/actions/signin";
 import { getUserProfile } from "../../store/actions/user";
+
+const SCREEN_WIDTH = Dimensions.get("window").width;
+const SCREEN_HEIGHT = Dimensions.get("window").height;
 
 const UserProfileScreen = (props) => {
   const dispatch = useDispatch();
@@ -28,7 +33,17 @@ const UserProfileScreen = (props) => {
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.screen}>
         <View style={styles.headerContainer}>
-          <View style={{ width: 150, height: 150 }}>
+          <View
+            style={{
+              width: 100,
+              height: 100,
+              borderWidth: 3,
+              borderColor: "white",
+              borderRadius: 75,
+              overflow: "hidden",
+              elevation: 10,
+            }}
+          >
             <Image
               source={{
                 uri:
@@ -38,47 +53,80 @@ const UserProfileScreen = (props) => {
                     ? socialProfileData.photoUrl
                     : "https://widgetwhats.com/app/uploads/2019/11/free-profile-photo-whatsapp-4.png",
               }}
-              style={{ width: "100%", height: "100%", borderRadius: 75 }}
+              style={{
+                width: "100%",
+                height: "100%",
+                borderRadius: 75,
+              }}
             />
           </View>
-          <View style={{ alignItems: "center", marginVertical: 10 }}>
+          <View
+            style={{ alignItems: "center", marginVertical: SCREEN_HEIGHT / 40 }}
+          >
             <Text
               style={{ fontWeight: "bold", fontSize: 23, color: "#001b3a" }}
             >
               {userProfileData.first_name} {userProfileData.last_name}
             </Text>
-            <Text style={{ textAlign: "center" }}>
+            <Text
+              style={{ textAlign: "center", color: "#708999", fontSize: 16 }}
+            >
               {userProfileData.about_me}
             </Text>
           </View>
         </View>
-        <View style={{ padding: 20 }}>
-          <Text style={{ fontWeight: "bold", fontSize: 18, color: "#001b3a" }}>
-            Profile details
-          </Text>
+        <View
+          style={{
+            backgroundColor: "white",
+            paddingHorizontal: SCREEN_WIDTH / 20,
+            // elevation: 3,
+            // borderRadius: 10,
+          }}
+        >
           <View style={styles.details}>
-            <Text style={styles.detailHeader}>Username</Text>
-            <Text>{userProfileData.username}</Text>
+            <Text style={styles.detailHeader}>NAME</Text>
+            <Text style={styles.text}>
+              {userProfileData.first_name} {userProfileData.last_name}
+            </Text>
           </View>
           <View style={styles.details}>
-            <Text style={styles.detailHeader}>First Name</Text>
-            <Text>{userProfileData.first_name}</Text>
+            <Text style={styles.detailHeader}>USERNAME</Text>
+            <Text style={styles.text}>{userProfileData.username}</Text>
           </View>
           <View style={styles.details}>
+            <Text style={styles.detailHeader}>E-MAIL ID</Text>
+            <Text style={styles.text}>{userProfileData.email}</Text>
+          </View>
+          {/* <View style={styles.details}>
             <Text style={styles.detailHeader}>Last Name</Text>
-            <Text>{userProfileData.last_name}</Text>
+            <Text style={styles.text}>{userProfileData.last_name}</Text>
+          </View> */}
+          <View style={styles.details}>
+            <Text style={styles.detailHeader}>LOCATION</Text>
+            <Text style={styles.text}>
+              {userProfileData.location
+                ? userProfileData.location
+                : "Not provided"}
+            </Text>
           </View>
           <View style={styles.details}>
-            <Text style={styles.detailHeader}>Location</Text>
-            <Text>{userProfileData.location}</Text>
-          </View>
-          <View style={styles.details}>
-            <Text style={styles.detailHeader}>Website URL</Text>
-            <Text>{userProfileData.website_url}</Text>
+            <Text style={styles.detailHeader}>WEBSITE URL</Text>
+            <Text style={styles.text}>{userProfileData.website_url}</Text>
           </View>
         </View>
-        <View style={{ paddingHorizontal: 20 }}>
-          <Text style={{ fontSize: 18, fontWeight: "bold" }}>Account</Text>
+
+        <View
+          style={{
+            flex: 1,
+            flexDirection: "row",
+            paddingHorizontal: SCREEN_WIDTH / 20,
+            paddingBottom: SCREEN_HEIGHT / 20,
+            backgroundColor: "white",
+            justifyContent: "center",
+            alignItems: "center",
+            overflow: "hidden",
+          }}
+        >
           <TouchableOpacity
             style={styles.logoutButton}
             onPress={async () => {
@@ -89,8 +137,10 @@ const UserProfileScreen = (props) => {
               }
             }}
           >
-            <AntDesign name="logout" size={20} />
-            <Text style={{ paddingHorizontal: 10 }}>Logout</Text>
+            <AntDesign name="logout" size={20} color="white" />
+            <Text style={{ paddingHorizontal: 10, color: "white" }}>
+              Logout
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -100,14 +150,21 @@ const UserProfileScreen = (props) => {
 
 export const screenOptions = (props) => {
   return {
+    headerStyle: {
+      elevation: 0,
+      backgroundColor: "white",
+    },
     headerTitleAlign: "center",
+    headerTitleStyle: {
+      fontSize: 20,
+    },
     headerRight: () => (
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
         <Item
           title="Edit"
-          iconName="md-pencil"
-          buttonStyle={{ fontSize: 30 }}
-          onPress={() => props.navigation.navigate("Edit")}
+          iconName="ios-pencil-sharp"
+          buttonStyle={{ fontSize: 25 }}
+          onPress={() => props.navigation.navigate("Edit information")}
         />
       </HeaderButtons>
     ),
@@ -117,29 +174,51 @@ export const screenOptions = (props) => {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: "#f1f4f9",
+    // backgroundColor: "white",
   },
   headerContainer: {
     alignItems: "center",
-    paddingHorizontal: 30,
-    paddingVertical: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
+    paddingHorizontal: SCREEN_WIDTH / 10,
+    paddingVertical: SCREEN_HEIGHT / 40,
+    backgroundColor: "white",
   },
   details: {
-    paddingVertical: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
+    // borderBottomWidth: 1,
+    // borderBottomColor: "#ccc",
+    marginBottom: 40,
+    backgroundColor: "white",
+    paddingHorizontal: SCREEN_WIDTH / 40,
   },
   detailHeader: {
-    fontWeight: "bold",
-    fontSize: 15,
-    color: "#001b3a",
+    fontSize: 13,
+    color: "#708999",
+    width: "30%",
+    backgroundColor: "white",
+    zIndex: 100,
+    marginHorizontal: SCREEN_WIDTH / 20,
+    textAlign: "center",
   },
   logoutButton: {
-    paddingVertical: 20,
+    flex: 1,
+    paddingVertical: SCREEN_HEIGHT / 60,
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#ff4848",
+    marginHorizontal: SCREEN_WIDTH / 10,
+    borderRadius: 20,
+  },
+  text: {
+    color: "#001b3a",
+    fontWeight: "bold",
+    paddingVertical: 15,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 20,
+    paddingHorizontal: SCREEN_WIDTH / 20,
+    marginTop: -SCREEN_HEIGHT / 60,
+    fontSize: 15,
   },
 });
 
