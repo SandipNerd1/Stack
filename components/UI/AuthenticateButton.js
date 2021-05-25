@@ -5,7 +5,7 @@ import { FontAwesome5 } from "@expo/vector-icons";
 
 const AuthenticateButton = (props) => {
   return (
-    <TouchableNativeFeedback>
+    <TouchableNativeFeedback onPress={props.onSocialButtonPress}>
       <View
         style={
           props.iconName === "google"

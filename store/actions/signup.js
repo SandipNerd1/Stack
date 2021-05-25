@@ -1,3 +1,4 @@
+import { Alert } from 'react-native';
 import * as Facebook from 'expo-facebook';
 import * as Google from 'expo-google-app-auth';
 
@@ -31,6 +32,7 @@ export const register = ({ username, email, password, confirmPassword }) => asyn
 
     const resData = await response.data;
     console.log("Account created", resData);
+    Alert.alert("Account created successfully", resData.detail);
   } catch (error) {
     throw error;
   }
@@ -72,7 +74,9 @@ export const facebookSignUp = () => async (dispatch) => {
             type: SET_LOGIN_STATE,
             userToken: resData.key,
           });
-        } catch (e) { throw e; }
+        } catch (error) {
+          Alert.alert("Facebook Login Failed", error.response.data.non_field_errors[0]);
+        }
       }
       createFBUser();
 
@@ -110,16 +114,16 @@ export const googleSignUp = () => async (dispatch) => {
     const result = await Google.logInAsync(config);
 
     if (result.type === 'success') {
-      console.log("inside success", result);
+      // console.log("inside success", result);
       async function createGoogleUser() {
         try {
-          console.log("inside createGoogleUser")
+          // console.log("inside createGoogleUser")
           const response = await axiosInstance.post('/auth/social/google/', {
             access_token: result.accessToken
           });
 
           const resData = await response.data;
-          console.log("resData: ", resData)
+          // console.log("resData: ", resData)
 
           const secureStorageData = { userToken: resData.key };
           setLoginLocal(secureStorageData);
@@ -130,11 +134,13 @@ export const googleSignUp = () => async (dispatch) => {
             type: SET_LOGIN_STATE,
             userToken: resData.key,
           });
-        } catch (e) { throw e; }
+        } catch (error) {
+          Alert.alert("Google Login Failed", error.response.data.non_field_errors[0]);
+        }
       }
       createGoogleUser();
 
-      console.log("setting google user data");
+      // console.log("setting google user data");
       const secureStorageSocialData = { socialData: result.user };
       setSocialLoginLocal(secureStorageSocialData);
 

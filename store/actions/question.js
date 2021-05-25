@@ -30,7 +30,6 @@ export const fetchQuestions = () => {
       }
 
       const resData = await response.data;
-      console.log(resData);
       dispatch({ type: SET_QUESTIONS, questions: resData });
     } catch (err) {
       throw err;

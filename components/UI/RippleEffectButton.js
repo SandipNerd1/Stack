@@ -12,7 +12,10 @@ const SCREEN_HEIGHT = Dimensions.get("window").height;
 
 const RippleEffectButton = (props) => {
   return (
-    <TouchableNativeFeedback>
+    <TouchableNativeFeedback
+      disabled={props.disabled}
+      onPress={props.onButtonPress}
+    >
       <View style={styles.button}>
         <Text style={{ color: "white", fontWeight: "bold" }}>
           {props.title}
