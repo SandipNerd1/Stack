@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, TouchableNativeFeedback, StyleSheet } from "react-native";
+import { Image, View, Text, TouchableNativeFeedback, StyleSheet } from "react-native";
 
 import { FontAwesome5 } from "@expo/vector-icons";
 
@@ -14,11 +14,18 @@ const AuthenticateButton = (props) => {
         }
       >
         <View style={styles.icon}>
-          <FontAwesome5
-            name={props.iconName}
-            size={20}
-            color={props.iconName === "google" ? "black" : "white"}
-          />
+          {props.iconName === 'google' ? (
+            <Image
+              source={require('../../assets/logo/icons8-google-48.png')}
+              style={styles.logo}
+            />
+          ) : (
+            <FontAwesome5
+              name={props.iconName}
+              size={20}
+              color="white"
+            />
+          )}
         </View>
 
         <Text
@@ -62,6 +69,10 @@ const styles = StyleSheet.create({
     height: "100%",
     borderRightColor: "#ccc",
     borderRightWidth: 1,
+  },
+  logo: {
+    width: 25,
+    height: 25,
   },
 });
 

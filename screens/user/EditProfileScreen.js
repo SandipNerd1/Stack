@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
+  Alert,
+  ActivityIndicator,
   View,
   Text,
   StyleSheet,
@@ -22,6 +24,7 @@ const EditProfileScreen = ({ navigation }) => {
   const userProfileData = useSelector((state) => state.userStatus.profileData);
   const socialProfileData = useSelector((state) => state.userStatus.socialData);
 
+  const [loading, setLoading] = useState(false);
   const [username, setUsername] = useState(userProfileData.username);
   const [firstName, setFirstName] = useState(userProfileData.first_name);
   const [lastName, setLastName] = useState(userProfileData.last_name);
@@ -29,6 +32,23 @@ const EditProfileScreen = ({ navigation }) => {
   const [aboutMe, setAboutMe] = useState(userProfileData.about_me);
   const [location, setLocation] = useState(userProfileData.location);
   const [websiteUrl, setWebsiteUrl] = useState(userProfileData.website_url);
+  const [isFocused, setIsFocused] = useState({
+    user: false,
+    first: false,
+    last: false,
+    emid: false,
+    about: false,
+    loc: false,
+    website: false,
+  })
+
+  const handleInputFocus = (textinput) => {
+    setIsFocused({ [textinput]: true });
+  }
+
+  const handleInputBlur = (textinput) => {
+    setIsFocused({ [textinput]: false });
+  }
 
   // useEffect(() => {
   //   props.navigation.setParams({
@@ -57,6 +77,7 @@ const EditProfileScreen = ({ navigation }) => {
             iconName="md-save"
             buttonStyle={{ fontSize: 30 }}
             onPress={async () => {
+              setLoading(true);
               try {
                 await dispatch(
                   updateUserProfile({
@@ -70,9 +91,14 @@ const EditProfileScreen = ({ navigation }) => {
                   })
                 );
                 navigation.navigate("Your Profile");
-              } catch (e) {
-                console.log(e);
+              } catch (error) {
+                if (error.response.data.website_url) {
+                  Alert.alert("Profile update failed", error.response.data.website_url[0]);
+                } else if (error.response.data.username) {
+                  Alert.alert("Profile update failed", error.response.data.username[0]);
+                }
               }
+              setLoading(false);
             }}
           />
         </HeaderButtons>
@@ -88,6 +114,14 @@ const EditProfileScreen = ({ navigation }) => {
     location,
     websiteUrl,
   ]);
+
+  if (loading) {
+    return (
+      <View style={styles.center}>
+        <ActivityIndicator size="large" color="#43516c" />
+      </View>
+    );
+  }
 
   return (
     <View style={styles.screen}>
@@ -110,8 +144,8 @@ const EditProfileScreen = ({ navigation }) => {
                   "picture" in socialProfileData
                     ? socialProfileData.picture.data.url
                     : "photoUrl" in socialProfileData
-                    ? socialProfileData.photoUrl
-                    : "https://widgetwhats.com/app/uploads/2019/11/free-profile-photo-whatsapp-4.png",
+                      ? socialProfileData.photoUrl
+                      : "https://widgetwhats.com/app/uploads/2019/11/free-profile-photo-whatsapp-4.png",
               }}
               style={{
                 width: "100%",
@@ -143,27 +177,33 @@ const EditProfileScreen = ({ navigation }) => {
           <View style={styles.details}>
             <Text style={styles.detailHeader}>USERNAME</Text>
             <TextInput
-              style={styles.input}
+              style={isFocused.user ? [styles.input, { borderColor: 'black' }] : styles.input}
               value={username}
               onChangeText={(userName) => setUsername(userName)}
+              onFocus={() => handleInputFocus('user')}
+              onBlur={() => handleInputBlur('user')}
               multiline
             />
           </View>
           <View style={styles.details}>
             <Text style={styles.detailHeader}>FIRST NAME</Text>
             <TextInput
-              style={styles.input}
+              style={isFocused.first ? [styles.input, { borderColor: 'black' }] : styles.input}
               value={firstName}
               onChangeText={(firstname) => setFirstName(firstname)}
+              onFocus={() => handleInputFocus('first')}
+              onBlur={() => handleInputBlur('first')}
               multiline
             />
           </View>
           <View style={styles.details}>
             <Text style={styles.detailHeader}>LAST NAME</Text>
             <TextInput
-              style={styles.input}
+              style={isFocused.last ? [styles.input, { borderColor: 'black' }] : styles.input}
               value={lastName}
               onChangeText={(lastname) => setLastName(lastname)}
+              onFocus={() => handleInputFocus('last')}
+              onBlur={() => handleInputBlur('last')}
               multiline
             />
           </View>
@@ -171,27 +211,33 @@ const EditProfileScreen = ({ navigation }) => {
           <View style={styles.details}>
             <Text style={styles.detailHeader}>ABOUT ME</Text>
             <TextInput
-              style={styles.input}
+              style={isFocused.about ? [styles.input, { borderColor: 'black' }] : styles.input}
               value={aboutMe}
               onChangeText={(about) => setAboutMe(about)}
+              onFocus={() => handleInputFocus('about')}
+              onBlur={() => handleInputBlur('about')}
               multiline
             />
           </View>
           <View style={styles.details}>
             <Text style={styles.detailHeader}>LOCATION</Text>
             <TextInput
-              style={styles.input}
+              style={isFocused.loc ? [styles.input, { borderColor: 'black' }] : styles.input}
               value={location}
               onChangeText={(loc) => setLocation(loc)}
+              onFocus={() => handleInputFocus('loc')}
+              onBlur={() => handleInputBlur('loc')}
               multiline
             />
           </View>
           <View style={styles.details}>
             <Text style={styles.detailHeader}>WEBSITE URL</Text>
             <TextInput
-              style={styles.input}
+              style={isFocused.website ? [styles.input, { borderColor: 'black' }] : styles.input}
               value={websiteUrl}
               onChangeText={(website) => setWebsiteUrl(website)}
+              onFocus={() => handleInputFocus('website')}
+              onBlur={() => handleInputBlur('website')}
               multiline
             />
           </View>
@@ -239,6 +285,11 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
     backgroundColor: "white",
+  },
+  center: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
   headerContainer: {
     alignItems: "center",
