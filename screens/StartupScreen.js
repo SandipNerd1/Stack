@@ -1,6 +1,6 @@
 import React from "react";
-import { View, ActivityIndicator, StyleSheet } from "react-native";
-import { BubblesLoader } from 'react-native-indicator';
+import { View, StyleSheet } from "react-native";
+// import { BubblesLoader } from 'react-native-indicator';
 import Spinner from 'react-native-loading-spinner-overlay';
 
 const StartupScreen = (props) => {
@@ -9,8 +9,8 @@ const StartupScreen = (props) => {
     <View style={styles.screen}>
       <Spinner
         animation="fade"
-        customIndicator={<BubblesLoader color="#ff4848" />}
-        overlayColor="white"
+        color="#ff4848"
+        size="large"
         visible={true}
       />
     </View>

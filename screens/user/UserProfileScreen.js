@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -17,6 +17,8 @@ import HeaderButton from "../../components/UI/HeaderButton";
 import { logout } from "../../store/actions/signin";
 import { getUserProfile } from "../../store/actions/user";
 
+import StartupScreen from '../StartupScreen';
+
 const SCREEN_WIDTH = Dimensions.get("window").width;
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 
@@ -25,9 +27,15 @@ const UserProfileScreen = (props) => {
   const userProfileData = useSelector((state) => state.userStatus.profileData);
   const socialProfileData = useSelector((state) => state.userStatus.socialData);
 
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     dispatch(getUserProfile());
   }, []);
+
+  if (loading) {
+    return <StartupScreen />
+  }
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
@@ -50,8 +58,8 @@ const UserProfileScreen = (props) => {
                   "picture" in socialProfileData
                     ? socialProfileData.picture.data.url
                     : "photoUrl" in socialProfileData
-                    ? socialProfileData.photoUrl
-                    : "https://widgetwhats.com/app/uploads/2019/11/free-profile-photo-whatsapp-4.png",
+                      ? socialProfileData.photoUrl
+                      : "https://widgetwhats.com/app/uploads/2019/11/free-profile-photo-whatsapp-4.png",
               }}
               style={{
                 width: "100%",
@@ -130,11 +138,13 @@ const UserProfileScreen = (props) => {
           <TouchableOpacity
             style={styles.logoutButton}
             onPress={async () => {
+              setLoading(true);
               try {
                 await dispatch(logout());
               } catch (e) {
                 console.log(e);
               }
+              setLoading(false);
             }}
           >
             <AntDesign name="logout" size={20} color="white" />
