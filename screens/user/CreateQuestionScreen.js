@@ -43,8 +43,6 @@ LogBox.ignoreLogs([
 const CreateQuestionScreen = (props) => {
   const _editor = useRef();
   const [disabled, setDisabled] = useState(false);
-  const [scrollEnabled, setScrollEnabled] = useState(true);
-  const [enablePushContent, setEnablePushContent] = useState(false);
   const [title, setTitle] = useState("");
 
   const [questionBody, setQuestionBody] = useState("");
@@ -59,6 +57,12 @@ const CreateQuestionScreen = (props) => {
   };
 
   const onSubmitHandler = useCallback(async () => {
+    if (title === "" || questionBody === "" || tags === "") {
+      Alert.alert("Wrong input!", "Please check the errors in the form.", [
+        { text: "Okay" },
+      ]);
+      return;
+    }
     try {
       setModalVisible(true);
       await dispatch(
@@ -153,7 +157,11 @@ const CreateQuestionScreen = (props) => {
                 onPress={onPress}
                 style={styles.tag}
               >
-                <Text style={{ color: "#708999" }}>{tag}</Text>
+                <Text
+                  style={{ color: "#708999", fontFamily: "AvertaStd-Regular" }}
+                >
+                  {tag}
+                </Text>
               </TouchableOpacity>
             )}
           />
@@ -204,6 +212,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: "white",
     color: "#708999",
+    fontFamily: "AvertaStd-Regular",
   },
   inputBody: {
     marginVertical: SCREEN_HEIGHT / 60,
@@ -212,6 +221,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 10,
     color: "#708999",
+    fontFamily: "AvertaStd-Regular",
     // borderColor: "#dfe9f1",
   },
   tag: {
@@ -232,7 +242,7 @@ const styles = StyleSheet.create({
   },
   inputIdentifierText: {
     color: "#708999",
-    fontWeight: "bold",
+    fontFamily: "AvertaStd-Semibold",
   },
 });
 

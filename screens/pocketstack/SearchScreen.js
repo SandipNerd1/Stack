@@ -97,7 +97,9 @@ const SearchScreen = (props) => {
       <View style={{ flex: 1, backgroundColor: "white" }}>
         {result}
         <View style={styles.center}>
-          <Text>An error occured</Text>
+          <Text style={{ fontFamily: "AvertaStd-Regular" }}>
+            An error occured
+          </Text>
           <Button
             title="Try again"
             onPress={renderSearchRequest}
@@ -126,7 +128,9 @@ const SearchScreen = (props) => {
           <Text style={styles.noResult}>
             Find solutions you are looking for
           </Text>
-          <Text>search by title or body</Text>
+          <Text style={{ fontFamily: "AvertaStd-Regular", color: "#708999" }}>
+            search by title or body
+          </Text>
         </View>
       </View>
     );
@@ -138,7 +142,9 @@ const SearchScreen = (props) => {
       {searchResults.length === 0 ? (
         <View style={styles.center}>
           <Text style={styles.noResult}>Couldn't find "{searchText}"</Text>
-          <Text>Try searching again with different keywords</Text>
+          <Text style={{ color: "#708999", fontFamily: "AvertaStd-Regular" }}>
+            Try searching again with different keywords
+          </Text>
         </View>
       ) : (
         <FlatList
@@ -156,6 +162,7 @@ export const screenOptions = () => {
   return {
     headerTitleStyle: {
       fontSize: 30,
+      fontFamily: "AvertaStd-Semibold",
     },
   };
 };
@@ -181,8 +188,8 @@ const styles = StyleSheet.create({
   },
   noResult: {
     fontSize: 20,
-    fontWeight: "bold",
-    color: "black",
+    fontFamily: "AvertaStd-Semibold",
+    color: "#001b3a",
     paddingHorizontal: SCREEN_WIDTH / 10,
     textAlign: "center",
   },

@@ -60,6 +60,9 @@ const HomeStackNavigator = ({ navigation, route }) => {
           elevation: 0,
         },
         headerTitleAlign: "center",
+        headerTitleStyle: {
+          fontFamily: "AvertaStd-Semibold",
+        },
         // gestureEnabled: false,
       }}
     >
@@ -163,6 +166,7 @@ const ProfileStackNavigator = () => {
         headerTintColor: "#001b3a",
         headerTitleStyle: {
           fontSize: 25,
+          fontFamily: "AvertaStd-Regular",
         },
         headerTitleAlign: "center",
       }}

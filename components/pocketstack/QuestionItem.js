@@ -21,6 +21,7 @@ const QuestionItem = (props) => {
           <Text style={styles.ownerText}>{props.owner}</Text>
           <Text
             style={{
+              fontFamily: "AvertaStd-Regular",
               fontSize: 13,
               color: "#708999",
               paddingHorizontal: SCREEN_WIDTH / 50,
@@ -30,7 +31,7 @@ const QuestionItem = (props) => {
           </Text>
         </View>
 
-        <Text style={styles.secondaryText} numberOfLines={2}>
+        <Text style={styles.title} numberOfLines={2}>
           {props.title}
         </Text>
         <View
@@ -75,21 +76,24 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
-  secondaryText: {
+  title: {
     // color: "#708999",
     color: "#001b3a",
     fontSize: 17,
+    fontFamily: "AvertaStd-Regular",
   },
   ownerText: {
-    fontWeight: "bold",
+    fontFamily: "AvertaStd-Semibold",
     color: "#001b3a",
   },
   text: {
     paddingHorizontal: 6,
+    fontFamily: "AvertaStd-Regular",
   },
   tagText: {
     marginRight: 10,
     color: "#3792cb",
+    fontFamily: "AvertaStd-Regular",
   },
 });
 

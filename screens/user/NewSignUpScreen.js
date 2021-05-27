@@ -144,15 +144,24 @@ const NewSignUpScreen = (props) => {
                   marginBottom: 10,
                 }}
               >
-                <View style={{ flex: 1, height: 1, backgroundColor: "#888" }} />
+                <View
+                  style={{ flex: 1, height: 1, backgroundColor: "#708999" }}
+                />
                 <View>
                   <Text
-                    style={{ width: 50, textAlign: "center", color: "#888" }}
+                    style={{
+                      width: 50,
+                      textAlign: "center",
+                      color: "#708999",
+                      fontFamily: "AvertaStd-Regular",
+                    }}
                   >
                     OR
                   </Text>
                 </View>
-                <View style={{ flex: 1, height: 1, backgroundColor: "#888" }} />
+                <View
+                  style={{ flex: 1, height: 1, backgroundColor: "#708999" }}
+                />
               </View>
               <AuthenticateButton
                 title="Sign up with Google"
@@ -193,14 +202,18 @@ const NewSignUpScreen = (props) => {
                   marginBottom: "15%",
                 }}
               >
-                <Text style={{ color: "#888" }}>Already have an account?</Text>
+                <Text
+                  style={{ color: "#708999", fontFamily: "AvertaStd-Regular" }}
+                >
+                  Already have an account?
+                </Text>
                 <TouchableOpacity
                   onPress={() => props.navigation.navigate("Sign In")}
                 >
                   <Text
                     style={{
                       color: "#ff4848",
-                      fontWeight: "bold",
+                      fontFamily: "AvertaStd-Semibold",
                       marginHorizontal: 10,
                     }}
                   >
@@ -219,11 +232,12 @@ const NewSignUpScreen = (props) => {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
+    backgroundColor: "white",
   },
   headerText: {
     paddingTop: "15%",
     textAlign: "center",
-    fontWeight: "bold",
+    fontFamily: "AvertaStd-Semibold",
     fontSize: 25,
     color: "#001b3a",
   },

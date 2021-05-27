@@ -16,10 +16,11 @@ const FilterButton = (props) => {
 const styles = StyleSheet.create({
   active: {
     color: "#ff4848",
-    fontWeight: "bold",
+    fontFamily: "AvertaStd-Semibold",
   },
   inActive: {
     color: "#708999",
+    fontFamily: "AvertaStd-Regular",
   },
 });
 

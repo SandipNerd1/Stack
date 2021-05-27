@@ -141,7 +141,7 @@ const HomeScreen = (props) => {
   if (!isLoading && questions.length === 0) {
     result = (
       <View style={styles.center}>
-        <Text>
+        <Text style={{ fontFamily: "AvertaStd-Semibold" }}>
           No questions found. You can start asking questions by tapping the plus
           icon on the top right corner
         </Text>
@@ -173,7 +173,7 @@ const HomeScreen = (props) => {
           <CustomButton
             onSubmit={() => props.navigation.navigate("Post question")}
           >
-            <AntDesign name="plus" color="white" size={20} />
+            <AntDesign name="plus" color="white" size={25} />
           </CustomButton>
         </View>
         <View style={styles.filterContainer}>
@@ -226,7 +226,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: 30,
-    fontWeight: "bold",
+    fontFamily: "AvertaStd-Semibold",
     color: "#001b3a",
   },
   filterContainer: {

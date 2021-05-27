@@ -40,15 +40,15 @@ const EditProfileScreen = ({ navigation }) => {
     about: false,
     loc: false,
     website: false,
-  })
+  });
 
   const handleInputFocus = (textinput) => {
     setIsFocused({ [textinput]: true });
-  }
+  };
 
   const handleInputBlur = (textinput) => {
     setIsFocused({ [textinput]: false });
-  }
+  };
 
   // useEffect(() => {
   //   props.navigation.setParams({
@@ -69,6 +69,7 @@ const EditProfileScreen = ({ navigation }) => {
       headerTitleAlign: "center",
       headerTitleStyle: {
         fontSize: 20,
+        fontFamily: "AvertaStd-Semibold",
       },
       headerRight: () => (
         <HeaderButtons HeaderButtonComponent={HeaderButton}>
@@ -93,9 +94,15 @@ const EditProfileScreen = ({ navigation }) => {
                 navigation.navigate("Your Profile");
               } catch (error) {
                 if (error.response.data.website_url) {
-                  Alert.alert("Profile update failed", error.response.data.website_url[0]);
+                  Alert.alert(
+                    "Profile update failed",
+                    error.response.data.website_url[0]
+                  );
                 } else if (error.response.data.username) {
-                  Alert.alert("Profile update failed", error.response.data.username[0]);
+                  Alert.alert(
+                    "Profile update failed",
+                    error.response.data.username[0]
+                  );
                 }
               }
               setLoading(false);
@@ -144,8 +151,8 @@ const EditProfileScreen = ({ navigation }) => {
                   "picture" in socialProfileData
                     ? socialProfileData.picture.data.url
                     : "photoUrl" in socialProfileData
-                      ? socialProfileData.photoUrl
-                      : "https://widgetwhats.com/app/uploads/2019/11/free-profile-photo-whatsapp-4.png",
+                    ? socialProfileData.photoUrl
+                    : "https://widgetwhats.com/app/uploads/2019/11/free-profile-photo-whatsapp-4.png",
               }}
               style={{
                 width: "100%",
@@ -157,12 +164,21 @@ const EditProfileScreen = ({ navigation }) => {
             style={{ alignItems: "center", marginVertical: SCREEN_HEIGHT / 40 }}
           >
             <Text
-              style={{ fontWeight: "bold", fontSize: 23, color: "#001b3a" }}
+              style={{
+                fontFamily: "AvertaStd-Semibold",
+                fontSize: 23,
+                color: "#001b3a",
+              }}
             >
               {firstName} {lastName}
             </Text>
             <Text
-              style={{ textAlign: "center", color: "#708999", fontSize: 16 }}
+              style={{
+                fontFamily: "AvertaStd-Regular",
+                textAlign: "center",
+                color: "#708999",
+                fontSize: 16,
+              }}
             >
               {aboutMe}
             </Text>
@@ -177,33 +193,51 @@ const EditProfileScreen = ({ navigation }) => {
           <View style={styles.details}>
             <Text style={styles.detailHeader}>USERNAME</Text>
             <TextInput
-              style={isFocused.user ? [styles.input, { borderColor: 'black' }] : styles.input}
+              style={
+                isFocused.user
+                  ? [
+                      styles.input,
+                      {
+                        borderColor: "#001b3a",
+                        fontFamily: "AvertaStd-Semibold",
+                      },
+                    ]
+                  : styles.input
+              }
               value={username}
               onChangeText={(userName) => setUsername(userName)}
-              onFocus={() => handleInputFocus('user')}
-              onBlur={() => handleInputBlur('user')}
+              onFocus={() => handleInputFocus("user")}
+              onBlur={() => handleInputBlur("user")}
               multiline
             />
           </View>
           <View style={styles.details}>
             <Text style={styles.detailHeader}>FIRST NAME</Text>
             <TextInput
-              style={isFocused.first ? [styles.input, { borderColor: 'black' }] : styles.input}
+              style={
+                isFocused.first
+                  ? [styles.input, { borderColor: "#001b3a" }]
+                  : styles.input
+              }
               value={firstName}
               onChangeText={(firstname) => setFirstName(firstname)}
-              onFocus={() => handleInputFocus('first')}
-              onBlur={() => handleInputBlur('first')}
+              onFocus={() => handleInputFocus("first")}
+              onBlur={() => handleInputBlur("first")}
               multiline
             />
           </View>
           <View style={styles.details}>
             <Text style={styles.detailHeader}>LAST NAME</Text>
             <TextInput
-              style={isFocused.last ? [styles.input, { borderColor: 'black' }] : styles.input}
+              style={
+                isFocused.last
+                  ? [styles.input, { borderColor: "#001b3a" }]
+                  : styles.input
+              }
               value={lastName}
               onChangeText={(lastname) => setLastName(lastname)}
-              onFocus={() => handleInputFocus('last')}
-              onBlur={() => handleInputBlur('last')}
+              onFocus={() => handleInputFocus("last")}
+              onBlur={() => handleInputBlur("last")}
               multiline
             />
           </View>
@@ -211,75 +245,53 @@ const EditProfileScreen = ({ navigation }) => {
           <View style={styles.details}>
             <Text style={styles.detailHeader}>ABOUT ME</Text>
             <TextInput
-              style={isFocused.about ? [styles.input, { borderColor: 'black' }] : styles.input}
+              style={
+                isFocused.about
+                  ? [styles.input, { borderColor: "#001b3a" }]
+                  : styles.input
+              }
               value={aboutMe}
               onChangeText={(about) => setAboutMe(about)}
-              onFocus={() => handleInputFocus('about')}
-              onBlur={() => handleInputBlur('about')}
+              onFocus={() => handleInputFocus("about")}
+              onBlur={() => handleInputBlur("about")}
               multiline
             />
           </View>
           <View style={styles.details}>
             <Text style={styles.detailHeader}>LOCATION</Text>
             <TextInput
-              style={isFocused.loc ? [styles.input, { borderColor: 'black' }] : styles.input}
+              style={
+                isFocused.loc
+                  ? [styles.input, { borderColor: "#001b3a" }]
+                  : styles.input
+              }
               value={location}
               onChangeText={(loc) => setLocation(loc)}
-              onFocus={() => handleInputFocus('loc')}
-              onBlur={() => handleInputBlur('loc')}
+              onFocus={() => handleInputFocus("loc")}
+              onBlur={() => handleInputBlur("loc")}
               multiline
             />
           </View>
           <View style={styles.details}>
             <Text style={styles.detailHeader}>WEBSITE URL</Text>
             <TextInput
-              style={isFocused.website ? [styles.input, { borderColor: 'black' }] : styles.input}
+              style={
+                isFocused.website
+                  ? [styles.input, { borderColor: "#001b3a" }]
+                  : styles.input
+              }
               value={websiteUrl}
               onChangeText={(website) => setWebsiteUrl(website)}
-              onFocus={() => handleInputFocus('website')}
-              onBlur={() => handleInputBlur('website')}
+              onFocus={() => handleInputFocus("website")}
+              onBlur={() => handleInputBlur("website")}
               multiline
             />
           </View>
         </View>
       </ScrollView>
-      <TouchableNativeFeedback>
-        <View
-          style={{
-            flex: 1,
-            position: "absolute",
-            bottom: 10,
-            backgroundColor: "#ff4848",
-            paddingHorizontal: 30,
-            paddingVertical: 10,
-            borderRadius: 20,
-          }}
-        >
-          <Text style={{ color: "white", fontSize: 20 }}>Update profile</Text>
-        </View>
-      </TouchableNativeFeedback>
     </View>
   );
 };
-
-// export const screenOptions = (navData) => {
-//   const { username, firstname, lastname, about, location, website } = navData.route.params ? navData.route.params : null;
-//   console.log(username);
-//   console.log(firstname);
-
-//   return {
-//     headerTitleAlign: "center",
-//     headerRight: () => (
-//       <HeaderButtons HeaderButtonComponent={HeaderButton}>
-//         <Item
-//           title="Save"
-//           buttonStyle={{ fontSize: 15 }}
-//           onPress={() => console.log(lastname)}
-//         />
-//       </HeaderButtons>
-//     ),
-//   };
-// };
 
 const styles = StyleSheet.create({
   screen: {
@@ -299,8 +311,9 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   input: {
-    color: "#001b3a",
-    fontWeight: "bold",
+    // color: "#001b3a",
+    color: "red",
+    fontFamily: "AvertaStd-Semibold",
     paddingVertical: 15,
     borderWidth: 1,
     borderColor: "#ccc",
@@ -315,6 +328,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: SCREEN_WIDTH / 40,
   },
   detailHeader: {
+    fontFamily: "AvertaStd-Regular",
     fontSize: 13,
     color: "#708999",
     width: "30%",

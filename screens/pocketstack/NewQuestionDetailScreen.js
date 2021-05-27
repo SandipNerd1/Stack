@@ -211,7 +211,13 @@ const NewQuestionDetailScreen = (props) => {
   const renderEmptyAnswers = () => {
     return (
       <View style={styles.center}>
-        <Text style={{ fontSize: 20, color: "#888" }}>
+        <Text
+          style={{
+            fontSize: 20,
+            color: "#888",
+            fontFamily: "AvertaStd-Regular",
+          }}
+        >
           No answer were found!{" "}
         </Text>
       </View>
@@ -270,7 +276,9 @@ const NewQuestionDetailScreen = (props) => {
         }}
         style={styles.fab}
       >
-        <Text style={{ color: "white" }}>Post Answer</Text>
+        <Text style={{ color: "white", fontFamily: "AvertaStd-Semibold" }}>
+          Post Answer
+        </Text>
         {/* <FontAwesome5 name="pen" size={15} color="white" /> */}
       </TouchableOpacity>
     </View>
@@ -295,14 +303,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
-  title: { fontSize: 17, color: "#001b3a" },
-  date: { fontSize: 13, color: "#708999" },
+  title: { fontSize: 17, color: "#001b3a", fontFamily: "AvertaStd-Regular" },
+  date: { fontSize: 13, color: "#708999", fontFamily: "AvertaStd-Regular" },
   owner: {
     fontSize: 13,
     color: "#001b3a",
-    fontWeight: "bold",
+    fontFamily: "AvertaStd-Semibold",
   },
-  tag: { marginRight: 10, color: "#3792cb" },
+  tag: { marginRight: 10, color: "#3792cb", fontFamily: "AvertaStd-Regular" },
   center: {
     flex: 1,
     justifyContent: "center",
@@ -352,15 +360,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 });
-
-// export const screenOptions = (navData) => {
-//   return {
-//     headerShown: true,
-//     headerStyle: {
-//       backgroundColor: "#ff4848",
-//     },
-//     headerTitleAlign: "center",
-//   };
-// };
 
 export default NewQuestionDetailScreen;

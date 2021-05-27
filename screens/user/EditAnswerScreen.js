@@ -12,7 +12,6 @@ import { useDispatch } from "react-redux";
 
 import * as answerActions from "../../store/actions/answer";
 import HeaderButton from "../../components/UI/HeaderButton";
-import TextEditor from "../../components/pocketstack/TextEditor";
 import RichTextEditor from "../../components/pocketstack/RichTextEditor";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
@@ -25,7 +24,6 @@ LogBox.ignoreLogs([
 const CreateAnswerScreen = (props) => {
   const { aid, body } = props.route.params;
   const [answer, setAnswer] = useState(body);
-  const [enablePushContent, setEnablePushContent] = useState(false);
 
   const dispatch = useDispatch();
 

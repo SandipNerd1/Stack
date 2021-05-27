@@ -36,32 +36,22 @@ const AnswerItem = (props) => {
             </TouchableOpacity>
           )}
         </View>
-
-        {/* <View style={styles.row}>
-          <FontAwesome name="star" color="#001b3a" />
-          <Text style={{ paddingHorizontal: 10, color: "#001b3a" }}>
-            {props.score}
-          </Text>
-        </View> */}
       </View>
-      {/* <View style={styles.row}>
-        <Text style={styles.date}>{props.date}</Text>
-        {props.owner === "sandip" && (
-          <TouchableOpacity onPress={props.goToDetail}>
-            <AntDesign name="edit" size={20} color="#001b3a" />
-          </TouchableOpacity>
-        )}
-      </View> */}
-
       <Html
         source={{ html: props.body }}
         tagsStyles={{
           p: {
             color: "#708999",
             paddingTop: 10,
+            fontFamily: "AvertaStd-Regular",
           },
           div: {
             color: "#708999",
+            fontFamily: "AvertaStd-Regular",
+          },
+          b: {
+            color: "#708999",
+            fontFamily: "AvertaStd-Semibold",
           },
         }}
       />
@@ -87,11 +77,12 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   owner: {
-    fontWeight: "bold",
+    fontFamily: "AvertaStd-Semibold",
     fontSize: 15,
     color: "#001b3a",
   },
   date: {
+    fontFamily: "AvertaStd-Regular",
     fontSize: 13,
     color: "#708999",
     marginHorizontal: SCREEN_WIDTH / 40,

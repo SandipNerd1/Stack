@@ -67,7 +67,6 @@ const CreateAnswerScreen = (props) => {
           {
             marginHorizontal: SCREEN_WIDTH / 10,
             marginTop: 10,
-            fontWeight: "bold",
           },
         ]}
       >
@@ -152,7 +151,7 @@ const styles = StyleSheet.create({
   },
   inputIdentifierText: {
     color: "#708999",
-    fontWeight: "bold",
+    fontFamily: "AvertaStd-Semibold",
   },
   rich: {
     // borderRadius: 20,

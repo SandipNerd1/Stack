@@ -103,7 +103,7 @@ const NewSignInScreen = (props) => {
                   style={{
                     textAlign: "center",
                     color: "#ff4848",
-                    fontWeight: "bold",
+                    fontFamily: "AvertaStd-Semibold",
                   }}
                 >
                   Forgot password?
@@ -117,16 +117,26 @@ const NewSignInScreen = (props) => {
                   marginBottom: 20,
                 }}
               >
-                <View style={{ flex: 1, height: 1, backgroundColor: "#888" }} />
+                <View
+                  style={{ flex: 1, height: 1, backgroundColor: "#708999" }}
+                />
                 <View>
                   <Text
-                    style={{ width: 50, textAlign: "center", color: "#888" }}
+                    style={{
+                      width: 50,
+                      textAlign: "center",
+                      color: "#708999",
+                      fontFamily: "AvertaStd-Regular",
+                    }}
                   >
                     OR
                   </Text>
                 </View>
-                <View style={{ flex: 1, height: 1, backgroundColor: "#888" }} />
+                <View
+                  style={{ flex: 1, height: 1, backgroundColor: "#708999" }}
+                />
               </View>
+
               <AuthenticateButton
                 title="Sign in with Google"
                 iconName="google"
@@ -165,14 +175,18 @@ const NewSignInScreen = (props) => {
                   justifyContent: "center",
                 }}
               >
-                <Text style={{ color: "#888" }}>Don't have an account?</Text>
+                <Text
+                  style={{ color: "#708999", fontFamily: "AvertaStd-Regular" }}
+                >
+                  Don't have an account?
+                </Text>
                 <TouchableOpacity
                   onPress={() => props.navigation.navigate("Sign Up")}
                 >
                   <Text
                     style={{
                       color: "#ff4848",
-                      fontWeight: "bold",
+                      fontFamily: "AvertaStd-Semibold",
                       marginHorizontal: SCREEN_WIDTH / 30,
                     }}
                   >
@@ -190,10 +204,11 @@ const NewSignInScreen = (props) => {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
+    backgroundColor: "white",
   },
   headerText: {
     textAlign: "center",
-    fontWeight: "bold",
+    fontFamily: "AvertaStd-Semibold",
     fontSize: 25,
     color: "#001b3a",
     paddingTop: SCREEN_HEIGHT / 10,

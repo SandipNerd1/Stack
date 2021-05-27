@@ -17,7 +17,7 @@ import HeaderButton from "../../components/UI/HeaderButton";
 import { logout } from "../../store/actions/signin";
 import { getUserProfile } from "../../store/actions/user";
 
-import StartupScreen from '../StartupScreen';
+import StartupScreen from "../StartupScreen";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 const SCREEN_HEIGHT = Dimensions.get("window").height;
@@ -34,7 +34,7 @@ const UserProfileScreen = (props) => {
   }, []);
 
   if (loading) {
-    return <StartupScreen />
+    return <StartupScreen />;
   }
 
   return (
@@ -58,8 +58,8 @@ const UserProfileScreen = (props) => {
                   "picture" in socialProfileData
                     ? socialProfileData.picture.data.url
                     : "photoUrl" in socialProfileData
-                      ? socialProfileData.photoUrl
-                      : "https://widgetwhats.com/app/uploads/2019/11/free-profile-photo-whatsapp-4.png",
+                    ? socialProfileData.photoUrl
+                    : "https://widgetwhats.com/app/uploads/2019/11/free-profile-photo-whatsapp-4.png",
               }}
               style={{
                 width: "100%",
@@ -72,12 +72,21 @@ const UserProfileScreen = (props) => {
             style={{ alignItems: "center", marginVertical: SCREEN_HEIGHT / 40 }}
           >
             <Text
-              style={{ fontWeight: "bold", fontSize: 23, color: "#001b3a" }}
+              style={{
+                fontFamily: "AvertaStd-Semibold",
+                fontSize: 23,
+                color: "#001b3a",
+              }}
             >
               {userProfileData.first_name} {userProfileData.last_name}
             </Text>
             <Text
-              style={{ textAlign: "center", color: "#708999", fontSize: 16 }}
+              style={{
+                fontFamily: "AvertaStd-Regular",
+                textAlign: "center",
+                color: "#708999",
+                fontSize: 16,
+              }}
             >
               {userProfileData.about_me}
             </Text>
@@ -148,7 +157,13 @@ const UserProfileScreen = (props) => {
             }}
           >
             <AntDesign name="logout" size={20} color="white" />
-            <Text style={{ paddingHorizontal: 10, color: "white" }}>
+            <Text
+              style={{
+                paddingHorizontal: 10,
+                color: "white",
+                fontFamily: "AvertaStd-Semibold",
+              }}
+            >
               Logout
             </Text>
           </TouchableOpacity>
@@ -167,6 +182,7 @@ export const screenOptions = (props) => {
     headerTitleAlign: "center",
     headerTitleStyle: {
       fontSize: 20,
+      fontFamily: "AvertaStd-Semibold",
     },
     headerRight: () => (
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
@@ -201,6 +217,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: SCREEN_WIDTH / 40,
   },
   detailHeader: {
+    fontFamily: "AvertaStd-Regular",
     fontSize: 13,
     color: "#708999",
     width: "30%",
@@ -221,10 +238,10 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "#001b3a",
-    fontWeight: "bold",
+    fontFamily: "AvertaStd-Semibold",
     paddingVertical: 15,
     borderWidth: 1,
-    borderColor: "#ccc",
+    borderColor: "#708999",
     borderRadius: 20,
     paddingHorizontal: SCREEN_WIDTH / 20,
     marginTop: -SCREEN_HEIGHT / 60,

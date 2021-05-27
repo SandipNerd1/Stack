@@ -15,7 +15,6 @@ const AuthenticateInput = (props) => {
 
   const hasError = errors[name] && touched[name];
 
-
   return (
     <View style={styles.form}>
       <Text style={styles.label}>{props.title}</Text>
@@ -24,18 +23,18 @@ const AuthenticateInput = (props) => {
           name={props.iconName}
           style={{ width: "10%", textAlign: "center" }}
           size={17}
-          color="#888"
+          color="#708999"
         />
         <TextInput
           style={styles.input}
           value={value}
           onChangeText={(text) => onChange(name)(text)}
           onBlur={() => {
-            setFieldTouched(name)
-            onBlur(name)
+            setFieldTouched(name);
+            onBlur(name);
           }}
           {...inputProps}
-          placeholderTextColor="#ccc"
+          placeholderTextColor="#bfcbd2"
         />
       </View>
       {hasError && <Text style={styles.errorText}>{errors[name]}</Text>}
@@ -57,20 +56,23 @@ const styles = StyleSheet.create({
     width: "90%",
     paddingVertical: 7,
     paddingHorizontal: 3,
+    fontFamily: "AvertaStd-Regular",
+    color: "#708999",
   },
   errorInput: {
-    borderColor: 'red',
+    borderColor: "red",
   },
   errorText: {
     marginVertical: 5,
     marginHorizontal: 5,
     fontSize: 10,
-    color: 'red',
+    color: "red",
+    fontFamily: "AvertaStd-Regular",
   },
   label: {
     marginVertical: 3,
-    color: "#888",
-    fontWeight: "bold",
+    color: "#708999",
+    fontFamily: "AvertaStd-Semibold",
   },
   form: {
     marginTop: SCREEN_HEIGHT / 60,

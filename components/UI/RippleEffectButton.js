@@ -17,7 +17,7 @@ const RippleEffectButton = (props) => {
       onPress={props.onButtonPress}
     >
       <View style={styles.button}>
-        <Text style={{ color: "white", fontWeight: "bold" }}>
+        <Text style={{ color: "white", fontFamily: "AvertaStd-Semibold" }}>
           {props.title}
         </Text>
       </View>

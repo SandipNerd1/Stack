@@ -16,6 +16,7 @@ import {
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
+import { BubblesLoader } from "react-native-indicator";
 
 import * as questionsActions from "../../store/actions/question";
 import TextEditor from "../../components/pocketstack/TextEditor";
@@ -82,6 +83,12 @@ const EditQuestionScreen = (props) => {
 
   const postEditedQuestion = useCallback(
     async (qid, title, body) => {
+      if (title === "" || body === "") {
+        Alert.alert("Wrong input!", "Please check the errors in the form.", [
+          { text: "Okay" },
+        ]);
+        return;
+      }
       try {
         setModalVisible(true);
         await dispatch(questionsActions.editQuestion(qid, title, body));
@@ -89,7 +96,7 @@ const EditQuestionScreen = (props) => {
         Alert.alert("Edit Successful", "Question was successfully edited!", [
           { text: "Okay" },
           {
-            text: "goBack",
+            text: "return",
             onPress: () => {
               props.navigation.goBack();
             },

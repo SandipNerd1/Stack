@@ -1,5 +1,11 @@
 import React from "react";
-import { Image, View, Text, TouchableNativeFeedback, StyleSheet } from "react-native";
+import {
+  Image,
+  View,
+  Text,
+  TouchableNativeFeedback,
+  StyleSheet,
+} from "react-native";
 
 import { FontAwesome5 } from "@expo/vector-icons";
 
@@ -14,17 +20,13 @@ const AuthenticateButton = (props) => {
         }
       >
         <View style={styles.icon}>
-          {props.iconName === 'google' ? (
+          {props.iconName === "google" ? (
             <Image
-              source={require('../../assets/logo/icons8-google-48.png')}
+              source={require("../../assets/logo/icons8-google-48.png")}
               style={styles.logo}
             />
           ) : (
-            <FontAwesome5
-              name={props.iconName}
-              size={20}
-              color="white"
-            />
+            <FontAwesome5 name={props.iconName} size={20} color="white" />
           )}
         </View>
 
@@ -32,9 +34,9 @@ const AuthenticateButton = (props) => {
           style={{
             width: "85%",
             textAlign: "center",
-            color: props.iconName === "google" ? "#888" : "white",
+            color: props.iconName === "google" ? "#708999" : "white",
             paddingVertical: 13,
-            fontWeight: "bold",
+            fontFamily: "AvertaStd-Semibold",
           }}
         >
           {props.title}
@@ -52,7 +54,7 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     backgroundColor: "white",
     borderWidth: 1,
-    borderColor: "#ccc",
+    borderColor: "#708999",
   },
   facbookbuttonContainer: {
     flexDirection: "row",
@@ -67,7 +69,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     height: "100%",
-    borderRightColor: "#ccc",
+    borderRightColor: "#708999",
     borderRightWidth: 1,
   },
   logo: {
