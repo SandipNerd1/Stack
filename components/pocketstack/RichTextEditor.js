@@ -33,7 +33,7 @@ const RichTextEditor = (props) => {
         }} // default light style
         ref={editor}
         style={styles.rich}
-        placeholder={"please input content"}
+        placeholder={"Enter your code here"}
         initialHeight={200}
         {...props}
         //   initialContentHTML={initHTML}
@@ -74,8 +74,8 @@ const RichTextEditor = (props) => {
           // 'insertHTML',
           // 'fontSize',
         ]} // default defaultActions
-        // onPressAddImage={that.onPressAddImage}
-        // onInsertLink={that.onInsertLink}
+      // onPressAddImage={that.onPressAddImage}
+      // onInsertLink={that.onInsertLink}
       />
     </View>
   );

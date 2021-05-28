@@ -69,6 +69,7 @@ const CreateQuestionScreen = (props) => {
         questionsActions.createQuestion(title, questionBody, tags)
       );
       setModalVisible(false);
+      await dispatch(questionsActions.fetchQuestions());
       Alert.alert("Post question", "Your question was submitted succesfully!", [
         {
           text: "Okay",
@@ -94,7 +95,7 @@ const CreateQuestionScreen = (props) => {
       // behavior="position"
       keyboardVerticalOffset={50}
       style={{ flex: 1, backgroundColor: "#f1f4f9" }}
-      // enabled={enablePushContent}
+    // enabled={enablePushContent}
     >
       <Modal
         transparent={true}
@@ -119,7 +120,6 @@ const CreateQuestionScreen = (props) => {
             style={styles.input}
             onChangeText={(text) => setTitle(text)}
             value={title}
-            onFocus={() => setEnablePushContent(false)}
           />
         </View>
         <View style={{ marginHorizontal: SCREEN_WIDTH / 20 }}>
@@ -177,7 +177,7 @@ const CreateQuestionScreen = (props) => {
       </Text>
       <RichTextEditor
         onChange={(html) => {
-          setAnswer(html);
+          setQuestionBody(html);
         }}
       />
     </KeyboardAvoidingView>

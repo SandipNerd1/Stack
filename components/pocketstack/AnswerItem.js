@@ -25,7 +25,7 @@ const AnswerItem = (props) => {
         <View style={styles.row}>
           <Text style={styles.owner}>{props.owner}</Text>
           <Text style={styles.date}>{props.date}</Text>
-          {props.owner === "sandip" && (
+          {props.owner === props.current_owner && (
             <TouchableOpacity onPress={props.goToDetail}>
               <MaterialCommunityIcons
                 name="pencil-outline"

@@ -50,6 +50,7 @@ const UserProfileScreen = (props) => {
               borderRadius: 75,
               overflow: "hidden",
               elevation: 10,
+              backgroundColor: 'white',
             }}
           >
             <Image
@@ -58,8 +59,8 @@ const UserProfileScreen = (props) => {
                   "picture" in socialProfileData
                     ? socialProfileData.picture.data.url
                     : "photoUrl" in socialProfileData
-                    ? socialProfileData.photoUrl
-                    : "https://widgetwhats.com/app/uploads/2019/11/free-profile-photo-whatsapp-4.png",
+                      ? socialProfileData.photoUrl
+                      : 'https://cdn.iconscout.com/icon/free/png-512/account-avatar-profile-human-man-user-30448.png',
               }}
               style={{
                 width: "100%",
