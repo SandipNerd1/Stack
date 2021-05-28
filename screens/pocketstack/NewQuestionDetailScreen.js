@@ -16,6 +16,8 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Html from "react-native-render-html";
 
 import * as questionsActions from "../../store/actions/question";
+import { getUserProfile } from "../../store/actions/user";
+
 import AnswerItem from "../../components/pocketstack/AnswerItem";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
@@ -24,6 +26,7 @@ const SCREEN_WIDTH = Dimensions.get("window").width;
 LogBox.ignoreAllLogs();
 
 const NewQuestionDetailScreen = (props) => {
+  const current_username = useSelector((state) => state.userStatus.profileData.username);
   const { questionId, title } = props.route.params;
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState();
@@ -47,6 +50,7 @@ const NewQuestionDetailScreen = (props) => {
   }, [dispatch, setIsLoading, setError, questionId]);
 
   useEffect(() => {
+    dispatch(getUserProfile());
     loadQuestionDetail();
     props.navigation.setParams({ title: title });
   }, [dispatch, loadQuestionDetail]);
@@ -90,6 +94,7 @@ const NewQuestionDetailScreen = (props) => {
         owner={item.owner}
         score={item.score}
         date={item.creation_date}
+        current_owner={current_username}
         goToDetail={() => {
           props.navigation.navigate("edit_Answer", {
             aid: item.id,
@@ -129,6 +134,11 @@ const NewQuestionDetailScreen = (props) => {
                 color: "#708999",
                 paddingTop: SCREEN_HEIGHT / 50,
               },
+              div: {
+                color: "#708999",
+                paddingTop: SCREEN_HEIGHT / 50,
+                fontFamily: "AvertaStd-Regular",
+              },
             }}
           />
         </View>
@@ -151,6 +161,7 @@ const NewQuestionDetailScreen = (props) => {
                 style={{
                   color: selectedQuestion.user_upvoted ? "#07bc0d" : "#708999",
                   paddingHorizontal: 5,
+                  fontFamily: "AvertaStd-Regular",
                 }}
               >
                 upvote
@@ -176,13 +187,14 @@ const NewQuestionDetailScreen = (props) => {
                     ? "#ff4848"
                     : "#708999",
                   paddingHorizontal: 5,
+                  fontFamily: "AvertaStd-Regular",
                 }}
               >
                 downvote
               </Text>
             </TouchableOpacity>
           </View>
-          {selectedQuestion.owner === "sandip" && (
+          {selectedQuestion.owner === current_username && (
             <TouchableOpacity
               onPress={() =>
                 props.navigation.navigate("Edit Question", {
@@ -198,7 +210,7 @@ const NewQuestionDetailScreen = (props) => {
                 size={20}
                 color="#708999"
               />
-              <Text style={{ color: "#708999", paddingHorizontal: 5 }}>
+              <Text style={{ color: "#708999", paddingHorizontal: 5, fontFamily: "AvertaStd-Regular" }}>
                 Edit
               </Text>
             </TouchableOpacity>

@@ -76,7 +76,7 @@ const EditProfileScreen = ({ navigation }) => {
           <Item
             title="Save"
             iconName="md-save"
-            buttonStyle={{ fontSize: 30 }}
+            buttonStyle={{ fontSize: 25 }}
             onPress={async () => {
               setLoading(true);
               try {
@@ -143,6 +143,7 @@ const EditProfileScreen = ({ navigation }) => {
               borderRadius: 75,
               overflow: "hidden",
               elevation: 10,
+              backgroundColor: 'white',
             }}
           >
             <Image
@@ -151,8 +152,8 @@ const EditProfileScreen = ({ navigation }) => {
                   "picture" in socialProfileData
                     ? socialProfileData.picture.data.url
                     : "photoUrl" in socialProfileData
-                    ? socialProfileData.photoUrl
-                    : "https://widgetwhats.com/app/uploads/2019/11/free-profile-photo-whatsapp-4.png",
+                      ? socialProfileData.photoUrl
+                      : "https://cdn.iconscout.com/icon/free/png-512/account-avatar-profile-human-man-user-30448.png",
               }}
               style={{
                 width: "100%",
@@ -196,12 +197,11 @@ const EditProfileScreen = ({ navigation }) => {
               style={
                 isFocused.user
                   ? [
-                      styles.input,
-                      {
-                        borderColor: "#001b3a",
-                        fontFamily: "AvertaStd-Semibold",
-                      },
-                    ]
+                    styles.input,
+                    {
+                      borderColor: "#001b3a",
+                    },
+                  ]
                   : styles.input
               }
               value={username}
@@ -311,9 +311,9 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   input: {
-    // color: "#001b3a",
-    color: "red",
+    color: "#001b3a",
     fontFamily: "AvertaStd-Semibold",
+    fontWeight: "normal",
     paddingVertical: 15,
     borderWidth: 1,
     borderColor: "#ccc",
