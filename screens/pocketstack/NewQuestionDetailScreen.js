@@ -26,7 +26,9 @@ const SCREEN_WIDTH = Dimensions.get("window").width;
 LogBox.ignoreAllLogs();
 
 const NewQuestionDetailScreen = (props) => {
-  const current_username = useSelector((state) => state.userStatus.profileData.username);
+  const current_username = useSelector(
+    (state) => state.userStatus.profileData.username
+  );
   const { questionId, title } = props.route.params;
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState();
@@ -210,7 +212,13 @@ const NewQuestionDetailScreen = (props) => {
                 size={20}
                 color="#708999"
               />
-              <Text style={{ color: "#708999", paddingHorizontal: 5, fontFamily: "AvertaStd-Regular" }}>
+              <Text
+                style={{
+                  color: "#708999",
+                  paddingHorizontal: 5,
+                  fontFamily: "AvertaStd-Regular",
+                }}
+              >
                 Edit
               </Text>
             </TouchableOpacity>
@@ -266,7 +274,7 @@ const NewQuestionDetailScreen = (props) => {
     <View
       style={{
         flex: 1,
-        backgroundColor: "*",
+        backgroundColor: "white",
       }}
     >
       <FlatList

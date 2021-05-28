@@ -1,5 +1,11 @@
 import React, { useState, useRef } from "react";
-import { StyleSheet, View, Dimensions } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Dimensions,
+  ScrollView,
+  KeyboardAvoidingView,
+} from "react-native";
 import {
   RichEditor,
   RichToolbar,
@@ -12,6 +18,17 @@ const SCREEN_WIDTH = Dimensions.get("window").width;
 
 const RichTextEditor = (props) => {
   const editor = useRef();
+  const scrollRef = useRef();
+
+  const editorInitializedCallback = () => {
+    scrollRef.current.scrollToEnd({ animated: true });
+  };
+
+  const handleCursorPosition = (scrollY) => {
+    // Positioning scroll bar
+    scrollRef.current.scrollTo({ y: scrollY - 30, animated: true });
+  };
+
   return (
     <View
       style={{
@@ -20,36 +37,45 @@ const RichTextEditor = (props) => {
         marginVertical: SCREEN_HEIGHT / 40,
         borderRadius: 10,
         overflow: "hidden",
-        height: 100,
+        backgroundColor: "white",
       }}
     >
-      <RichEditor
-        editorStyle={{
-          backgroundColor: "white",
-          color: "#708999",
-          placeholderColor: "gray",
-          contentCSSText: "font-size: 16px; min-height: 200px; height: 100%;",
-          height: 200,
-        }} // default light style
-        ref={editor}
-        style={styles.rich}
-        placeholder={"Enter your code here"}
-        initialHeight={200}
-        {...props}
-        //   initialContentHTML={initHTML}
-        //   editorInitializedCallback={that.editorInitializedCallback}
-        // onChange={(h) => {
-        //   console.log("changed");
-        // }}
-        //   onHeightChange={that.handleHeightChange}
-        //   onPaste={that.handlePaste}
-        //   onKeyUp={that.handleKeyUp}
-        //   onKeyDown={that.handleKeyDown}
-        //   onMessage={that.handleMessage}
-        // onFocus={that.handleFocus}
-        // onBlur={that.handleBlur}
-        pasteAsPlainText={true}
-      />
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        ref={scrollRef}
+        scrollEventThrottle={20}
+      >
+        <RichEditor
+          editorStyle={{
+            backgroundColor: "white",
+            color: "#708999",
+            placeholderColor: "gray",
+            contentCSSText: "font-size: 16px; min-height: 200px; height: 100%;",
+          }} // default light style
+          ref={editor}
+          style={styles.rich}
+          // placeholder={"Enter your code here"}
+          initialContentHTML={`<p>Enter your code here</p>`}
+          // editorInitializedCallback={editorInitializedCallback}
+          handleCursorPosition={handleCursorPosition}
+          useContainer={true}
+          initialHeight={400}
+          {...props}
+          //   initialContentHTML={initHTML}
+          //   editorInitializedCallback={that.editorInitializedCallback}
+          // onChange={(h) => {
+          //   console.log("changed");
+          // }}
+          //   onHeightChange={that.handleHeightChange}
+          //   onPaste={that.handlePaste}
+          //   onKeyUp={that.handleKeyUp}
+          //   onKeyDown={that.handleKeyDown}
+          //   onMessage={that.handleMessage}
+          // onFocus={that.handleFocus}
+          // onBlur={that.handleBlur}
+          pasteAsPlainText={true}
+        />
+      </ScrollView>
       <RichToolbar
         style={styles.richBar}
         flatContainerStyle={styles.flatStyle}
@@ -74,8 +100,8 @@ const RichTextEditor = (props) => {
           // 'insertHTML',
           // 'fontSize',
         ]} // default defaultActions
-      // onPressAddImage={that.onPressAddImage}
-      // onInsertLink={that.onInsertLink}
+        // onPressAddImage={that.onPressAddImage}
+        // onInsertLink={that.onInsertLink}
       />
     </View>
   );
@@ -85,7 +111,9 @@ const styles = StyleSheet.create({
   rich: {
     // borderRadius: 20,
     flex: 1,
-    height: 200,
+    minHeight: 300,
+    // marginTop: 10,
+    // marginBottom: 30,
   },
   richBar: {
     borderColor: "#708999",

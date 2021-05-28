@@ -13,17 +13,13 @@ import {
   KeyboardAvoidingView,
   Text,
   TextInput,
-  Button,
   TouchableOpacity,
   Dimensions,
   Modal,
   ActivityIndicator,
-  TouchableWithoutFeedback,
-  Keyboard,
   LogBox,
 } from "react-native";
 import { useDispatch } from "react-redux";
-import QuillEditor, { QuillToolbar } from "react-native-cn-quill";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import Tags from "react-native-tags";
 
@@ -48,6 +44,7 @@ const CreateQuestionScreen = (props) => {
   const [questionBody, setQuestionBody] = useState("");
   const [tags, setTags] = useState();
   const [modalVisible, setModalVisible] = useState(false);
+  const [enablePushContent, setEnablePushContent] = useState(true);
 
   const dispatch = useDispatch();
 
@@ -91,12 +88,7 @@ const CreateQuestionScreen = (props) => {
   }, [onSubmitHandler]);
 
   return (
-    <KeyboardAvoidingView
-      // behavior="position"
-      keyboardVerticalOffset={50}
-      style={{ flex: 1, backgroundColor: "#f1f4f9" }}
-    // enabled={enablePushContent}
-    >
+    <View style={{ flex: 1, backgroundColor: "#f1f4f9" }}>
       <Modal
         transparent={true}
         visible={modalVisible}
@@ -158,7 +150,10 @@ const CreateQuestionScreen = (props) => {
                 style={styles.tag}
               >
                 <Text
-                  style={{ color: "#708999", fontFamily: "AvertaStd-Regular" }}
+                  style={{
+                    color: "#708999",
+                    fontFamily: "AvertaStd-Regular",
+                  }}
                 >
                   {tag}
                 </Text>
@@ -180,7 +175,7 @@ const CreateQuestionScreen = (props) => {
           setQuestionBody(html);
         }}
       />
-    </KeyboardAvoidingView>
+    </View>
   );
 };
 

@@ -114,7 +114,7 @@ const EditQuestionScreen = (props) => {
   // }, [dispatch, postEditedQuestion]);
 
   return (
-    <KeyboardAvoidingView style={{ flex: 1, backgroundColor: "#f1f4f9" }}>
+    <View style={{ flex: 1, backgroundColor: "#f1f4f9" }}>
       <Modal
         transparent={true}
         visible={modalVisible}
@@ -157,7 +157,7 @@ const EditQuestionScreen = (props) => {
           inputChangeHandler("body", html);
         }}
       />
-    </KeyboardAvoidingView>
+    </View>
   );
 };
 export const screenOptions = (navData) => {

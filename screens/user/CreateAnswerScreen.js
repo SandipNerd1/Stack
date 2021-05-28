@@ -53,8 +53,7 @@ const CreateAnswerScreen = (props) => {
   }, [onSubmitHandler]);
 
   return (
-    <KeyboardAvoidingView
-      // behavior="position"
+    <View
       style={{
         flex: 1,
         backgroundColor: "#f1f4f9",
@@ -87,7 +86,7 @@ const CreateAnswerScreen = (props) => {
           setAnswer(html);
         }}
       />
-    </KeyboardAvoidingView>
+    </View>
   );
 };
 

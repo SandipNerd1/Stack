@@ -28,6 +28,7 @@ const HomeScreen = (props) => {
   const [isAnsweredActive, setIsAnsweredActive] = useState(false);
 
   const questions = useSelector((state) => state.questions.availableQuestions);
+  console.log(questions);
 
   const dispatch = useDispatch();
 
@@ -118,88 +119,98 @@ const HomeScreen = (props) => {
     );
   };
 
-  let result;
+  const header = (
+    <View style={styles.header}>
+      <View style={styles.heading}>
+        <Text style={styles.headerText}>Top Questions</Text>
+        <CustomButton
+          onSubmit={() => props.navigation.navigate("Post question")}
+        >
+          <AntDesign name="plus" color="white" size={25} />
+        </CustomButton>
+      </View>
+      <View style={styles.filterContainer}>
+        <FilterButton
+          buttonText="Date"
+          active={isDateActive}
+          onFilterSubmit={filterQuestions.bind(this, "creation_date")}
+        />
+        <FilterButton
+          buttonText="Score"
+          active={isScoreActive}
+          onFilterSubmit={filterQuestions.bind(this, "score")}
+        />
+        <FilterButton
+          buttonText="Answered"
+          active={isAnsweredActive}
+          onFilterSubmit={filterQuestions.bind(this, "is_answered")}
+        />
+      </View>
+    </View>
+  );
 
   if (error) {
-    result = (
-      <View style={styles.center}>
-        <Text>An error occured!</Text>
-        <Text>{error}</Text>
-        <Button title="Try again" onPress={loadQuestions} color="#43516c" />
+    return (
+      <View style={styles.screen}>
+        {header}
+        <View style={styles.center}>
+          <Text>An error occured!</Text>
+          <Button title="Try again" onPress={loadQuestions} color="#43516c" />
+        </View>
       </View>
     );
   }
 
   if (isLoading) {
-    result = (
-      <View style={styles.center}>
-        <ActivityIndicator size="large" color="#43516c" />
+    return (
+      <View style={styles.screen}>
+        {header}
+        <View style={styles.center}>
+          <ActivityIndicator size="large" color="#43516c" />
+        </View>
       </View>
     );
   }
 
   if (!isLoading && questions.length === 0) {
-    result = (
-      <View style={styles.center}>
-        <Text style={{ fontFamily: "AvertaStd-Semibold" }}>
-          No questions found. You can start asking questions by tapping the plus
-          icon on the top right corner
-        </Text>
-      </View>
-    );
-  }
-
-  if (!isLoading) {
-    result = (
-      <View>
-        <FlatList
-          onRefresh={loadQuestions}
-          refreshing={isRefreshing}
-          keyExtractor={(item) => item.id.toString()}
-          data={questions}
-          renderItem={renderQuestions}
-          showsVerticalScrollIndicator={false}
-          ListFooterComponent={() => <View style={{ height: 200 }} />}
-        />
+    return (
+      <View style={styles.screen}>
+        {header}
+        <View style={styles.center}>
+          <Text
+            style={{
+              fontFamily: "AvertaStd-Semibold",
+              color: "#708999",
+              textAlign: "center",
+              paddingHorizontal: SCREEN_WIDTH / 50,
+              fontSize: 17,
+            }}
+          >
+            No questions found. You can start asking questions by tapping the
+            plus icon on the top right corner
+          </Text>
+        </View>
       </View>
     );
   }
 
   return (
     <View style={styles.screen}>
-      <View style={styles.header}>
-        <View style={styles.heading}>
-          <Text style={styles.headerText}>Top Questions</Text>
-          <CustomButton
-            onSubmit={() => props.navigation.navigate("Post question")}
-          >
-            <AntDesign name="plus" color="white" size={25} />
-          </CustomButton>
-        </View>
-        <View style={styles.filterContainer}>
-          <FilterButton
-            buttonText="Date"
-            active={isDateActive}
-            onFilterSubmit={filterQuestions.bind(this, "creation_date")}
-          />
-          <FilterButton
-            buttonText="Score"
-            active={isScoreActive}
-            onFilterSubmit={filterQuestions.bind(this, "score")}
-          />
-          <FilterButton
-            buttonText="Answered"
-            active={isAnsweredActive}
-            onFilterSubmit={filterQuestions.bind(this, "is_answered")}
-          />
-        </View>
-      </View>
-      {result}
+      {header}
+      <FlatList
+        onRefresh={loadQuestions}
+        refreshing={isRefreshing}
+        keyExtractor={(item) => item.id.toString()}
+        data={questions}
+        renderItem={renderQuestions}
+        showsVerticalScrollIndicator={false}
+        ListFooterComponent={() => <View style={{ height: 200 }} />}
+      />
     </View>
   );
 };
 
-export const screenOptions = (navData) => {
+export const screenOptions = () => {
   return {
     headerShown: false,
   };

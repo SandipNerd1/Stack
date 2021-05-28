@@ -61,8 +61,13 @@ const SearchScreen = (props) => {
           }}
           onBlur={() => setIsTouched(!touched)}
           placeholder="search by title or owner!"
-          placeholderTextColor="#888"
-          style={{ width: "90%", height: SCREEN_HEIGHT / 17 }}
+          placeholderTextColor="#708999"
+          style={{
+            width: "90%",
+            height: SCREEN_HEIGHT / 17,
+            fontFamily: "AvertaStd-Semibold",
+            fontWeight: "normal",
+          }}
         />
         <Ionicons
           name="search-outline"
@@ -177,7 +182,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: "white",
-    padding: 5,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
     borderWidth: 1,
     borderRadius: 10,
   },
