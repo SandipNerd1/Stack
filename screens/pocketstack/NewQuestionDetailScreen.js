@@ -118,16 +118,16 @@ const NewQuestionDetailScreen = (props) => {
               <Text style={styles.owner}>by {selectedQuestion.owner}</Text>
             </Text>
           </View>
+
           {selectedQuestion.tags && (
-            <ScrollView>
-              <View style={{ flexDirection: "row" }}>
-                {selectedQuestion.tags.map((tag) => (
-                  <Text key={tag} style={styles.tag}>
-                    #{tag}
-                  </Text>
-                ))}
-              </View>
-            </ScrollView>
+            <Text>
+              {selectedQuestion.tags.map((tag) => (
+                <Text key={tag} style={styles.tag}>
+                  #{tag}
+                  {"   "}
+                </Text>
+              ))}
+            </Text>
           )}
           <Html
             source={{ html: selectedQuestion.body }}
@@ -330,7 +330,11 @@ const styles = StyleSheet.create({
     color: "#001b3a",
     fontFamily: "AvertaStd-Semibold",
   },
-  tag: { marginRight: 10, color: "#3792cb", fontFamily: "AvertaStd-Regular" },
+  tag: {
+    marginRight: 10,
+    color: "#3792cb",
+    fontFamily: "AvertaStd-Regular",
+  },
   center: {
     flex: 1,
     justifyContent: "center",

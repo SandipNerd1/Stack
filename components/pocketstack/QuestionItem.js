@@ -3,7 +3,7 @@ import {
   View,
   Text,
   StyleSheet,
-  TouchableNativeFeedback,
+  TouchableOpacity,
   ScrollView,
   Dimensions,
 } from "react-native";
@@ -15,54 +15,54 @@ const SCREEN_WIDTH = Dimensions.get("window").width;
 
 const QuestionItem = (props) => {
   return (
-    <TouchableNativeFeedback onPress={props.viewDetail}>
-      <View style={styles.card}>
-        <View style={[styles.row, { paddingVertical: SCREEN_HEIGHT / 70 }]}>
-          <Text style={styles.ownerText}>{props.owner}</Text>
-          <Text
-            style={{
-              fontFamily: "AvertaStd-Regular",
-              fontSize: 13,
-              color: "#708999",
-              paddingHorizontal: SCREEN_WIDTH / 50,
-            }}
-          >
-            on {props.date}
-          </Text>
-        </View>
-
+    <View style={styles.card}>
+      <View style={[styles.row, { paddingVertical: SCREEN_HEIGHT / 70 }]}>
+        <Text style={styles.ownerText}>{props.owner}</Text>
+        <Text
+          style={{
+            fontFamily: "AvertaStd-Regular",
+            fontSize: 13,
+            color: "#708999",
+            paddingHorizontal: SCREEN_WIDTH / 50,
+          }}
+        >
+          on {props.date}
+        </Text>
+      </View>
+      <TouchableOpacity onPress={props.viewDetail}>
         <Text style={styles.title} numberOfLines={2}>
           {props.title}
         </Text>
-        <View
-          style={[
-            styles.row,
-            { justifyContent: "space-between", paddingTop: SCREEN_HEIGHT / 50 },
-          ]}
-        >
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            <View style={styles.row}>
-              {props.tags.map((tag) => (
-                <Text key={tag} style={styles.tagText}>
-                  #{tag}
-                </Text>
-              ))}
-            </View>
-          </ScrollView>
+      </TouchableOpacity>
 
-          <View style={styles.row}>
-            <View style={styles.row}>
-              <MaterialIcons name="question-answer" color="#001b3a" />
-              <Text style={styles.text}>{props.answerCount}</Text>
-            </View>
-            <View style={[styles.row, { paddingLeft: SCREEN_WIDTH / 20 }]}>
-              <FontAwesome name="star" color="#001b3a" />
-              <Text style={styles.text}>{props.score}</Text>
-            </View>
+      <View
+        style={[
+          styles.row,
+          { justifyContent: "space-between", paddingTop: SCREEN_HEIGHT / 50 },
+        ]}
+      >
+        <ScrollView horizontal>
+          <View style={[styles.row]}>
+            {props.tags.map((tag) => (
+              <Text key={tag} style={[styles.tagText]}>
+                #{tag}
+              </Text>
+            ))}
+          </View>
+        </ScrollView>
+
+        <View style={[styles.row]}>
+          <View style={[styles.row, { paddingLeft: SCREEN_WIDTH / 10 }]}>
+            <MaterialIcons name="question-answer" color="#001b3a" />
+            <Text style={styles.text}>{props.answerCount}</Text>
+          </View>
+          <View style={[styles.row, { paddingLeft: SCREEN_WIDTH / 20 }]}>
+            <FontAwesome name="star" color="#001b3a" />
+            <Text style={styles.text}>{props.score}</Text>
           </View>
         </View>
       </View>
-    </TouchableNativeFeedback>
+    </View>
   );
 };
 
