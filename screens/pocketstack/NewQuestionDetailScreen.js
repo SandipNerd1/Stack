@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
   FlatList,
   Dimensions,
-  ScrollView,
   LogBox,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";

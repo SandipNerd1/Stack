@@ -2,7 +2,7 @@ import React from "react";
 import {
   View,
   Text,
-  TouchableNativeFeedback,
+  TouchableOpacity,
   StyleSheet,
   Dimensions,
 } from "react-native";
@@ -12,7 +12,8 @@ const SCREEN_HEIGHT = Dimensions.get("window").height;
 
 const RippleEffectButton = (props) => {
   return (
-    <TouchableNativeFeedback
+    <TouchableOpacity
+      activeOpacity={0.6}
       disabled={props.disabled}
       onPress={props.onButtonPress}
     >
@@ -21,7 +22,7 @@ const RippleEffectButton = (props) => {
           {props.title}
         </Text>
       </View>
-    </TouchableNativeFeedback>
+    </TouchableOpacity>
   );
 };
 
