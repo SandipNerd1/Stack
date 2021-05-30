@@ -65,6 +65,7 @@ const CreateQuestionScreen = (props) => {
         questionsActions.createQuestion(title, questionBody, tags)
       );
       await dispatch(questionsActions.fetchQuestions());
+      setModalVisible(false);
       Alert.alert("", "Your question was created succesfully!", [
         {
           text: "Okay",
@@ -99,7 +100,7 @@ const CreateQuestionScreen = (props) => {
             alignItems: "center",
           }}
         >
-          <ActivityIndicator size="large" color="white" />
+          <ActivityIndicator size="large" color="#43516c" />
         </View>
       </Modal>
       <View style={styles.formContainer}>

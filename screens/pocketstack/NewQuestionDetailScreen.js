@@ -94,7 +94,7 @@ const NewQuestionDetailScreen = (props) => {
   const deleteQuestionHandler = useCallback(async () => {
     setError(null);
     try {
-      Alert.alert("", "Are you sure you want to delete your answer?", [
+      Alert.alert("", "Are you sure you want to delete your question?", [
         {
           text: "yes",
           onPress: async () => {
@@ -371,7 +371,7 @@ const NewQuestionDetailScreen = (props) => {
             alignItems: "center",
           }}
         >
-          <ActivityIndicator size="large" color="white" />
+          <ActivityIndicator size="large" color="#43516c" />
         </View>
       </Modal>
       <FlatList

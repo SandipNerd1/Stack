@@ -148,7 +148,7 @@ const EditProfileScreen = ({ navigation }) => {
               alignItems: "center",
             }}
           >
-            <ActivityIndicator size="large" color="white" />
+            <ActivityIndicator size="large" color="#43516c" />
           </View>
         </Modal>
         <View style={styles.headerContainer}>
@@ -168,8 +168,8 @@ const EditProfileScreen = ({ navigation }) => {
                   "picture" in socialProfileData
                     ? socialProfileData.picture.data.url
                     : "photoUrl" in socialProfileData
-                    ? socialProfileData.photoUrl
-                    : "https://pics.freeicons.io/uploads/icons/png/8720809901557740366-64.png",
+                      ? socialProfileData.photoUrl
+                      : "https://pics.freeicons.io/uploads/icons/png/8720809901557740366-64.png",
               }}
               style={{
                 width: "100%",
@@ -214,12 +214,11 @@ const EditProfileScreen = ({ navigation }) => {
               style={
                 isFocused.user
                   ? [
-                      styles.input,
-                      {
-                        borderColor: "#001b3a",
-                        borderWidth: 2,
-                      },
-                    ]
+                    styles.input,
+                    {
+                      borderColor: "black",
+                    },
+                  ]
                   : styles.input
               }
               value={username}
@@ -234,7 +233,7 @@ const EditProfileScreen = ({ navigation }) => {
             <TextInput
               style={
                 isFocused.first
-                  ? [styles.input, { borderColor: "#001b3a", borderWidth: 2 }]
+                  ? [styles.input, { borderColor: "black" }]
                   : styles.input
               }
               value={firstName}
@@ -249,7 +248,7 @@ const EditProfileScreen = ({ navigation }) => {
             <TextInput
               style={
                 isFocused.last
-                  ? [styles.input, { borderColor: "#001b3a", borderWidth: 2 }]
+                  ? [styles.input, { borderColor: "black" }]
                   : styles.input
               }
               value={lastName}
@@ -265,7 +264,7 @@ const EditProfileScreen = ({ navigation }) => {
             <TextInput
               style={
                 isFocused.about
-                  ? [styles.input, { borderColor: "#001b3a", borderWidth: 2 }]
+                  ? [styles.input, { borderColor: "black" }]
                   : styles.input
               }
               value={aboutMe}
@@ -280,7 +279,7 @@ const EditProfileScreen = ({ navigation }) => {
             <TextInput
               style={
                 isFocused.loc
-                  ? [styles.input, { borderColor: "#001b3a", borderWidth: 2 }]
+                  ? [styles.input, { borderColor: "black" }]
                   : styles.input
               }
               value={location}
@@ -295,7 +294,7 @@ const EditProfileScreen = ({ navigation }) => {
             <TextInput
               style={
                 isFocused.website
-                  ? [styles.input, { borderColor: "#001b3a", borderWidth: 2 }]
+                  ? [styles.input, { borderColor: "black" }]
                   : styles.input
               }
               value={websiteUrl}
