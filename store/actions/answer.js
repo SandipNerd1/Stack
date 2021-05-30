@@ -1,4 +1,4 @@
-import axiosInstance from '../../api/axiosApi';
+import axiosInstance from "../../api/axiosApi";
 
 // const baseURL = "https://pocketstack.herokuapp.com/";
 
@@ -31,6 +31,16 @@ export const editAnswer = (answerId, body) => {
       await axiosInstance.put(`/answers/${answerId}/edit/`, {
         body: body,
       });
+    } catch (err) {
+      throw err;
+    }
+  };
+};
+
+export const deleteAnswer = (answerId) => {
+  return async () => {
+    try {
+      await axiosInstance.delete(`/answers/${answerId}/edit/`);
     } catch (err) {
       throw err;
     }

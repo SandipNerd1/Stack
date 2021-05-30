@@ -26,14 +26,31 @@ const AnswerItem = (props) => {
           <Text style={styles.owner}>{props.owner}</Text>
           <Text style={styles.date}>{props.date}</Text>
           {props.owner === props.current_owner && (
-            <TouchableOpacity onPress={props.goToDetail}>
-              <MaterialCommunityIcons
-                name="pencil-outline"
-                size={20}
-                // color="#001b3a"
-                color="#708999"
-              />
-            </TouchableOpacity>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <TouchableOpacity onPress={props.goToEditDetail}>
+                <MaterialCommunityIcons
+                  name="pencil-outline"
+                  size={20}
+                  // color="#001b3a"
+                  color="#708999"
+                  style={{ marginHorizontal: 10 }}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={props.deleteAnswer}>
+                <MaterialCommunityIcons
+                  name="delete"
+                  size={20}
+                  // color="#001b3a"
+                  color="#708999"
+                />
+              </TouchableOpacity>
+            </View>
           )}
         </View>
       </View>
@@ -69,11 +86,12 @@ const AnswerItem = (props) => {
 
 const styles = StyleSheet.create({
   card: {
-    paddingVertical: SCREEN_HEIGHT / 40,
+    // paddingVertical: SCREEN_HEIGHT / 40,
     paddingHorizontal: SCREEN_WIDTH / 20,
     borderRadius: 10,
     // backgroundColor: "#f1f4f9",
     backgroundColor: "white",
+    marginTop: SCREEN_HEIGHT / 30,
   },
   row: {
     flexDirection: "row",

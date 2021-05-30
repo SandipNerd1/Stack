@@ -8,14 +8,16 @@ import {
   TouchableOpacity,
   FlatList,
   Dimensions,
-  ScrollView,
   LogBox,
+  Alert,
+  Modal,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Html from "react-native-render-html";
 
 import * as questionsActions from "../../store/actions/question";
+import * as answerActions from "../../store/actions/answer";
 import { getUserProfile } from "../../store/actions/user";
 
 import AnswerItem from "../../components/pocketstack/AnswerItem";
@@ -31,6 +33,7 @@ const NewQuestionDetailScreen = (props) => {
   );
   const { questionId, title } = props.route.params;
   const [isLoading, setIsLoading] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
   const [error, setError] = useState();
   const dispatch = useDispatch();
 
@@ -88,6 +91,40 @@ const NewQuestionDetailScreen = (props) => {
     }
   }, [dispatch, setError]);
 
+  const deleteQuestionHandler = useCallback(async () => {
+    setError(null);
+    try {
+      Alert.alert("", "Are you sure you want to delete your answer?", [
+        {
+          text: "yes",
+          onPress: async () => {
+            setModalVisible(true);
+            await dispatch(questionsActions.deleteQuestion(questionId));
+            await dispatch(questionsActions.fetchQuestions());
+            props.navigation.goBack();
+          },
+        },
+        {
+          text: "no",
+        },
+      ]);
+    } catch (err) {
+      Alert.alert("", "An error occured!", [{ text: "okay" }]);
+    }
+  }, [dispatch, setError, questionId, setModalVisible]);
+
+  // const deleteAnswerHandler = useCallback(async () => {
+  //   setError(null);
+  //   setIsLoading(true);
+  //   try {
+  //     await dispatch(answerActions.deleteAnswer());
+  //   } catch (err) {
+  //     setError(err.message);
+  //     Alert.alert("", "An error occured!", [{ text: "okay" }]);
+  //   }
+  //   setIsLoading(false);
+  // }, [dispatch, aid, setError, setIsLoading]);
+
   const renderAnswer = ({ item }) => {
     return (
       <AnswerItem
@@ -97,11 +134,35 @@ const NewQuestionDetailScreen = (props) => {
         score={item.score}
         date={item.creation_date}
         current_owner={current_username}
-        goToDetail={() => {
+        goToEditDetail={() => {
           props.navigation.navigate("edit_Answer", {
             aid: item.id,
             body: item.body,
           });
+        }}
+        deleteAnswer={async () => {
+          setError(null);
+          setIsLoading(true);
+          try {
+            Alert.alert("", "Are you sure you want to delete your answer?", [
+              {
+                text: "yes",
+                onPress: async () => {
+                  setModalVisible(true);
+                  await dispatch(answerActions.deleteAnswer(item.id));
+                  await dispatch(
+                    questionsActions.fetchQuestionDetail(questionId)
+                  );
+                  setModalVisible(false);
+                },
+              },
+              { text: "no" },
+            ]);
+          } catch (err) {
+            setError(err.message);
+            Alert.alert("", "An error occured!", [{ text: "okay" }]);
+          }
+          setIsLoading(false);
         }}
       />
     );
@@ -163,80 +224,83 @@ const NewQuestionDetailScreen = (props) => {
             style={{
               flexDirection: "row",
               // marginHorizontal: SCREEN_WIDTH / 40,
-              backgroundColor: "white",
+              backgroundColor: null,
             }}
           >
-            <TouchableOpacity onPress={upvoteHandler} style={styles.iconStyle}>
+            <TouchableOpacity
+              onPress={upvoteHandler}
+              style={[styles.iconStyle]}
+            >
               <MaterialCommunityIcons
                 color={selectedQuestion.user_upvoted ? "#07bc0d" : "#708999"}
-                name="arrow-up-bold-circle"
-                size={20}
+                name={
+                  selectedQuestion.user_upvoted
+                    ? "arrow-up-bold-circle"
+                    : "arrow-up-bold-circle-outline"
+                }
+                size={25}
               />
-              <Text
-                style={{
-                  color: selectedQuestion.user_upvoted ? "#07bc0d" : "#708999",
-                  paddingHorizontal: 5,
-                  fontFamily: "AvertaStd-Regular",
-                }}
-              >
-                upvote
-              </Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={downvoteHandler}
               style={[
                 styles.iconStyle,
-                {
-                  paddingHorizontal: SCREEN_WIDTH / 20,
-                },
+                { marginHorizontal: SCREEN_WIDTH / 20 },
               ]}
             >
               <MaterialCommunityIcons
                 color={selectedQuestion.user_downvoted ? "#ff4848" : "#708999"}
-                name="arrow-down-bold-circle"
-                size={20}
+                name={
+                  selectedQuestion.user_downvoted
+                    ? "arrow-down-bold-circle"
+                    : "arrow-down-bold-circle-outline"
+                }
+                size={25}
               />
-              <Text
-                style={{
-                  color: selectedQuestion.user_downvoted
-                    ? "#ff4848"
-                    : "#708999",
-                  paddingHorizontal: 5,
-                  fontFamily: "AvertaStd-Regular",
-                }}
-              >
-                downvote
-              </Text>
             </TouchableOpacity>
+            {selectedQuestion.owner === current_username && (
+              <TouchableOpacity
+                onPress={() =>
+                  props.navigation.navigate("Edit Question", {
+                    qid: questionId,
+                    title: selectedQuestion.title,
+                    body: selectedQuestion.body,
+                  })
+                }
+                style={[styles.iconStyle]}
+              >
+                <MaterialCommunityIcons
+                  name="pencil-outline"
+                  size={25}
+                  color="#708999"
+                />
+              </TouchableOpacity>
+            )}
           </View>
           {selectedQuestion.owner === current_username && (
-            <TouchableOpacity
-              onPress={() =>
-                props.navigation.navigate("Edit Question", {
-                  qid: questionId,
-                  title: selectedQuestion.title,
-                  body: selectedQuestion.body,
-                })
-              }
-              style={styles.iconStyle}
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
             >
-              <MaterialCommunityIcons
-                name="pencil-outline"
-                size={20}
-                color="#708999"
-              />
-              <Text
-                style={{
-                  color: "#708999",
-                  paddingHorizontal: 5,
-                  fontFamily: "AvertaStd-Regular",
-                }}
+              <TouchableOpacity
+                onPress={deleteQuestionHandler}
+                style={styles.iconStyle}
               >
-                Edit
-              </Text>
-            </TouchableOpacity>
+                <MaterialCommunityIcons
+                  name="delete-outline"
+                  size={25}
+                  color="#708999"
+                />
+              </TouchableOpacity>
+            </View>
           )}
         </View>
+        <View
+          style={{ backgroundColor: "#f1f4f9", height: SCREEN_HEIGHT / 20 }}
+        />
       </View>
     );
   };
@@ -247,9 +311,11 @@ const NewQuestionDetailScreen = (props) => {
         <Text
           style={{
             fontSize: 20,
-            color: "#888",
+            color: "#708999",
             fontFamily: "AvertaStd-Regular",
-            marginTop: 10,
+            marginTop: 100,
+            textAlign: "center",
+            paddingHorizontal: SCREEN_WIDTH / 20,
           }}
         >
           No answer were found!{" "}
@@ -288,9 +354,26 @@ const NewQuestionDetailScreen = (props) => {
     <View
       style={{
         flex: 1,
-        backgroundColor: "white",
+        backgroundColor: "#f1f4f9",
       }}
     >
+      <Modal
+        transparent={true}
+        visible={modalVisible}
+        statusBarTranslucent={true}
+        animationType="fade"
+      >
+        <View
+          style={{
+            height: "100%",
+            backgroundColor: "rgba(0,0,0,0.5)",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <ActivityIndicator size="large" color="white" />
+        </View>
+      </Modal>
       <FlatList
         data={selectedQuestion.answers}
         keyExtractor={(item) => item.id.toString()}
@@ -377,21 +460,23 @@ const styles = StyleSheet.create({
   headerContainer: {
     // paddingVertical: 20,
     backgroundColor: "white",
-    borderBottomWidth: SCREEN_WIDTH / 20,
-    borderBottomColor: "#f1f4f9",
+    // borderBottomWidth: SCREEN_WIDTH / 20,
+    // borderBottomColor: "#f1f4f9",
   },
   questionDetailContainer: {
     paddingHorizontal: SCREEN_WIDTH / 20,
-    paddingTop: 20,
+    paddingVertical: SCREEN_HEIGHT / 40,
     backgroundColor: "white",
   },
   questionStatus: {
+    backgroundColor: "#f1f4f9",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     backgroundColor: null,
+    // paddingVertical: SCREEN_HEIGHT / 40,
+    paddingHorizontal: SCREEN_WIDTH / 15,
     paddingVertical: SCREEN_HEIGHT / 40,
-    paddingHorizontal: SCREEN_WIDTH / 20,
   },
   iconStyle: {
     flexDirection: "row",

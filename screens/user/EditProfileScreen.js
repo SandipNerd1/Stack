@@ -9,6 +9,7 @@ import {
   TextInput,
   Image,
   Dimensions,
+  Modal,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
@@ -122,17 +123,34 @@ const EditProfileScreen = ({ navigation }) => {
     websiteUrl,
   ]);
 
-  if (loading) {
-    return (
-      <View style={styles.center}>
-        <ActivityIndicator size="large" color="#43516c" />
-      </View>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <View style={styles.center}>
+  //       <ActivityIndicator size="large" color="#43516c" />
+  //     </View>
+  //   );
+  // }
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.screen}>
+        <Modal
+          visible={loading}
+          transparent={true}
+          animationType="fade"
+          statusBarTranslucent={true}
+        >
+          <View
+            style={{
+              flex: 1,
+              backgroundColor: "rgba(0,0,0,0.5)",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <ActivityIndicator size="large" color="white" />
+          </View>
+        </Modal>
         <View style={styles.headerContainer}>
           <View
             style={{

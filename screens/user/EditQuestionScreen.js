@@ -4,22 +4,16 @@ import {
   Text,
   TextInput,
   StyleSheet,
-  Button,
   Dimensions,
-  KeyboardAvoidingView,
-  ScrollView,
-  SafeAreaView,
   LogBox,
   Alert,
   Modal,
   ActivityIndicator,
 } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
-import { BubblesLoader } from "react-native-indicator";
 
 import * as questionsActions from "../../store/actions/question";
-import TextEditor from "../../components/pocketstack/TextEditor";
 import RichTextEditor from "../../components/pocketstack/RichTextEditor";
 import HeaderButton from "../../components/UI/HeaderButton";
 
@@ -93,7 +87,7 @@ const EditQuestionScreen = (props) => {
         setModalVisible(true);
         await dispatch(questionsActions.editQuestion(qid, title, body));
         setModalVisible(false);
-        Alert.alert("Edit Successful", "Question was successfully edited!", [
+        Alert.alert("", "Question was edited successfully!", [
           { text: "Okay" },
           {
             text: "return",
@@ -103,10 +97,12 @@ const EditQuestionScreen = (props) => {
           },
         ]);
       } catch (err) {
+        setModalVisible(false);
+        Alert.alert("", "An error occured!", [{ text: "okay" }]);
         console.log(err);
       }
     },
-    [dispatch, qid, formState]
+    [dispatch, qid, formState, setModalVisible]
   );
 
   // useEffect(() => {
@@ -119,6 +115,7 @@ const EditQuestionScreen = (props) => {
         transparent={true}
         visible={modalVisible}
         statusBarTranslucent={true}
+        animationType="fade"
       >
         <View
           style={{

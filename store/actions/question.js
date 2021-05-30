@@ -74,6 +74,16 @@ export const createQuestion = (title, body, tagList) => {
   };
 };
 
+export const deleteQuestion = (qid) => {
+  return async () => {
+    try {
+      await axiosInstance.delete(`/questions/${qid}/edit/`);
+    } catch (err) {
+      throw err;
+    }
+  };
+};
+
 export const editQuestion = (qid, title, body) => {
   return async () => {
     try {

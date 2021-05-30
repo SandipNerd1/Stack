@@ -4,8 +4,10 @@ import {
   Alert,
   Text,
   Dimensions,
-  KeyboardAvoidingView,
+  ActivityIndicator,
   LogBox,
+  View,
+  Modal,
 } from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { useDispatch } from "react-redux";
@@ -24,22 +26,38 @@ LogBox.ignoreLogs([
 const CreateAnswerScreen = (props) => {
   const { aid, body } = props.route.params;
   const [answer, setAnswer] = useState(body);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const dispatch = useDispatch();
 
   const onSubmitHandler = useCallback(
     async (answer) => {
       if (answer === "") {
-        Alert.alert("Wrong input!", "Please check the errors in the form.", [
+        Alert.alert("", "Wrong input! Please check the errors in the form.", [
           { text: "Okay" },
         ]);
         console.log(answer);
         return;
       }
-      dispatch(answerActions.editAnswer(aid, answer));
-      props.navigation.goBack();
+      try {
+        setModalVisible(true);
+        dispatch(answerActions.editAnswer(aid, answer));
+        setModalVisible(false);
+        Alert.alert("", "Answer was edited successfully!", [
+          { text: "okay" },
+          {
+            text: "return",
+            onPress: () => {
+              props.navigation.goBack();
+            },
+          },
+        ]);
+      } catch (err) {
+        setModalVisible(false);
+        Alert.alert("", "An error occured!", [{ text: "okay" }]);
+      }
     },
-    [dispatch, answer, aid]
+    [dispatch, answer, aid, setModalVisible]
   );
 
   useEffect(() => {
@@ -53,6 +71,23 @@ const CreateAnswerScreen = (props) => {
         backgroundColor: "#f1f4f9",
       }}
     >
+      <Modal
+        transparent={true}
+        visible={modalVisible}
+        statusBarTranslucent={true}
+        animationType="fade"
+      >
+        <View
+          style={{
+            height: "100%",
+            backgroundColor: "rgba(0,0,0,0.5)",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <ActivityIndicator size="large" color="white" />
+        </View>
+      </Modal>
       <Text
         style={[
           styles.inputIdentifierText,

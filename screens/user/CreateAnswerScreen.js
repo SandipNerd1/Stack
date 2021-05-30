@@ -5,8 +5,9 @@ import {
   View,
   Text,
   Dimensions,
-  KeyboardAvoidingView,
+  ActivityIndicator,
   LogBox,
+  Modal,
 } from "react-native";
 // import type {
 //   SelectionChangeData,
@@ -30,23 +31,36 @@ LogBox.ignoreLogs([
 const CreateAnswerScreen = (props) => {
   const { qid } = props.route.params;
   const [answer, setAnswer] = useState("");
+  const [modalVisible, setModalVisible] = useState(false);
   const [enablePushContent, setEnablePushContent] = useState(false);
 
   const dispatch = useDispatch();
 
   const onSubmitHandler = useCallback(async () => {
-    console.log(answer);
     if (answer === "") {
-      Alert.alert("Wrong input!", "Please check the errors in the form.", [
+      Alert.alert("", "Wrong input! Please check the errors in the form.", [
         { text: "Okay" },
       ]);
-      console.log(answer);
       return;
     }
-    console.log(answer);
-    dispatch(answerActions.createAnswer(qid, answer));
-    props.navigation.goBack();
-  }, [dispatch, qid, answer]);
+    try {
+      setModalVisible(true);
+      dispatch(answerActions.createAnswer(qid, answer));
+      setModalVisible(false);
+      Alert.alert("", "Your answer was created successfully!", [
+        { text: "Okay" },
+        {
+          text: "return",
+          onPress: () => {
+            props.navigation.goBack();
+          },
+        },
+      ]);
+    } catch (err) {
+      setModalVisible(false);
+      Alert.alert("", "An error occured!", [{ text: "return" }]);
+    }
+  }, [dispatch, qid, answer, setModalVisible]);
 
   useEffect(() => {
     props.navigation.setParams({ submit: onSubmitHandler });
@@ -60,6 +74,23 @@ const CreateAnswerScreen = (props) => {
       }}
       // enabled={enablePushContent}
     >
+      <Modal
+        transparent={true}
+        visible={modalVisible}
+        statusBarTranslucent={true}
+        animationType="fade"
+      >
+        <View
+          style={{
+            height: "100%",
+            backgroundColor: "rgba(0,0,0,0.5)",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <ActivityIndicator size="large" color="white" />
+        </View>
+      </Modal>
       <Text
         style={[
           styles.inputIdentifierText,

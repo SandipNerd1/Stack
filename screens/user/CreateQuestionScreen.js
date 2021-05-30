@@ -44,7 +44,6 @@ const CreateQuestionScreen = (props) => {
   const [questionBody, setQuestionBody] = useState("");
   const [tags, setTags] = useState();
   const [modalVisible, setModalVisible] = useState(false);
-  const [enablePushContent, setEnablePushContent] = useState(true);
 
   const dispatch = useDispatch();
 
@@ -55,7 +54,7 @@ const CreateQuestionScreen = (props) => {
 
   const onSubmitHandler = useCallback(async () => {
     if (title === "" || questionBody === "" || tags === "") {
-      Alert.alert("Wrong input!", "Please check the errors in the form.", [
+      Alert.alert("", "Wrong input! Please check the errors in the form.", [
         { text: "Okay" },
       ]);
       return;
@@ -65,9 +64,8 @@ const CreateQuestionScreen = (props) => {
       await dispatch(
         questionsActions.createQuestion(title, questionBody, tags)
       );
-      setModalVisible(false);
       await dispatch(questionsActions.fetchQuestions());
-      Alert.alert("Post question", "Your question was submitted succesfully!", [
+      Alert.alert("", "Your question was created succesfully!", [
         {
           text: "Okay",
           onPress: () => {
@@ -77,9 +75,7 @@ const CreateQuestionScreen = (props) => {
       ]);
     } catch (err) {
       setModalVisible(false);
-      Alert.alert("Error!", "An error occured while submitting the question!", [
-        { text: "return" },
-      ]);
+      Alert.alert("", "An error occured!", [{ text: "return" }]);
     }
   }, [dispatch, title, questionBody, tags, setModalVisible]);
 
@@ -93,6 +89,7 @@ const CreateQuestionScreen = (props) => {
         transparent={true}
         visible={modalVisible}
         statusBarTranslucent={true}
+        animationType="fade"
       >
         <View
           style={{
