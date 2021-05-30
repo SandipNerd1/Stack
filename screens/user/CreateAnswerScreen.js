@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, useRef } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import {
   StyleSheet,
   Alert,
@@ -9,16 +9,11 @@ import {
   LogBox,
   Modal,
 } from "react-native";
-// import type {
-//   SelectionChangeData,
-//   TextChangeData,
-// } from 'react-native-cn-quill';
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { useDispatch } from "react-redux";
 
 import * as answerActions from "../../store/actions/answer";
 import HeaderButton from "../../components/UI/HeaderButton";
-import TextEditor from "../../components/pocketstack/TextEditor";
 import RichTextEditor from "../../components/pocketstack/RichTextEditor";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
@@ -32,7 +27,6 @@ const CreateAnswerScreen = (props) => {
   const { qid } = props.route.params;
   const [answer, setAnswer] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
-  const [enablePushContent, setEnablePushContent] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -72,7 +66,6 @@ const CreateAnswerScreen = (props) => {
         flex: 1,
         backgroundColor: "#f1f4f9",
       }}
-    // enabled={enablePushContent}
     >
       <Modal
         transparent={true}
@@ -102,16 +95,6 @@ const CreateAnswerScreen = (props) => {
       >
         Body
       </Text>
-      {/* <TextEditor
-        onHtmlChange={({ html }) => setAnswer(html)}
-        style={[
-          {
-            height: 400,
-          },
-          styles.editorContainer,
-        ]}
-        onFocus={() => setEnablePushContent(true)}
-      /> */}
       <RichTextEditor
         onChange={(html) => {
           setAnswer(html);
@@ -130,7 +113,6 @@ export const screenOptions = (navData) => {
         <Item
           title="post"
           buttonStyle={{ fontSize: 25 }}
-          // iconName="md-checkmark-sharp"
           iconName="send"
           onPress={submit}
         />
@@ -145,8 +127,6 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   input: {
-    // marginHorizontal: 30,
-    // marginVertical: 10,
     borderWidth: 1,
   },
   textbox: {
@@ -184,13 +164,11 @@ const styles = StyleSheet.create({
     fontFamily: "AvertaStd-Semibold",
   },
   rich: {
-    // borderRadius: 20,
     flex: 1,
   },
   richBar: {
     borderColor: "#708999",
     borderTopWidth: StyleSheet.hairlineWidth,
-    // borderRadius: 10,
     backgroundColor: "white",
     color: "#708999",
   },

@@ -37,20 +37,7 @@ enableScreens();
 
 const HomeStack = createStackNavigator();
 
-const HomeStackNavigator = ({ navigation, route }) => {
-  // useLayoutEffect(() => {
-  //   const tabHiddenRoutes = [
-  //     "Post question",
-  //     "Edit Question",
-  //     "Post answer",
-  //     "edit_Answer",
-  //   ];
-  //   if (tabHiddenRoutes.includes(getFocusedRouteNameFromRoute(route))) {
-  //     navigation.setOptions({ tabBarVisible: false });
-  //   } else {
-  //     navigation.setOptions({ tabBarVisible: true });
-  //   }
-  // }, [navigation, route]);
+const HomeStackNavigator = () => {
   return (
     <HomeStack.Navigator
       screenOptions={{
@@ -63,7 +50,6 @@ const HomeStackNavigator = ({ navigation, route }) => {
         headerTitleStyle: {
           fontFamily: "AvertaStd-Semibold",
         },
-        // gestureEnabled: false,
       }}
     >
       <HomeStack.Screen

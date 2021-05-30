@@ -18,7 +18,6 @@ import { facebookSignUp, googleSignUp } from "../../store/actions/signup";
 import RippleEffectButton from "../../components/UI/RippleEffectButton";
 import AuthenticateInput from "../../components/UI/AuthenticateInput";
 import AuthenticateButton from "../../components/UI/AuthenticateButton";
-import AuthenticateScreen from "./Authenticate";
 import StartupScreen from "../StartupScreen";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;

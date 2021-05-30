@@ -3,7 +3,6 @@ import {
   SET_QUESTION_DETAIL,
   SET_FILTERED_QUESTIONS,
   SEARCH_QUESTIONS,
-  MARK_QUESTION,
   UPVOTE_QUESTION,
   DOWNVOTE_QUESTION,
 } from "../actions/question";
@@ -37,23 +36,6 @@ export default (state = initialState, action) => {
         ...state,
         filteredQuestions: action.searchedQuestions,
       };
-    case MARK_QUESTION:
-      const existingIndex = state.markedQuestions.findIndex(
-        (ques) => ques.id === action.questionId
-      );
-      if (existingIndex >= 0) {
-        const updatedMarkQuestions = [...state.markedQuestions];
-        updatedMarkQuestions.splice(existingIndex, 1);
-        return { ...state, markedQuestions: updatedMarkQuestions };
-      } else {
-        const question = state.availableQuestions.find(
-          (ques) => ques.id === action.questionId
-        );
-        return {
-          ...state,
-          markedQuestions: state.markedQuestions.concat(question),
-        };
-      }
     case UPVOTE_QUESTION:
       if (state.availableQuestionDetails.user_downvoted) {
         return {
@@ -62,16 +44,16 @@ export default (state = initialState, action) => {
             ...state.availableQuestionDetails,
             user_downvoted: !state.availableQuestionDetails.user_downvoted,
             user_upvoted: !state.availableQuestionDetails.user_upvoted,
-          }
-        }
+          },
+        };
       }
       return {
         ...state,
         availableQuestionDetails: {
           ...state.availableQuestionDetails,
           user_upvoted: !state.availableQuestionDetails.user_upvoted,
-        }
-      }
+        },
+      };
     case DOWNVOTE_QUESTION:
       if (state.availableQuestionDetails.user_upvoted) {
         return {
@@ -80,16 +62,16 @@ export default (state = initialState, action) => {
             ...state.availableQuestionDetails,
             user_downvoted: !state.availableQuestionDetails.user_downvoted,
             user_upvoted: !state.availableQuestionDetails.user_upvoted,
-          }
-        }
+          },
+        };
       }
       return {
         ...state,
         availableQuestionDetails: {
           ...state.availableQuestionDetails,
           user_downvoted: !state.availableQuestionDetails.user_downvoted,
-        }
-      }
+        },
+      };
   }
   return state;
 };

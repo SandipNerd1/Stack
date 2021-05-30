@@ -105,10 +105,6 @@ const EditQuestionScreen = (props) => {
     [dispatch, qid, formState, setModalVisible]
   );
 
-  // useEffect(() => {
-  //   postEditedQuestion();
-  // }, [dispatch, postEditedQuestion]);
-
   return (
     <View style={{ flex: 1, backgroundColor: "#f1f4f9" }}>
       <Modal
@@ -168,7 +164,6 @@ export const screenOptions = (navData) => {
         <Item
           title="post"
           buttonStyle={{ fontSize: 25 }}
-          // iconName="md-checkmark-sharp"
           iconName="send"
           onPress={() => {
             submit(qid, title, body);
@@ -187,11 +182,9 @@ const styles = StyleSheet.create({
   input: {
     paddingVertical: 5,
     paddingHorizontal: 10,
-    // borderWidth: 1,
     borderRadius: 10,
     borderColor: "#dfe9f1",
     backgroundColor: "white",
-    // borderColor: "#dfe9f1",
     color: "#708999",
   },
   inputBody: {

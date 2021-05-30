@@ -1,4 +1,4 @@
-import React, { useState, useCallback, createRef, useEffect } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import {
   StyleSheet,
   Alert,
@@ -120,7 +120,6 @@ export const screenOptions = (navData) => {
         <Item
           title="post"
           buttonStyle={{ fontSize: 25 }}
-          // iconName="md-checkmark-sharp"
           iconName="send"
           onPress={() => {
             submit(newAnswer);
@@ -137,8 +136,6 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   input: {
-    // marginHorizontal: 30,
-    // marginVertical: 10,
     borderWidth: 1,
   },
   textbox: {

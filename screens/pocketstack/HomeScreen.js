@@ -5,8 +5,8 @@ import {
   FlatList,
   StyleSheet,
   ActivityIndicator,
-  Button,
   Dimensions,
+  TouchableOpacity,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { AntDesign } from "@expo/vector-icons";
@@ -22,6 +22,7 @@ const SCREEN_HEIGHT = Dimensions.get("window").height;
 const HomeScreen = (props) => {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [errorLoading, setErrorLoading] = useState(false);
   const [error, setError] = useState();
   const [isDateActive, setIsDateActive] = useState(false);
   const [isScoreActive, setIsScoreActive] = useState(false);
@@ -33,6 +34,7 @@ const HomeScreen = (props) => {
 
   const loadQuestions = useCallback(async () => {
     setError(null);
+    setErrorLoading(true);
     setIsRefreshing(true);
     try {
       await dispatch(questionsActions.fetchQuestions());
@@ -42,11 +44,11 @@ const HomeScreen = (props) => {
     } catch (err) {
       setError(err.message);
     }
-
+    setErrorLoading(false);
     setIsRefreshing(false);
   }, [
     dispatch,
-    setIsLoading,
+    setErrorLoading,
     setError,
     setIsRefreshing,
     setIsAnsweredActive,
@@ -153,14 +155,56 @@ const HomeScreen = (props) => {
       <View style={styles.screen}>
         {header}
         <View style={styles.center}>
-          <Text>An error occured!</Text>
-          <Button title="Try again" onPress={loadQuestions} color="#43516c" />
+          <Text
+            style={{
+              fontFamily: "AvertaStd-Semibold",
+              color: "#708999",
+              fontSize: 20,
+              textAlign: "center",
+              paddingHorizontal: SCREEN_WIDTH / 20,
+            }}
+          >
+            Oops !!
+          </Text>
+          <Text
+            style={{
+              fontFamily: "AvertaStd-Semibold",
+              color: "#708999",
+              fontSize: 17,
+              textAlign: "center",
+              paddingHorizontal: SCREEN_WIDTH / 20,
+              paddingBottom: SCREEN_HEIGHT / 50,
+            }}
+          >
+            An error occured! failed to load questions :(
+          </Text>
+          <TouchableOpacity
+            onPress={loadQuestions}
+            activeOpacity={0.7}
+            style={{
+              backgroundColor: "#43516c",
+              paddingHorizontal: SCREEN_WIDTH / 20,
+              paddingVertical: SCREEN_HEIGHT / 80,
+              borderRadius: 20,
+            }}
+          >
+            <Text
+              style={{
+                color: "white",
+                fontFamily: "AvertaStd-Semibold",
+                fontSize: 17,
+              }}
+            >
+              Try again
+            </Text>
+          </TouchableOpacity>
+          {/* <Button title="Try again" onPress={loadQuestions} color="#43516c" /> */}
         </View>
       </View>
     );
   }
 
-  if (isLoading) {
+  if (isLoading || errorLoading) {
     return (
       <View style={styles.screen}>
         {header}

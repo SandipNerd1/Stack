@@ -3,7 +3,6 @@ import {
   View,
   Text,
   StyleSheet,
-  Button,
   ActivityIndicator,
   TouchableOpacity,
   FlatList,
@@ -44,8 +43,8 @@ const NewQuestionDetailScreen = (props) => {
   //function to fetch question detail from the server
 
   const loadQuestionDetail = useCallback(async () => {
-    setError(null);
     setIsLoading(true);
+    setError(null);
     try {
       await dispatch(questionsActions.fetchQuestionDetail(questionId));
     } catch (err) {
@@ -75,6 +74,7 @@ const NewQuestionDetailScreen = (props) => {
     setError(null);
     try {
       await dispatch(questionsActions.upvoteQuestion(questionId));
+      await dispatch(questionsActions.fetchQuestions());
     } catch (err) {
       console.log(err);
     }
@@ -86,6 +86,7 @@ const NewQuestionDetailScreen = (props) => {
     setError(null);
     try {
       await dispatch(questionsActions.downvoteQuestion(questionId));
+      await dispatch(questionsActions.fetchQuestions());
     } catch (err) {
       console.log(err);
     }
@@ -113,18 +114,6 @@ const NewQuestionDetailScreen = (props) => {
     }
   }, [dispatch, setError, questionId, setModalVisible]);
 
-  // const deleteAnswerHandler = useCallback(async () => {
-  //   setError(null);
-  //   setIsLoading(true);
-  //   try {
-  //     await dispatch(answerActions.deleteAnswer());
-  //   } catch (err) {
-  //     setError(err.message);
-  //     Alert.alert("", "An error occured!", [{ text: "okay" }]);
-  //   }
-  //   setIsLoading(false);
-  // }, [dispatch, aid, setError, setIsLoading]);
-
   const renderAnswer = ({ item }) => {
     return (
       <AnswerItem
@@ -142,7 +131,6 @@ const NewQuestionDetailScreen = (props) => {
         }}
         deleteAnswer={async () => {
           setError(null);
-          setIsLoading(true);
           try {
             Alert.alert("", "Are you sure you want to delete your answer?", [
               {
@@ -162,7 +150,6 @@ const NewQuestionDetailScreen = (props) => {
             setError(err.message);
             Alert.alert("", "An error occured!", [{ text: "okay" }]);
           }
-          setIsLoading(false);
         }}
       />
     );
@@ -223,7 +210,6 @@ const NewQuestionDetailScreen = (props) => {
           <View
             style={{
               flexDirection: "row",
-              // marginHorizontal: SCREEN_WIDTH / 40,
               backgroundColor: null,
             }}
           >
@@ -318,7 +304,7 @@ const NewQuestionDetailScreen = (props) => {
             paddingHorizontal: SCREEN_WIDTH / 20,
           }}
         >
-          No answer were found!{" "}
+          No answers were found!{" "}
         </Text>
       </View>
     );
@@ -333,13 +319,49 @@ const NewQuestionDetailScreen = (props) => {
   if (error) {
     return (
       <View style={styles.center}>
-        <Text>An error occured!</Text>
-        <Text>{error}</Text>
-        <Button
-          title="Try again"
+        <Text
+          style={{
+            fontFamily: "AvertaStd-Semibold",
+            color: "#708999",
+            fontSize: 20,
+            textAlign: "center",
+            paddingHorizontal: SCREEN_WIDTH / 20,
+          }}
+        >
+          Oops !!
+        </Text>
+        <Text
+          style={{
+            fontFamily: "AvertaStd-Semibold",
+            color: "#708999",
+            fontSize: 17,
+            textAlign: "center",
+            paddingHorizontal: SCREEN_WIDTH / 20,
+            paddingBottom: SCREEN_HEIGHT / 50,
+          }}
+        >
+          An error occured! failed to load questions detail :(
+        </Text>
+        <TouchableOpacity
           onPress={loadQuestionDetail}
-          color="#43516c"
-        />
+          activeOpacity={0.7}
+          style={{
+            backgroundColor: "#43516c",
+            paddingHorizontal: SCREEN_WIDTH / 20,
+            paddingVertical: SCREEN_HEIGHT / 80,
+            borderRadius: 20,
+          }}
+        >
+          <Text
+            style={{
+              color: "white",
+              fontFamily: "AvertaStd-Semibold",
+              fontSize: 17,
+            }}
+          >
+            Try again
+          </Text>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -396,7 +418,6 @@ const NewQuestionDetailScreen = (props) => {
         <Text style={{ color: "white", fontFamily: "AvertaStd-Semibold" }}>
           Post Answer
         </Text>
-        {/* <FontAwesome5 name="pen" size={15} color="white" /> */}
       </TouchableOpacity>
     </View>
   );
@@ -444,7 +465,6 @@ const styles = StyleSheet.create({
     marginHorizontal: SCREEN_WIDTH / 20,
     padding: 10,
     width: "30%",
-    // height: 45,
     alignItems: "center",
     justifyContent: "center",
     bottom: SCREEN_HEIGHT / 40,
@@ -458,10 +478,7 @@ const styles = StyleSheet.create({
     color: "white",
   },
   headerContainer: {
-    // paddingVertical: 20,
     backgroundColor: "white",
-    // borderBottomWidth: SCREEN_WIDTH / 20,
-    // borderBottomColor: "#f1f4f9",
   },
   questionDetailContainer: {
     paddingHorizontal: SCREEN_WIDTH / 20,
@@ -474,7 +491,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     backgroundColor: null,
-    // paddingVertical: SCREEN_HEIGHT / 40,
     paddingHorizontal: SCREEN_WIDTH / 15,
     paddingVertical: SCREEN_HEIGHT / 40,
   },

@@ -6,11 +6,10 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  TouchableNativeFeedback,
   Dimensions,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { AntDesign, Ionicons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import HeaderButton from "../../components/UI/HeaderButton";
@@ -100,8 +99,6 @@ const UserProfileScreen = (props) => {
           style={{
             backgroundColor: "white",
             paddingHorizontal: SCREEN_WIDTH / 20,
-            // elevation: 3,
-            // borderRadius: 10,
           }}
         >
           <View style={styles.details}>
@@ -118,10 +115,6 @@ const UserProfileScreen = (props) => {
             <Text style={styles.detailHeader}>E-MAIL ID</Text>
             <Text style={styles.text}>{userProfileData.email}</Text>
           </View>
-          {/* <View style={styles.details}>
-            <Text style={styles.detailHeader}>Last Name</Text>
-            <Text style={styles.text}>{userProfileData.last_name}</Text>
-          </View> */}
           <View style={styles.details}>
             <Text style={styles.detailHeader}>LOCATION</Text>
             <Text style={styles.text}>
@@ -205,7 +198,6 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
     backgroundColor: "white",
-    // backgroundColor: "white",
   },
   headerContainer: {
     alignItems: "center",
@@ -213,8 +205,6 @@ const styles = StyleSheet.create({
     paddingVertical: SCREEN_HEIGHT / 40,
   },
   details: {
-    // borderBottomWidth: 1,
-    // borderBottomColor: "#ccc",
     marginBottom: 40,
     paddingHorizontal: SCREEN_WIDTH / 40,
   },

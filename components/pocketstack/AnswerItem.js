@@ -8,12 +8,7 @@ import {
 } from "react-native";
 import Html from "react-native-render-html";
 
-import {
-  FontAwesome,
-  AntDesign,
-  Feather,
-  MaterialCommunityIcons,
-} from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
@@ -37,7 +32,6 @@ const AnswerItem = (props) => {
                 <MaterialCommunityIcons
                   name="pencil-outline"
                   size={20}
-                  // color="#001b3a"
                   color="#708999"
                   style={{ marginHorizontal: 10 }}
                 />
@@ -46,7 +40,6 @@ const AnswerItem = (props) => {
                 <MaterialCommunityIcons
                   name="delete"
                   size={20}
-                  // color="#001b3a"
                   color="#708999"
                 />
               </TouchableOpacity>
@@ -86,10 +79,8 @@ const AnswerItem = (props) => {
 
 const styles = StyleSheet.create({
   card: {
-    // paddingVertical: SCREEN_HEIGHT / 40,
     paddingHorizontal: SCREEN_WIDTH / 20,
     borderRadius: 10,
-    // backgroundColor: "#f1f4f9",
     backgroundColor: "white",
     marginTop: SCREEN_HEIGHT / 30,
   },

@@ -1,16 +1,9 @@
 import React, { useState, useRef } from "react";
-import {
-  StyleSheet,
-  View,
-  Dimensions,
-  ScrollView,
-  KeyboardAvoidingView,
-} from "react-native";
+import { StyleSheet, View, Dimensions, ScrollView } from "react-native";
 import {
   RichEditor,
   RichToolbar,
   actions,
-  getContentCSS,
 } from "react-native-pell-rich-editor";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
@@ -61,18 +54,6 @@ const RichTextEditor = (props) => {
           useContainer={true}
           initialHeight={400}
           {...props}
-          //   initialContentHTML={initHTML}
-          //   editorInitializedCallback={that.editorInitializedCallback}
-          // onChange={(h) => {
-          //   console.log("changed");
-          // }}
-          //   onHeightChange={that.handleHeightChange}
-          //   onPaste={that.handlePaste}
-          //   onKeyUp={that.handleKeyUp}
-          //   onKeyDown={that.handleKeyDown}
-          //   onMessage={that.handleMessage}
-          // onFocus={that.handleFocus}
-          // onBlur={that.handleBlur}
           pasteAsPlainText={true}
         />
       </ScrollView>
@@ -94,14 +75,7 @@ const RichTextEditor = (props) => {
           actions.setStrikethrough,
           actions.insertBulletsList,
           actions.insertOrderedList,
-          // actions.heading1,
-          // actions.heading4,
-          // 'insertEmoji',
-          // 'insertHTML',
-          // 'fontSize',
-        ]} // default defaultActions
-        // onPressAddImage={that.onPressAddImage}
-        // onInsertLink={that.onInsertLink}
+        ]}
       />
     </View>
   );
@@ -109,16 +83,12 @@ const RichTextEditor = (props) => {
 
 const styles = StyleSheet.create({
   rich: {
-    // borderRadius: 20,
     flex: 1,
     minHeight: 300,
-    // marginTop: 10,
-    // marginBottom: 30,
   },
   richBar: {
     borderColor: "#708999",
     borderTopWidth: StyleSheet.hairlineWidth,
-    // borderRadius: 10,
     backgroundColor: "white",
     color: "#708999",
   },

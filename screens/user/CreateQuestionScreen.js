@@ -1,16 +1,8 @@
-import React, {
-  useRef,
-  useCallback,
-  useEffect,
-  useReducer,
-  useState,
-} from "react";
+import React, { useRef, useCallback, useEffect, useState } from "react";
 import {
   View,
-  ScrollView,
   StyleSheet,
   Alert,
-  KeyboardAvoidingView,
   Text,
   TextInput,
   TouchableOpacity,
@@ -24,8 +16,6 @@ import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import Tags from "react-native-tags";
 
 import * as questionsActions from "../../store/actions/question";
-import CustomButton from "../../components/UI/CustomButton";
-import TextEditor from "../../components/pocketstack/TextEditor";
 import HeaderButton from "../../components/UI/HeaderButton";
 import RichTextEditor from "../../components/pocketstack/RichTextEditor";
 
@@ -196,7 +186,6 @@ export const screenOptions = (navData) => {
 
 const styles = StyleSheet.create({
   formContainer: {
-    // marginHorizontal: SCREEN_WIDTH / 20,
     marginTop: SCREEN_HEIGHT / 40,
   },
   input: {
@@ -215,7 +204,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     color: "#708999",
     fontFamily: "AvertaStd-Regular",
-    // borderColor: "#dfe9f1",
   },
   tag: {
     marginHorizontal: 5,

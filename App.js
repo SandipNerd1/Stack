@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet } from "react-native";
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import { NavigationContainer } from "@react-navigation/native";
@@ -11,11 +11,6 @@ import { enableScreens } from "react-native-screens";
 import questionReducer from "./store/reducers/question";
 import userReducer from "./store/reducers/signin";
 import RootStackNavigator from "./navigation/RootNavigator";
-// import AppNavigator from "./navigation/AppNavigator";
-// import TestScreen from "./screens/pocketstack/TestScreen";
-// import RichTextEditor from "./components/pocketstack/RichTextEditor";
-// import NewSignUpScreen from "./screens/user/NewSignUpScreen";
-// import NewSignInScreen from "./screens/user/NewSignInScreen";
 
 enableScreens();
 
@@ -54,8 +49,6 @@ export default function App() {
     <Provider store={store}>
       <NavigationContainer>
         <RootStackNavigator />
-        {/* <NewSignUpScreen /> */}
-        {/* <NewSignInScreen /> */}
       </NavigationContainer>
     </Provider>
   );

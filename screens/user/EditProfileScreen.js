@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Alert,
   ActivityIndicator,
@@ -15,7 +15,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import HeaderButton from "../../components/UI/HeaderButton";
 import { updateUserProfile } from "../../store/actions/user";
-import { TouchableNativeFeedback } from "react-native-gesture-handler";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 const SCREEN_HEIGHT = Dimensions.get("window").height;
@@ -123,14 +122,6 @@ const EditProfileScreen = ({ navigation }) => {
     websiteUrl,
   ]);
 
-  // if (loading) {
-  //   return (
-  //     <View style={styles.center}>
-  //       <ActivityIndicator size="large" color="#43516c" />
-  //     </View>
-  //   );
-  // }
-
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.screen}>
@@ -168,8 +159,8 @@ const EditProfileScreen = ({ navigation }) => {
                   "picture" in socialProfileData
                     ? socialProfileData.picture.data.url
                     : "photoUrl" in socialProfileData
-                      ? socialProfileData.photoUrl
-                      : "https://pics.freeicons.io/uploads/icons/png/8720809901557740366-64.png",
+                    ? socialProfileData.photoUrl
+                    : "https://pics.freeicons.io/uploads/icons/png/8720809901557740366-64.png",
               }}
               style={{
                 width: "100%",
@@ -214,11 +205,11 @@ const EditProfileScreen = ({ navigation }) => {
               style={
                 isFocused.user
                   ? [
-                    styles.input,
-                    {
-                      borderColor: "black",
-                    },
-                  ]
+                      styles.input,
+                      {
+                        borderColor: "black",
+                      },
+                    ]
                   : styles.input
               }
               value={username}
