@@ -60,7 +60,7 @@ const SearchScreen = (props) => {
             setIsTouched(!touched);
           }}
           onBlur={() => setIsTouched(!touched)}
-          placeholder="search by title or owner!"
+          placeholder="Search by title or body"
           placeholderTextColor="#708999"
           style={{
             width: "90%",
@@ -134,7 +134,7 @@ const SearchScreen = (props) => {
             Find solutions you are looking for
           </Text>
           <Text style={{ fontFamily: "AvertaStd-Regular", color: "#708999" }}>
-            search by title or body
+            Search by title or body
           </Text>
         </View>
       </View>

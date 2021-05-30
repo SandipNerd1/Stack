@@ -53,6 +53,14 @@ const AnswerItem = (props) => {
             color: "#708999",
             fontFamily: "AvertaStd-Semibold",
           },
+          ol: {
+            color: "#708999",
+            fontFamily: "AvertaStd-Regular",
+          },
+          ul: {
+            color: "#708999",
+            fontFamily: "AvertaStd-Regular",
+          },
         }}
       />
     </View>

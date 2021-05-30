@@ -56,11 +56,11 @@ export const fetchQuestionDetail = (qid) => {
 
 export const createQuestion = (title, body, tagList) => {
   return async () => {
-    console.log("waiting");
-    console.log(title);
-    console.log(body);
-    console.log("tag");
-    console.log(tagList);
+    // console.log("waiting");
+    // console.log(title);
+    // console.log(body);
+    // console.log("tag");
+    // console.log(tagList);
     try {
       const response = await axiosInstance.post("/questions/create/", {
         title: title,

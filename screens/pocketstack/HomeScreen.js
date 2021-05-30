@@ -21,14 +21,13 @@ const SCREEN_HEIGHT = Dimensions.get("window").height;
 
 const HomeScreen = (props) => {
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState();
   const [isDateActive, setIsDateActive] = useState(false);
   const [isScoreActive, setIsScoreActive] = useState(false);
   const [isAnsweredActive, setIsAnsweredActive] = useState(false);
 
   const questions = useSelector((state) => state.questions.availableQuestions);
-  console.log(questions);
 
   const dispatch = useDispatch();
 

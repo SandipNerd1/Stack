@@ -50,7 +50,20 @@ export const logout = () => async (dispatch) => {
 }
 
 
-export const autoLogin = (secureStorageToken) => (dispatch) => {
-  setAuthHeader(secureStorageToken);
-  dispatch({ type: SET_LOGIN_STATE, userToken: secureStorageToken });
+export const autoLogin = (secureStorageToken) => async (dispatch) => {
+  try {
+    setAuthHeader(secureStorageToken);
+
+    const response = await axiosInstance.get('/auth/user/');
+    console.log(response.status);
+
+    if (response.status === 200) {
+      await dispatch({ type: SET_LOGIN_STATE, userToken: secureStorageToken });
+    }
+  } catch (error) {
+    removeAuthHeader();
+    removeLoginLocal();
+    console.log(axiosInstance.defaults.headers);
+    throw error;
+  }
 }
