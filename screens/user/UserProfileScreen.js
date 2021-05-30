@@ -45,12 +45,10 @@ const UserProfileScreen = (props) => {
             style={{
               width: 100,
               height: 100,
-              borderWidth: 3,
-              borderColor: "white",
               borderRadius: 75,
               overflow: "hidden",
-              elevation: 10,
-              backgroundColor: 'white',
+              backgroundColor: "#f1f4f9",
+              padding: 5,
             }}
           >
             <Image
@@ -59,8 +57,8 @@ const UserProfileScreen = (props) => {
                   "picture" in socialProfileData
                     ? socialProfileData.picture.data.url
                     : "photoUrl" in socialProfileData
-                      ? socialProfileData.photoUrl
-                      : 'https://cdn.iconscout.com/icon/free/png-512/account-avatar-profile-human-man-user-30448.png',
+                    ? socialProfileData.photoUrl
+                    : "https://pics.freeicons.io/uploads/icons/png/8720809901557740366-64.png",
               }}
               style={{
                 width: "100%",
@@ -70,7 +68,11 @@ const UserProfileScreen = (props) => {
             />
           </View>
           <View
-            style={{ alignItems: "center", marginVertical: SCREEN_HEIGHT / 40 }}
+            style={{
+              backgroundColor: "white",
+              alignItems: "center",
+              paddingVertical: SCREEN_HEIGHT / 40,
+            }}
           >
             <Text
               style={{
@@ -93,6 +95,7 @@ const UserProfileScreen = (props) => {
             </Text>
           </View>
         </View>
+
         <View
           style={{
             backgroundColor: "white",
@@ -201,20 +204,18 @@ export const screenOptions = (props) => {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: "#f1f4f9",
+    backgroundColor: "white",
     // backgroundColor: "white",
   },
   headerContainer: {
     alignItems: "center",
     paddingHorizontal: SCREEN_WIDTH / 10,
     paddingVertical: SCREEN_HEIGHT / 40,
-    backgroundColor: "white",
   },
   details: {
     // borderBottomWidth: 1,
     // borderBottomColor: "#ccc",
     marginBottom: 40,
-    backgroundColor: "white",
     paddingHorizontal: SCREEN_WIDTH / 40,
   },
   detailHeader: {
@@ -225,6 +226,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     zIndex: 100,
     marginHorizontal: SCREEN_WIDTH / 20,
+    marginVertical: 2,
     textAlign: "center",
   },
   logoutButton: {

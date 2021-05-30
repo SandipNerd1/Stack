@@ -131,19 +131,17 @@ const EditProfileScreen = ({ navigation }) => {
   }
 
   return (
-    <View style={styles.screen}>
-      <ScrollView showsVerticalScrollIndicator={false}>
+    <ScrollView showsVerticalScrollIndicator={false}>
+      <View style={styles.screen}>
         <View style={styles.headerContainer}>
           <View
             style={{
               width: 100,
               height: 100,
-              borderWidth: 3,
-              borderColor: "white",
               borderRadius: 75,
               overflow: "hidden",
-              elevation: 10,
-              backgroundColor: 'white',
+              backgroundColor: "#f1f4f9",
+              padding: 5,
             }}
           >
             <Image
@@ -152,12 +150,13 @@ const EditProfileScreen = ({ navigation }) => {
                   "picture" in socialProfileData
                     ? socialProfileData.picture.data.url
                     : "photoUrl" in socialProfileData
-                      ? socialProfileData.photoUrl
-                      : "https://cdn.iconscout.com/icon/free/png-512/account-avatar-profile-human-man-user-30448.png",
+                    ? socialProfileData.photoUrl
+                    : "https://pics.freeicons.io/uploads/icons/png/8720809901557740366-64.png",
               }}
               style={{
                 width: "100%",
                 height: "100%",
+                borderRadius: 75,
               }}
             />
           </View>
@@ -197,11 +196,12 @@ const EditProfileScreen = ({ navigation }) => {
               style={
                 isFocused.user
                   ? [
-                    styles.input,
-                    {
-                      borderColor: "#001b3a",
-                    },
-                  ]
+                      styles.input,
+                      {
+                        borderColor: "#001b3a",
+                        borderWidth: 2,
+                      },
+                    ]
                   : styles.input
               }
               value={username}
@@ -216,7 +216,7 @@ const EditProfileScreen = ({ navigation }) => {
             <TextInput
               style={
                 isFocused.first
-                  ? [styles.input, { borderColor: "#001b3a" }]
+                  ? [styles.input, { borderColor: "#001b3a", borderWidth: 2 }]
                   : styles.input
               }
               value={firstName}
@@ -231,7 +231,7 @@ const EditProfileScreen = ({ navigation }) => {
             <TextInput
               style={
                 isFocused.last
-                  ? [styles.input, { borderColor: "#001b3a" }]
+                  ? [styles.input, { borderColor: "#001b3a", borderWidth: 2 }]
                   : styles.input
               }
               value={lastName}
@@ -247,7 +247,7 @@ const EditProfileScreen = ({ navigation }) => {
             <TextInput
               style={
                 isFocused.about
-                  ? [styles.input, { borderColor: "#001b3a" }]
+                  ? [styles.input, { borderColor: "#001b3a", borderWidth: 2 }]
                   : styles.input
               }
               value={aboutMe}
@@ -262,7 +262,7 @@ const EditProfileScreen = ({ navigation }) => {
             <TextInput
               style={
                 isFocused.loc
-                  ? [styles.input, { borderColor: "#001b3a" }]
+                  ? [styles.input, { borderColor: "#001b3a", borderWidth: 2 }]
                   : styles.input
               }
               value={location}
@@ -277,7 +277,7 @@ const EditProfileScreen = ({ navigation }) => {
             <TextInput
               style={
                 isFocused.website
-                  ? [styles.input, { borderColor: "#001b3a" }]
+                  ? [styles.input, { borderColor: "#001b3a", borderWidth: 2 }]
                   : styles.input
               }
               value={websiteUrl}
@@ -288,8 +288,8 @@ const EditProfileScreen = ({ navigation }) => {
             />
           </View>
         </View>
-      </ScrollView>
-    </View>
+      </View>
+    </ScrollView>
   );
 };
 
@@ -305,10 +305,8 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     alignItems: "center",
-    paddingHorizontal: 30,
-    paddingVertical: 10,
-    marginBottom: 20,
-    backgroundColor: "white",
+    paddingHorizontal: SCREEN_WIDTH / 10,
+    paddingVertical: SCREEN_HEIGHT / 40,
   },
   input: {
     color: "#001b3a",
@@ -316,7 +314,7 @@ const styles = StyleSheet.create({
     fontWeight: "normal",
     paddingVertical: 15,
     borderWidth: 1,
-    borderColor: "#ccc",
+    borderColor: "#708999",
     borderRadius: 20,
     paddingHorizontal: SCREEN_WIDTH / 20,
     marginTop: -SCREEN_HEIGHT / 60,
