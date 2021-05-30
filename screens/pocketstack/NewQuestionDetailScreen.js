@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   FlatList,
   Dimensions,
+  ScrollView,
   LogBox,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
@@ -134,10 +135,23 @@ const NewQuestionDetailScreen = (props) => {
               p: {
                 color: "#708999",
                 paddingTop: SCREEN_HEIGHT / 50,
+                fontFamily: "AvertaStd-Regular",
               },
               div: {
                 color: "#708999",
                 paddingTop: SCREEN_HEIGHT / 50,
+                fontFamily: "AvertaStd-Regular",
+              },
+              b: {
+                color: "#708999",
+                fontFamily: "AvertaStd-Semibold",
+              },
+              ol: {
+                color: "#708999",
+                fontFamily: "AvertaStd-Regular",
+              },
+              ul: {
+                color: "#708999",
                 fontFamily: "AvertaStd-Regular",
               },
             }}
@@ -235,6 +249,7 @@ const NewQuestionDetailScreen = (props) => {
             fontSize: 20,
             color: "#888",
             fontFamily: "AvertaStd-Regular",
+            marginTop: 10,
           }}
         >
           No answer were found!{" "}
@@ -321,6 +336,7 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: "row",
     alignItems: "center",
+    marginVertical: 3,
   },
   title: { fontSize: 17, color: "#001b3a", fontFamily: "AvertaStd-Regular" },
   date: { fontSize: 13, color: "#708999", fontFamily: "AvertaStd-Regular" },

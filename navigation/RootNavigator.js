@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Alert } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as SecureStore from 'expo-secure-store';
@@ -33,14 +34,15 @@ export default function RootStackNavigator() {
                 const socialUserData = JSON.parse(social);
 
                 if (sessionData) {
-                    if (socialUserData) {
-                        dispatch(autoSocialLogin(socialUserData.socialData));
-                    }
                     console.log('inside useEffect', sessionData.userToken);
-                    dispatch(autoLogin(sessionData.userToken));
+                    await dispatch(autoLogin(sessionData.userToken));
+                    if (socialUserData) {
+                        await dispatch(autoSocialLogin(socialUserData.socialData));
+                    }
                 }
             } catch (error) {
-                console.log(error);
+                // console.log(error.response);
+                Alert.alert("Your session has expired!", "Please login again.");
             }
             setLoading(false);
         }
