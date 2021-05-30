@@ -216,8 +216,7 @@ const EditProfileScreen = ({ navigation }) => {
                   ? [
                     styles.input,
                     {
-                      borderColor: "#001b3a",
-                      borderWidth: 1,
+                      borderColor: "black",
                     },
                   ]
                   : styles.input
@@ -234,7 +233,7 @@ const EditProfileScreen = ({ navigation }) => {
             <TextInput
               style={
                 isFocused.first
-                  ? [styles.input, { borderColor: "#001b3a", borderWidth: 1 }]
+                  ? [styles.input, { borderColor: "black" }]
                   : styles.input
               }
               value={firstName}
@@ -249,7 +248,7 @@ const EditProfileScreen = ({ navigation }) => {
             <TextInput
               style={
                 isFocused.last
-                  ? [styles.input, { borderColor: "#001b3a", borderWidth: 1 }]
+                  ? [styles.input, { borderColor: "black" }]
                   : styles.input
               }
               value={lastName}
@@ -265,7 +264,7 @@ const EditProfileScreen = ({ navigation }) => {
             <TextInput
               style={
                 isFocused.about
-                  ? [styles.input, { borderColor: "#001b3a", borderWidth: 1 }]
+                  ? [styles.input, { borderColor: "black" }]
                   : styles.input
               }
               value={aboutMe}
@@ -280,7 +279,7 @@ const EditProfileScreen = ({ navigation }) => {
             <TextInput
               style={
                 isFocused.loc
-                  ? [styles.input, { borderColor: "#001b3a", borderWidth: 1 }]
+                  ? [styles.input, { borderColor: "black" }]
                   : styles.input
               }
               value={location}
@@ -295,7 +294,7 @@ const EditProfileScreen = ({ navigation }) => {
             <TextInput
               style={
                 isFocused.website
-                  ? [styles.input, { borderColor: "#001b3a", borderWidth: 1 }]
+                  ? [styles.input, { borderColor: "black" }]
                   : styles.input
               }
               value={websiteUrl}
