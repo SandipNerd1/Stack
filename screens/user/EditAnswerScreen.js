@@ -41,7 +41,7 @@ const CreateAnswerScreen = (props) => {
       }
       try {
         setModalVisible(true);
-        dispatch(answerActions.editAnswer(aid, answer));
+        await dispatch(answerActions.editAnswer(aid, answer));
         setModalVisible(false);
         Alert.alert("", "Answer was edited successfully!", [
           { text: "okay" },
@@ -85,7 +85,7 @@ const CreateAnswerScreen = (props) => {
             alignItems: "center",
           }}
         >
-          <ActivityIndicator size="large" color="white" />
+          <ActivityIndicator size="large" color="#43516c" />
         </View>
       </Modal>
       <Text

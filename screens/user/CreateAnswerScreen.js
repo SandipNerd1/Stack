@@ -45,7 +45,7 @@ const CreateAnswerScreen = (props) => {
     }
     try {
       setModalVisible(true);
-      dispatch(answerActions.createAnswer(qid, answer));
+      await dispatch(answerActions.createAnswer(qid, answer));
       setModalVisible(false);
       Alert.alert("", "Your answer was created successfully!", [
         { text: "Okay" },
@@ -72,7 +72,7 @@ const CreateAnswerScreen = (props) => {
         flex: 1,
         backgroundColor: "#f1f4f9",
       }}
-      // enabled={enablePushContent}
+    // enabled={enablePushContent}
     >
       <Modal
         transparent={true}
@@ -88,7 +88,7 @@ const CreateAnswerScreen = (props) => {
             alignItems: "center",
           }}
         >
-          <ActivityIndicator size="large" color="white" />
+          <ActivityIndicator size="large" color="#43516c" />
         </View>
       </Modal>
       <Text

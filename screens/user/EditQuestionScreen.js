@@ -125,7 +125,7 @@ const EditQuestionScreen = (props) => {
             alignItems: "center",
           }}
         >
-          <ActivityIndicator size="large" color="white" />
+          <ActivityIndicator size="large" color="#43516c" />
         </View>
       </Modal>
       <View style={{ margin: SCREEN_WIDTH / 20 }}>
