@@ -40,7 +40,7 @@ export const setSocialLoginLocal = async (socialData) => {
 
 
 export const config = {
-  // androidClientId: '641469862151-dbg5rc3ek05g9lrk1qmsuv4ben0pvs3c.apps.googleusercontent.com',
+  androidClientId: '641469862151-dbg5rc3ek05g9lrk1qmsuv4ben0pvs3c.apps.googleusercontent.com',
   // iosClientId: YOUR_CLIENT_ID_HERE,
   androidStandaloneAppClientId: '641469862151-96uhdfptknlqqfl512mqpknfso3s5379.apps.googleusercontent.com',
   scopes: ['profile', 'email'],
