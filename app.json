@@ -30,7 +30,13 @@
         "foregroundImage": "./assets/Appicon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "permissions": []
+      "permissions": [],
+      "config": {
+        "googleSignIn": {
+          "apiKey": "AIzaSyA5OnB2VlgNAsEQyOCsqUQyPnOgTifLVxo",
+          "certificateHash": "E0F431353B77099C1B4751002C1461A3F96CBBC5"
+        }
+      }
     },
     "web": {
       "favicon": "./assets/Appfavicon.png"
