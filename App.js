@@ -41,7 +41,7 @@ export default function App() {
   const [isFontLoaded, setIsFontLoaded] = useState(false);
 
   const linking = {
-    prefixes: [prefix, 'https://pocketstack.herokuapp.com'],
+    prefixes: [prefix, 'https://pocketstack.herokuapp.com', 'pocket://'],
     config: {
       screens: {
         "Sign In": "auth/login",
