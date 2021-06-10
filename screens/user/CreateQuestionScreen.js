@@ -170,6 +170,7 @@ const CreateQuestionScreen = (props) => {
 export const screenOptions = (navData) => {
   const submitFn = navData.route.params ? navData.route.params.submit : null;
   return {
+    headerTitle: "Ask Question",
     headerTitleAlign: "center",
     headerRight: () => (
       <HeaderButtons HeaderButtonComponent={HeaderButton}>

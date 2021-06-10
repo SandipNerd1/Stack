@@ -61,7 +61,8 @@
     "reanimated-bottom-sheet": "^1.0.0-alpha.22",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
-    "yup": "^0.32.9"
+    "yup": "^0.32.9",
+    "expo-linking": "~2.0.1"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0"
