@@ -15,6 +15,9 @@ import SearchScreen, {
 import UserProfileScreen, {
   screenOptions as userProfileScreenOptions,
 } from "../screens/user/UserProfileScreen";
+import UserQuestionScreen, {
+  screenOptions as userQuestionScreenOptions,
+} from "../screens/user/UserQuestionScreen";
 import EditProfileScreen from "../screens/user/EditProfileScreen";
 import CreateQuestionScreen, {
   screenOptions as createQuestionScreenOptions,
@@ -165,6 +168,11 @@ const ProfileStackNavigator = () => {
       <ProfileStack.Screen
         name="Edit information"
         component={EditProfileScreen}
+      />
+      <ProfileStack.Screen
+        name="user_question"
+        component={UserQuestionScreen}
+        options={userQuestionScreenOptions}
       />
     </ProfileStack.Navigator>
   );

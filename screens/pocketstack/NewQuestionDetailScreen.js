@@ -159,7 +159,9 @@ const NewQuestionDetailScreen = (props) => {
     return (
       <View style={styles.headerContainer}>
         <View style={styles.questionDetailContainer}>
-          <Text style={styles.title}>{selectedQuestion.title}</Text>
+          <Text selectable={true} style={styles.title}>
+            {selectedQuestion.title}
+          </Text>
           <View style={styles.row}>
             <Text>
               <Text style={styles.date}>{selectedQuestion.creation_date} </Text>
@@ -178,6 +180,7 @@ const NewQuestionDetailScreen = (props) => {
             </Text>
           )}
           <Html
+            defaultTextProps={{ selectable: true }}
             source={{ html: selectedQuestion.body }}
             tagsStyles={{
               p: {
@@ -405,6 +408,7 @@ const NewQuestionDetailScreen = (props) => {
         ListEmptyComponent={renderEmptyAnswers}
         showsVerticalScrollIndicator={false}
         style={{ backgroundColor: "white", height: "100%" }}
+        removeClippedSubviews={false}
       />
       <TouchableOpacity
         activeOpacity={0.8}

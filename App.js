@@ -11,6 +11,8 @@ import { enableScreens } from "react-native-screens";
 import questionReducer from "./store/reducers/question";
 import userReducer from "./store/reducers/signin";
 import RootStackNavigator from "./navigation/RootNavigator";
+import SampleUserProfileScreen from "./screens/user/SampleUserProfileScreen";
+import ResetPasswordScreen from "./screens/user/ResetPasswordScreen";
 
 enableScreens();
 
@@ -49,6 +51,8 @@ export default function App() {
     <Provider store={store}>
       <NavigationContainer>
         <RootStackNavigator />
+        {/* <ResetPasswordScreen /> */}
+        {/* <SampleUserProfileScreen /> */}
       </NavigationContainer>
     </Provider>
   );

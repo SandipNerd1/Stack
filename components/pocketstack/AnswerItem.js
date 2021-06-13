@@ -15,7 +15,7 @@ const SCREEN_WIDTH = Dimensions.get("window").width;
 
 const AnswerItem = (props) => {
   return (
-    <View style={styles.card}>
+    <View key={props.id} style={styles.card}>
       <View style={[styles.row, styles.space]}>
         <View style={styles.row}>
           <Text style={styles.owner}>{props.owner}</Text>
@@ -49,6 +49,7 @@ const AnswerItem = (props) => {
       </View>
       <Html
         source={{ html: props.body }}
+        defaultTextProps={{ selectable: true }}
         tagsStyles={{
           p: {
             color: "#708999",
@@ -69,6 +70,10 @@ const AnswerItem = (props) => {
           },
           ul: {
             color: "#708999",
+            fontFamily: "AvertaStd-Regular",
+          },
+          a: {
+            color: "blue",
             fontFamily: "AvertaStd-Regular",
           },
         }}

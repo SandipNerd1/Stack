@@ -97,6 +97,7 @@ const CreateAnswerScreen = (props) => {
       </Text>
       <RichTextEditor
         onChange={(html) => {
+          console.log(html);
           setAnswer(html);
         }}
       />
