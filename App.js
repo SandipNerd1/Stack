@@ -46,6 +46,9 @@ export default function App() {
       screens: {
         "Sign In": "auth/login",
         "Sign Up": "auth/registration",
+        "Reset Password": "auth/password/reset",
+        "Email Check": "auth/email/check",
+        "New Password": "auth/password/reset/confirm/:uid/:token",
       },
     },
   };

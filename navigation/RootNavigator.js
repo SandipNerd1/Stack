@@ -9,8 +9,11 @@ import { autoSocialLogin } from '../store/actions/signup';
 
 import AuthenticateScreen from '../screens/user/Authenticate';
 import BottomTabNavigator from './AppNavigator';
+import CreateNewPasswordScreen from '../screens/user/CreateNewPasswordScreen';
+import EmailCheckScreen from '../screens/user/EmailCheckScreen';
 import NewSignInScreen from '../screens/user/NewSignInScreen';
 import NewSignUpScreen from '../screens/user/NewSignUpScreen';
+import ResetPasswordScreen from '../screens/user/ResetPasswordScreen';
 import StartupScreen from '../screens/StartupScreen';
 
 
@@ -77,6 +80,18 @@ export default function RootStackNavigator() {
                     <RootStack.Screen
                         name="Startup"
                         component={StartupScreen}
+                    />
+                    <RootStack.Screen
+                        name="Reset Password"
+                        component={ResetPasswordScreen}
+                    />
+                    <RootStack.Screen
+                        name="Email Check"
+                        component={EmailCheckScreen}
+                    />
+                    <RootStack.Screen
+                        name="New Password"
+                        component={CreateNewPasswordScreen}
                     />
                 </>
             )}

@@ -97,7 +97,7 @@ const NewSignInScreen = (props) => {
                 onButtonPress={handleSubmit}
                 disabled={!isValid}
               />
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => props.navigation.navigate('Reset Password')}>
                 <Text
                   style={{
                     textAlign: "center",
