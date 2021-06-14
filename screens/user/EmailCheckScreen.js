@@ -7,6 +7,7 @@ import {
   TouchableNativeFeedback,
   Dimensions,
 } from "react-native";
+import * as Linking from 'expo-linking';
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
@@ -25,16 +26,16 @@ const EmailCheckScreen = (props) => {
         </View>
         <Text style={styles.mailText}>Check your mail</Text>
         <Text style={styles.passwordText}>
-          We have sent a password recover instructions to your mail.
+          We have sent password recover instructions to your mail.
         </Text>
-        <TouchableNativeFeedback>
+        <TouchableNativeFeedback onPress={() => Linking.openURL('mailto:PocketStack@outlook.com')}>
           <View style={styles.buttonContainer}>
             <Text style={{ color: "white", fontFamily: "AvertaStd-Semibold" }}>
               Open email app
             </Text>
           </View>
         </TouchableNativeFeedback>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => props.navigation.navigate("Sign In")}>
           <View>
             <Text
               style={{
@@ -42,7 +43,7 @@ const EmailCheckScreen = (props) => {
                 fontFamily: "AvertaStd-Semibold",
               }}
             >
-              Skip, i'll confirm later
+              Skip, I'll confirm later
             </Text>
           </View>
         </TouchableOpacity>
@@ -56,9 +57,9 @@ const EmailCheckScreen = (props) => {
         }}
       >
         <Text style={{ fontFamily: "AvertaStd-Semibold", color: "#708999" }}>
-          Did not receive the email? check your spam.
+          Did not receive the email? Check your spam filter.
         </Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => props.navigation.navigate("Reset Password")}>
           <View style={{ marginVertical: 10 }}>
             <Text
               style={{ color: "#ff4848", fontFamily: "AvertaStd-Semibold" }}

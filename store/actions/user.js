@@ -3,6 +3,8 @@ import axiosInstance from '../../api/axiosApi';
 
 export const GET_USER_PROFILE_STATE = "GET_USER_PROFILE_STATE"
 export const PUT_USER_PROFILE_STATE = "PUT_USER_PROFILE_STATE"
+export const PASSWORD_RESET = "PASSWORD_RESET"
+export const PASSWORD_RESET_CONFIRM = "PASSWORD_RESET_CONFIRM"
 
 
 export const getUserProfile = () => async (dispatch) => {
@@ -42,6 +44,21 @@ export const updateUserProfile = ({ username, first_name, last_name, email, abou
     console.log("inside update", resData);
 
     dispatch({ type: GET_USER_PROFILE_STATE, profileData: resData });
+  } catch (error) {
+    throw error;
+  }
+}
+
+
+export const passwordReset = ({ email }) => async (dispatch) => {
+  try {
+    const response = await axiosInstance.post('/auth/password/reset/', {
+      email: email,
+    });
+    console.log(response.status);
+
+    const resData = await response.data;
+    console.log(resData);
   } catch (error) {
     throw error;
   }
