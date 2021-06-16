@@ -83,7 +83,11 @@ const ResetPasswordScreen = (props) => {
           } catch (error) {
             setModalVisible(false);
             // console.log(error.response.data);
-            Alert.alert('Password Reset Failed', 'Something went wrong! Try again later.');
+            if (error.response.data.email) {
+              Alert.alert('Password Reset Failed', error.response.data.email[0]);
+            } else {
+              Alert.alert('Password Reset Failed', 'Something went wrong! Try again later.');
+            }
           }
         }}
       >

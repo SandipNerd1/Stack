@@ -48,7 +48,7 @@ export default function App() {
         "Sign Up": "auth/registration",
         "Reset Password": "auth/password/reset",
         "Email Check": "auth/email/check",
-        "New Password": "auth/password/reset/confirm/:uid/:token",
+        "New Password": "auth/password/reset/confirm/:token",
       },
     },
   };
