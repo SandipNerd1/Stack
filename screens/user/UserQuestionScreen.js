@@ -5,12 +5,17 @@ import {
   StyleSheet,
   FlatList,
   TouchableOpacity,
+  Dimensions,
+  ActivityIndicator,
 } from "react-native";
 import { Foundation } from "@expo/vector-icons";
 
 import { useDispatch, useSelector } from "react-redux";
 import { getUserProfile, getUserData } from "../../store/actions/user";
 import { TouchableNativeFeedback } from "react-native";
+
+const SCREEN_WIDTH = Dimensions.get("window").width;
+const SCREEN_HEIGHT = Dimensions.get("window").height;
 
 const UserQuestionScreen = (props) => {
   const dispatch = useDispatch();
@@ -24,8 +29,6 @@ const UserQuestionScreen = (props) => {
 
   console.log(userQuestions);
 
-  const [loading, setLoading] = useState(false);
-
   useEffect(() => {
     dispatch(getUserProfile());
     dispatch(getUserData(userId));
@@ -34,29 +37,65 @@ const UserQuestionScreen = (props) => {
   const renderUserQuestions = ({ item }) => {
     return (
       <View style={styles.screen}>
-        <TouchableNativeFeedback>
-          <View
-            style={[
-              styles.card,
-              { justifyContent: "center", alignItems: "center" },
-            ]}
+        <View style={styles.card}>
+          <TouchableNativeFeedback
+            onPress={() => {
+              props.navigation.navigate("Detail", {
+                questionId: item.id,
+                title: item.title,
+              });
+            }}
           >
-            <View>
-              <Text
-                style={{ fontFamily: "AvertaStd-Semibold", color: "#001b3a" }}
+            <View
+              style={[
+                {
+                  flexDirection: "row",
+                  alignItems: "center",
+                  paddingHorizontal: 10,
+                },
+              ]}
+            >
+              <View style={styles.score}>
+                <Text
+                  style={{ color: "white", fontFamily: "AvertaStd-Semibold" }}
+                >
+                  {item.score}
+                </Text>
+              </View>
+              <View
+                style={{
+                  width: "85%",
+                  paddingVertical: SCREEN_HEIGHT / 40,
+                  paddingHorizontal: SCREEN_WIDTH / 30,
+                }}
               >
-                React Native is used for developing mobile Apps with the help of
-                javascript and it is based on the syntax of React and is highly
-                recommended by developers{" "}
-              </Text>
+                <Text
+                  style={{
+                    fontFamily: "AvertaStd-Semibold",
+                    color: "#001b3a",
+                  }}
+                  numberOfLines={2}
+                >
+                  {item.title}
+                </Text>
+                <Text
+                  style={{
+                    fontFamily: "AvertaStd-Regular",
+                    paddingTop: SCREEN_HEIGHT / 90,
+                    color: "#001b3a",
+                  }}
+                >
+                  {item.creation_date}
+                </Text>
+              </View>
             </View>
-          </View>
-        </TouchableNativeFeedback>
+          </TouchableNativeFeedback>
+        </View>
       </View>
     );
   };
 
-  if (userQuestions.length <= 0) {
+  if (userQuestions.length <= 0 || userQuestions.length === null) {
     return (
       <View
         style={[
@@ -98,15 +137,21 @@ const UserQuestionScreen = (props) => {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: "#f1f4f9",
+    backgroundColor: "white",
   },
   card: {
-    flexDirection: "row",
-    padding: 20,
     backgroundColor: "white",
-    margin: 10,
-    borderRadius: 10,
-    elevation: 5,
+    borderBottomColor: "#708999",
+    borderBottomWidth: 1,
+  },
+  score: {
+    width: "15%",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#07bc0d",
+    paddingVertical: 3,
+    paddingHorizontal: 10,
+    borderRadius: 5,
   },
 });
 
@@ -114,8 +159,10 @@ export const screenOptions = () => {
   return {
     headerStyle: {
       elevation: 0,
+      borderBottomColor: "#708999",
+      borderBottomWidth: 1,
     },
-    headerTitle: "Your Question",
+    headerTitle: "My Questions",
     headerTitleStyle: {
       fontSize: 20,
       fontFamily: "AvertaStd-Semibold",

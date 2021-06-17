@@ -40,9 +40,16 @@ const UserProfileScreen = (props) => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    console.log("user data refreshed");
     dispatch(getUserProfile());
     dispatch(getUserData(userId));
   }, [userId, getUserData, getUserProfile]);
+
+  // useEffect(() => {
+  //   const willFocusSub = props.navigation.addListener("focus", loadUserData);
+
+  //   return willFocusSub;
+  // }, [loadUserData]);
 
   if (loading) {
     return <StartupScreen />;
@@ -255,10 +262,6 @@ export const screenOptions = (props) => {
       backgroundColor: "white",
     },
     headerTitleAlign: "center",
-    headerTitleStyle: {
-      fontSize: 20,
-      fontFamily: "AvertaStd-Semibold",
-    },
     headerRight: () => (
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
         <Item

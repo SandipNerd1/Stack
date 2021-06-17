@@ -73,10 +73,6 @@ const EditProfileScreen = ({ navigation }) => {
         elevation: 0,
       },
       headerTitleAlign: "center",
-      headerTitleStyle: {
-        fontSize: 20,
-        fontFamily: "AvertaStd-Semibold",
-      },
       headerRight: () => (
         <HeaderButtons HeaderButtonComponent={CustomHeaderButtons}>
           <Item

@@ -17,7 +17,7 @@ import Html from "react-native-render-html";
 
 import * as questionsActions from "../../store/actions/question";
 import * as answerActions from "../../store/actions/answer";
-import { getUserProfile } from "../../store/actions/user";
+import { getUserProfile, getUserData } from "../../store/actions/user";
 
 import AnswerItem from "../../components/pocketstack/AnswerItem";
 
@@ -27,6 +27,9 @@ const SCREEN_WIDTH = Dimensions.get("window").width;
 LogBox.ignoreAllLogs();
 
 const NewQuestionDetailScreen = (props) => {
+  const userProfileData = useSelector((state) => state.userStatus.profileData);
+
+  const userId = userProfileData.id;
   const current_username = useSelector(
     (state) => state.userStatus.profileData.username
   );
@@ -75,6 +78,8 @@ const NewQuestionDetailScreen = (props) => {
     try {
       await dispatch(questionsActions.upvoteQuestion(questionId));
       await dispatch(questionsActions.fetchQuestions());
+      dispatch(getUserProfile());
+      dispatch(getUserData(userId));
     } catch (err) {
       console.log(err);
     }
@@ -87,6 +92,8 @@ const NewQuestionDetailScreen = (props) => {
     try {
       await dispatch(questionsActions.downvoteQuestion(questionId));
       await dispatch(questionsActions.fetchQuestions());
+      dispatch(getUserProfile());
+      dispatch(getUserData(userId));
     } catch (err) {
       console.log(err);
     }
@@ -102,6 +109,8 @@ const NewQuestionDetailScreen = (props) => {
             setModalVisible(true);
             await dispatch(questionsActions.deleteQuestion(questionId));
             await dispatch(questionsActions.fetchQuestions());
+            await dispatch(getUserProfile());
+            await dispatch(getUserData(userId));
             props.navigation.goBack();
           },
         },
@@ -343,7 +352,7 @@ const NewQuestionDetailScreen = (props) => {
             paddingBottom: SCREEN_HEIGHT / 50,
           }}
         >
-          An error occured! failed to load questions detail :(
+          An error occured! failed to load question detail :(
         </Text>
         <TouchableOpacity
           onPress={loadQuestionDetail}
@@ -352,7 +361,7 @@ const NewQuestionDetailScreen = (props) => {
             backgroundColor: "#43516c",
             paddingHorizontal: SCREEN_WIDTH / 20,
             paddingVertical: SCREEN_HEIGHT / 80,
-            borderRadius: 20,
+            borderRadius: 10,
           }}
         >
           <Text

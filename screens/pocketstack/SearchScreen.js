@@ -7,6 +7,7 @@ import {
   FlatList,
   Button,
   ActivityIndicator,
+  TouchableOpacity,
   Dimensions,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
@@ -102,14 +103,39 @@ const SearchScreen = (props) => {
       <View style={{ flex: 1, backgroundColor: "white" }}>
         {result}
         <View style={styles.center}>
-          <Text style={{ fontFamily: "AvertaStd-Regular" }}>
-            An error occured
+          <Text
+            style={{
+              fontFamily: "AvertaStd-Semibold",
+              color: "#708999",
+              fontSize: 20,
+              textAlign: "center",
+              paddingHorizontal: SCREEN_WIDTH / 20,
+              paddingVertical: 20,
+            }}
+          >
+            Oops!! an error occured
           </Text>
-          <Button
-            title="Try again"
+          <TouchableOpacity
             onPress={renderSearchRequest}
-            color="blue"
-          />
+            activeOpacity={0.7}
+            style={{
+              backgroundColor: "#43516c",
+              paddingHorizontal: SCREEN_WIDTH / 20,
+              paddingVertical: SCREEN_HEIGHT / 80,
+              borderRadius: 10,
+            }}
+          >
+            <Text
+              style={{
+                color: "white",
+                fontFamily: "AvertaStd-Semibold",
+                fontSize: 17,
+              }}
+            >
+              Try again
+            </Text>
+          </TouchableOpacity>
+          {/* <Button title="Try again" onPress={loadQuestions} color="#43516c" /> */}
         </View>
       </View>
     );

@@ -44,6 +44,13 @@ const ResetPasswordScreen = (props) => {
   );
 };
 
+export const screenOptions = () => {
+  return {
+    headerShown: true,
+    headerTitle: null,
+  };
+};
+
 const styles = StyleSheet.create({
   screen: {
     paddingTop: 50,
