@@ -25,11 +25,6 @@ const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 
 const fetchFonts = () => {
   return Font.loadAsync({
-    "nunito-regular": require("./assets/fonts/Nunito-Regular.ttf"),
-    "nunito-bold": require("./assets/fonts/Nunito-Bold.ttf"),
-    "nunito-extrabold": require("./assets/fonts/Nunito-ExtraBold.ttf"),
-    "nunito-light": require("./assets/fonts/Nunito-Light.ttf"),
-    "nunito-semibold": require("./assets/fonts/Nunito-SemiBold.ttf"),
     "AvertaStd-Semibold": require("./assets/fonts/AvertaStd-Semibold.otf"),
     "AvertaStd-Regular": require("./assets/fonts/AvertaStd-Regular.otf"),
   });

@@ -10,11 +10,15 @@ import {
   Image,
   Dimensions,
   Modal,
+  TouchableOpacity,
+  TouchableNativeFeedback,
+  Button,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
-import HeaderButton from "../../components/UI/HeaderButton";
-import { updateUserProfile } from "../../store/actions/user";
+import CustomHeaderButtons from "../../components/UI/CustomHeaderButton";
+import { updateUserProfile, getUserData } from "../../store/actions/user";
+import { Feather } from "@expo/vector-icons";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 const SCREEN_HEIGHT = Dimensions.get("window").height;
@@ -23,6 +27,8 @@ const EditProfileScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const userProfileData = useSelector((state) => state.userStatus.profileData);
   const socialProfileData = useSelector((state) => state.userStatus.socialData);
+
+  const userData = useSelector((state) => state.userStatus.userData);
 
   const [loading, setLoading] = useState(false);
   const [username, setUsername] = useState(userProfileData.username);
@@ -67,15 +73,11 @@ const EditProfileScreen = ({ navigation }) => {
         elevation: 0,
       },
       headerTitleAlign: "center",
-      headerTitleStyle: {
-        fontSize: 20,
-        fontFamily: "AvertaStd-Semibold",
-      },
       headerRight: () => (
-        <HeaderButtons HeaderButtonComponent={HeaderButton}>
+        <HeaderButtons HeaderButtonComponent={CustomHeaderButtons}>
           <Item
             title="Save"
-            iconName="md-save"
+            iconName="save-alt"
             buttonStyle={{ fontSize: 25 }}
             onPress={async () => {
               setLoading(true);
@@ -142,15 +144,17 @@ const EditProfileScreen = ({ navigation }) => {
             <ActivityIndicator size="large" color="#43516c" />
           </View>
         </Modal>
-        <View style={styles.headerContainer}>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            paddingHorizontal: SCREEN_WIDTH / 10,
+          }}
+        >
           <View
             style={{
               width: 100,
               height: 100,
-              borderRadius: 75,
-              overflow: "hidden",
-              backgroundColor: "#f1f4f9",
-              padding: 5,
             }}
           >
             <Image
@@ -159,140 +163,126 @@ const EditProfileScreen = ({ navigation }) => {
                   "picture" in socialProfileData
                     ? socialProfileData.picture.data.url
                     : "photoUrl" in socialProfileData
-                    ? socialProfileData.photoUrl
-                    : "https://pics.freeicons.io/uploads/icons/png/8720809901557740366-64.png",
+                      ? socialProfileData.photoUrl
+                      : "https://image.flaticon.com/icons/png/128/149/149071.png",
               }}
-              style={{
-                width: "100%",
-                height: "100%",
-                borderRadius: 75,
-              }}
+              style={{ width: "100%", height: "100%", borderRadius: 75 }}
             />
           </View>
-          <View
-            style={{ alignItems: "center", marginVertical: SCREEN_HEIGHT / 40 }}
-          >
-            <Text
-              style={{
-                fontFamily: "AvertaStd-Semibold",
-                fontSize: 23,
-                color: "#001b3a",
-              }}
-            >
-              {firstName} {lastName}
-            </Text>
-            <Text
-              style={{
-                fontFamily: "AvertaStd-Regular",
-                textAlign: "center",
-                color: "#708999",
-                fontSize: 16,
-              }}
-            >
+          <View style={{ width: "60%", marginHorizontal: SCREEN_WIDTH / 20 }}>
+            <Text style={styles.user}>{username}</Text>
+            <Text style={styles.userDescription} numberOfLines={3}>
               {aboutMe}
             </Text>
           </View>
         </View>
         <View
           style={{
-            paddingHorizontal: SCREEN_WIDTH / 20,
-            backgroundColor: "white",
+            paddingHorizontal: SCREEN_WIDTH / 10,
+            paddingVertical: SCREEN_HEIGHT / 40,
           }}
         >
-          <View style={styles.details}>
-            <Text style={styles.detailHeader}>USERNAME</Text>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputHeaderText}>Username</Text>
             <TextInput
               style={
                 isFocused.user
                   ? [
-                      styles.input,
-                      {
-                        borderColor: "black",
-                      },
-                    ]
+                    styles.input,
+                    { borderBottomColor: "#001b3a", borderBottomWidth: 1 },
+                  ]
                   : styles.input
               }
               value={username}
               onChangeText={(userName) => setUsername(userName)}
               onFocus={() => handleInputFocus("user")}
               onBlur={() => handleInputBlur("user")}
-              multiline
             />
           </View>
-          <View style={styles.details}>
-            <Text style={styles.detailHeader}>FIRST NAME</Text>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputHeaderText}>First name</Text>
             <TextInput
               style={
                 isFocused.first
-                  ? [styles.input, { borderColor: "black" }]
+                  ? [
+                    styles.input,
+                    { borderBottomColor: "#001b3a", borderBottomWidth: 1 },
+                  ]
                   : styles.input
               }
               value={firstName}
-              onChangeText={(firstname) => setFirstName(firstname)}
+              onChangeText={(firstName) => setFirstName(firstName)}
               onFocus={() => handleInputFocus("first")}
               onBlur={() => handleInputBlur("first")}
-              multiline
             />
           </View>
-          <View style={styles.details}>
-            <Text style={styles.detailHeader}>LAST NAME</Text>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputHeaderText}>Last name</Text>
             <TextInput
               style={
                 isFocused.last
-                  ? [styles.input, { borderColor: "black" }]
+                  ? [
+                    styles.input,
+                    { borderBottomColor: "#001b3a", borderBottomWidth: 1 },
+                  ]
                   : styles.input
               }
               value={lastName}
-              onChangeText={(lastname) => setLastName(lastname)}
+              onChangeText={(lastName) => setLastName(lastName)}
               onFocus={() => handleInputFocus("last")}
               onBlur={() => handleInputBlur("last")}
-              multiline
             />
           </View>
-
-          <View style={styles.details}>
-            <Text style={styles.detailHeader}>ABOUT ME</Text>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputHeaderText}>About me</Text>
             <TextInput
+              multiline
               style={
                 isFocused.about
-                  ? [styles.input, { borderColor: "black" }]
+                  ? [
+                    styles.input,
+                    { borderBottomColor: "#001b3a", borderBottomWidth: 1 },
+                  ]
                   : styles.input
               }
               value={aboutMe}
-              onChangeText={(about) => setAboutMe(about)}
+              onChangeText={(aboutMe) => setAboutMe(aboutMe)}
               onFocus={() => handleInputFocus("about")}
               onBlur={() => handleInputBlur("about")}
-              multiline
             />
           </View>
-          <View style={styles.details}>
-            <Text style={styles.detailHeader}>LOCATION</Text>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputHeaderText}>Location</Text>
             <TextInput
               style={
                 isFocused.loc
-                  ? [styles.input, { borderColor: "black" }]
+                  ? [
+                    styles.input,
+                    { borderBottomColor: "#001b3a", borderBottomWidth: 1 },
+                  ]
                   : styles.input
               }
               value={location}
-              onChangeText={(loc) => setLocation(loc)}
+              onChangeText={(location) => setLocation(location)}
               onFocus={() => handleInputFocus("loc")}
               onBlur={() => handleInputBlur("loc")}
-              multiline
             />
           </View>
-          <View style={styles.details}>
-            <Text style={styles.detailHeader}>WEBSITE URL</Text>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputHeaderText}>Website Url</Text>
             <TextInput
               style={
                 isFocused.website
-                  ? [styles.input, { borderColor: "black" }]
+                  ? [
+                    styles.input,
+                    { borderBottomColor: "#001b3a", borderBottomWidth: 1 },
+                  ]
                   : styles.input
               }
               value={websiteUrl}
-              onChangeText={(website) => setWebsiteUrl(website)}
+              onChangeText={(websiteUrl) => setWebsiteUrl(websiteUrl)}
               onFocus={() => handleInputFocus("website")}
               onBlur={() => handleInputBlur("website")}
-              multiline
             />
           </View>
         </View>
@@ -305,43 +295,34 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
     backgroundColor: "white",
+    paddingTop: SCREEN_HEIGHT / 40,
   },
-  center: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+  inputContainer: {
+    marginVertical: SCREEN_HEIGHT / 60,
   },
-  headerContainer: {
-    alignItems: "center",
-    paddingHorizontal: SCREEN_WIDTH / 10,
-    paddingVertical: SCREEN_HEIGHT / 40,
+  inputHeaderText: {
+    fontFamily: "AvertaStd-Regular",
+    color: "#708999",
   },
   input: {
-    color: "#001b3a",
+    borderBottomWidth: 1,
+    borderBottomColor: "#cfd8dd",
+    paddingVertical: 5,
+    paddingHorizontal: SCREEN_WIDTH / 30,
     fontFamily: "AvertaStd-Semibold",
+    color: "#001b3a",
+    fontSize: 16,
     fontWeight: "normal",
-    paddingVertical: 15,
-    borderWidth: 1,
-    borderColor: "#708999",
-    borderRadius: 20,
-    paddingHorizontal: SCREEN_WIDTH / 20,
-    marginTop: -SCREEN_HEIGHT / 60,
-    fontSize: 15,
   },
-  details: {
-    marginBottom: 30,
-    backgroundColor: "white",
-    paddingHorizontal: SCREEN_WIDTH / 40,
+  user: {
+    fontSize: 20,
+    fontFamily: "AvertaStd-Semibold",
+    color: "#001b3a",
   },
-  detailHeader: {
+  userDescription: {
     fontFamily: "AvertaStd-Regular",
-    fontSize: 13,
     color: "#708999",
-    width: "30%",
-    backgroundColor: "white",
-    zIndex: 100,
-    marginHorizontal: SCREEN_WIDTH / 20,
-    textAlign: "center",
+    marginVertical: 5,
   },
 });
 

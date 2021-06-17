@@ -1,23 +1,18 @@
-import {
-  SET_LOGIN_STATE,
-  SET_LOGOUT_STATE
-} from '../actions/signin';
-import {
-  SET_SOCIAL_DATA,
-} from '../actions/signup';
+import { SET_LOGIN_STATE, SET_LOGOUT_STATE } from "../actions/signin";
+import { SET_SOCIAL_DATA } from "../actions/signup";
 import {
   GET_USER_PROFILE_STATE,
-  PUT_USER_PROFILE_STATE
-} from '../actions/user';
-
+  PUT_USER_PROFILE_STATE,
+  GET_USER_DATA,
+} from "../actions/user";
 
 const initialState = {
   socialData: {},
-  profileData: '',
-  currentUser: '',
+  profileData: "",
+  userData: "",
+  currentUser: "",
   isLoggedIn: false,
-}
-
+};
 
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -31,7 +26,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         socialData: {},
-        profileData: '',
+        profileData: "",
         currentUser: action.userToken,
         isLoggedIn: false,
       };
@@ -44,7 +39,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         profileData: action.profileData,
-      }
+      };
+    case GET_USER_DATA:
+      return {
+        ...state,
+        userData: action.data,
+      };
     default:
       return state;
   }

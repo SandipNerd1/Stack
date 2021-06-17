@@ -11,13 +11,14 @@ import {
   ActivityIndicator,
   LogBox,
 } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import Tags from "react-native-tags";
 
 import * as questionsActions from "../../store/actions/question";
 import HeaderButton from "../../components/UI/HeaderButton";
 import RichTextEditor from "../../components/pocketstack/RichTextEditor";
+import { getUserProfile, getUserData } from "../../store/actions/user";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
@@ -30,6 +31,10 @@ const CreateQuestionScreen = (props) => {
   const _editor = useRef();
   const [disabled, setDisabled] = useState(false);
   const [title, setTitle] = useState("");
+
+  const userProfileData = useSelector((state) => state.userStatus.profileData);
+
+  const userId = userProfileData.id;
 
   const [questionBody, setQuestionBody] = useState("");
   const [tags, setTags] = useState();
@@ -55,6 +60,8 @@ const CreateQuestionScreen = (props) => {
         questionsActions.createQuestion(title, questionBody, tags)
       );
       await dispatch(questionsActions.fetchQuestions());
+      await dispatch(getUserProfile());
+      await dispatch(getUserData(userId));
       setModalVisible(false);
       Alert.alert("", "Your question was created succesfully!", [
         {
@@ -103,7 +110,9 @@ const CreateQuestionScreen = (props) => {
           />
         </View>
         <View style={{ marginHorizontal: SCREEN_WIDTH / 20 }}>
-          <Text style={styles.inputIdentifierText}>Tag</Text>
+          <Text style={styles.inputIdentifierText}>
+            Tag (press space or comma to add tags)
+          </Text>
           <Tags
             textInputProps={{
               placeholder: "example(java python)",
@@ -170,7 +179,6 @@ const CreateQuestionScreen = (props) => {
 export const screenOptions = (navData) => {
   const submitFn = navData.route.params ? navData.route.params.submit : null;
   return {
-    headerTitle: "Ask Question",
     headerTitleAlign: "center",
     headerRight: () => (
       <HeaderButtons HeaderButtonComponent={HeaderButton}>

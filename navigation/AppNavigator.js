@@ -15,6 +15,9 @@ import SearchScreen, {
 import UserProfileScreen, {
   screenOptions as userProfileScreenOptions,
 } from "../screens/user/UserProfileScreen";
+import UserQuestionScreen, {
+  screenOptions as userQuestionScreenOptions,
+} from "../screens/user/UserQuestionScreen";
 import EditProfileScreen from "../screens/user/EditProfileScreen";
 import CreateQuestionScreen, {
   screenOptions as createQuestionScreenOptions,
@@ -42,14 +45,11 @@ const HomeStackNavigator = () => {
     <HomeStack.Navigator
       screenOptions={{
         headerTintColor: "#001b3a",
-        headerStyle: {
-          backgroundColor: "white",
-          elevation: 0,
+        headerTitleStyle: {
+          fontSize: 25,
+          fontFamily: "AvertaStd-Regular",
         },
         headerTitleAlign: "center",
-        headerTitleStyle: {
-          fontFamily: "AvertaStd-Semibold",
-        },
       }}
     >
       <HomeStack.Screen
@@ -108,6 +108,10 @@ const SearchStackNavigator = ({ navigation, route }) => {
           backgroundColor: "white",
           elevation: 0,
         },
+        headerTitleStyle: {
+          fontSize: 25,
+          fontFamily: "AvertaStd-Regular",
+        },
         headerTintColor: "#001b3a",
       }}
     >
@@ -165,6 +169,31 @@ const ProfileStackNavigator = () => {
       <ProfileStack.Screen
         name="Edit information"
         component={EditProfileScreen}
+      />
+      <ProfileStack.Screen
+        name="user_question"
+        component={UserQuestionScreen}
+        options={userQuestionScreenOptions}
+      />
+      <ProfileStack.Screen
+        name="Detail"
+        component={NewQuestionDetailScreen}
+        options={detailScreenOptions}
+      />
+      <ProfileStack.Screen
+        name="Edit Question"
+        component={EditQuestionScreen}
+        options={editQuestionScreenOptions}
+      />
+      <ProfileStack.Screen
+        name="Post answer"
+        component={CreateAnswerScreen}
+        options={createAnswerScreenOptions}
+      />
+      <ProfileStack.Screen
+        name="edit_Answer"
+        component={EditAnswerScreen}
+        options={editAnswerScreenOptions}
       />
     </ProfileStack.Navigator>
   );

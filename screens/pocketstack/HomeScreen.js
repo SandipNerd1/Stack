@@ -185,7 +185,7 @@ const HomeScreen = (props) => {
               backgroundColor: "#43516c",
               paddingHorizontal: SCREEN_WIDTH / 20,
               paddingVertical: SCREEN_HEIGHT / 80,
-              borderRadius: 20,
+              borderRadius: 10,
             }}
           >
             <Text

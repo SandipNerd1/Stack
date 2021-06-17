@@ -3,6 +3,23 @@ import axiosInstance from '../../api/axiosApi';
 
 export const GET_USER_PROFILE_STATE = "GET_USER_PROFILE_STATE"
 export const PUT_USER_PROFILE_STATE = "PUT_USER_PROFILE_STATE"
+export const GET_USER_DATA = "GET_USER_DATA";
+
+
+export const getUserData = (userId) => {
+  return async (dispatch) => {
+    try {
+      const response = await axiosInstance.get(`/users/${userId}/`);
+      if (!response.status === 200) {
+        throw new Error("Status code not 200");
+      }
+      const resData = await response.data;
+      dispatch({ type: GET_USER_DATA, data: resData });
+    } catch (error) {
+      throw error;
+    }
+  };
+};
 
 
 export const getUserProfile = () => async (dispatch) => {
