@@ -13,6 +13,8 @@ import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { useDispatch } from "react-redux";
 
 import * as answerActions from "../../store/actions/answer";
+import * as questionsActions from "../../store/actions/question";
+
 import HeaderButton from "../../components/UI/HeaderButton";
 import RichTextEditor from "../../components/pocketstack/RichTextEditor";
 
@@ -40,6 +42,7 @@ const CreateAnswerScreen = (props) => {
     try {
       setModalVisible(true);
       await dispatch(answerActions.createAnswer(qid, answer));
+      await dispatch(questionsActions.fetchQuestions());
       setModalVisible(false);
       Alert.alert("", "Your answer was created successfully!", [
         { text: "Okay" },

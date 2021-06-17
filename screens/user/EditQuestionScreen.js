@@ -10,10 +10,12 @@ import {
   Modal,
   ActivityIndicator,
 } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 
 import * as questionsActions from "../../store/actions/question";
+import { getUserProfile, getUserData } from "../../store/actions/user";
+
 import RichTextEditor from "../../components/pocketstack/RichTextEditor";
 import HeaderButton from "../../components/UI/HeaderButton";
 
@@ -43,6 +45,9 @@ const EditQuestionScreen = (props) => {
   const { qid, title, body } = props.route.params;
   const [enablePushContent, setEnablePushContent] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+
+  const userProfileData = useSelector((state) => state.userStatus.profileData);
+  const userId = userProfileData.id;
 
   const dispatch = useDispatch();
 
@@ -86,6 +91,8 @@ const EditQuestionScreen = (props) => {
       try {
         setModalVisible(true);
         await dispatch(questionsActions.editQuestion(qid, title, body));
+        await dispatch(getUserProfile());
+        await dispatch(getUserData(userId));
         setModalVisible(false);
         Alert.alert("", "Question was edited successfully!", [
           { text: "Okay" },

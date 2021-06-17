@@ -150,6 +150,7 @@ const NewQuestionDetailScreen = (props) => {
                   await dispatch(
                     questionsActions.fetchQuestionDetail(questionId)
                   );
+                  await dispatch(questionsActions.fetchQuestions());
                   setModalVisible(false);
                 },
               },
