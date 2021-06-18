@@ -48,8 +48,8 @@ const CreateQuestionScreen = (props) => {
   };
 
   const onSubmitHandler = useCallback(async () => {
-    if (title === "" || questionBody === "" || tags === "") {
-      Alert.alert("", "Wrong input! Please check the errors in the form.", [
+    if (title === "" || questionBody.length <= 30 || tags.length <= 0) {
+      Alert.alert("Wrong input!", "Please check the errors in the form.", [
         { text: "Okay" },
       ]);
       return;

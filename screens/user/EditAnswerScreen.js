@@ -23,7 +23,7 @@ LogBox.ignoreLogs([
   "Non-serializable values were found in the navigation state",
 ]);
 
-const CreateAnswerScreen = (props) => {
+const EditAnswerScreen = (props) => {
   const { aid, body } = props.route.params;
   const [answer, setAnswer] = useState(body);
   const [modalVisible, setModalVisible] = useState(false);
@@ -32,8 +32,8 @@ const CreateAnswerScreen = (props) => {
 
   const onSubmitHandler = useCallback(
     async (answer) => {
-      if (answer === "") {
-        Alert.alert("", "Wrong input! Please check the errors in the form.", [
+      if (answer.length <= 30) {
+        Alert.alert("Wrong input!", "Please check the errors in the form.", [
           { text: "Okay" },
         ]);
         console.log(answer);
@@ -174,4 +174,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CreateAnswerScreen;
+export default EditAnswerScreen;

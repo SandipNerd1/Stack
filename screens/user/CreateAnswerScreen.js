@@ -33,8 +33,8 @@ const CreateAnswerScreen = (props) => {
   const dispatch = useDispatch();
 
   const onSubmitHandler = useCallback(async () => {
-    if (answer === "") {
-      Alert.alert("", "Wrong input! Please check the errors in the form.", [
+    if (answer.length <= 30) {
+      Alert.alert("Wrong input!", "Please check the errors in the form.", [
         { text: "Okay" },
       ]);
       return;

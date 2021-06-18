@@ -82,7 +82,7 @@ const EditQuestionScreen = (props) => {
 
   const postEditedQuestion = useCallback(
     async (qid, title, body) => {
-      if (title === "" || body === "") {
+      if (title === "" || body.length <= 30) {
         Alert.alert("Wrong input!", "Please check the errors in the form.", [
           { text: "Okay" },
         ]);

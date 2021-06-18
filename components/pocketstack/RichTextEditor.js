@@ -48,7 +48,7 @@ const RichTextEditor = (props) => {
           ref={editor}
           style={styles.rich}
           // placeholder={"Enter your code here"}
-          initialContentHTML={`<p>Enter your code here</p>`}
+          initialContentHTML={`<p>Body must be at least 30 characters.</p>`}
           // editorInitializedCallback={editorInitializedCallback}
           handleCursorPosition={handleCursorPosition}
           useContainer={true}
